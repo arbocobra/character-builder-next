@@ -1,10 +1,7 @@
-// import styles from '@/ui/home.module.css'
-import styles from '../home.module.css';
-
 const Button = (props) => {
    return (
       <input className='button' type='submit' value='Submit' />
    );
 }
 
-export default Button;
+export {Button}
