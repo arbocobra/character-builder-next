@@ -1,32 +1,63 @@
 'use client';
 
-import { useState } from 'react';
-import { Button } from '@/ui/elements';
-import { CreateCharacter } from '@/lib/actions';
+import { useState, useEffect } from 'react';
+import Button from '@/ui/elements/button';
 
-
-const InitialForm = ({updateCharacter}) => {
+const InitialForm = ({current, createCharacter, updateLevel, updateByName}) => {
 
    const [name, setName] = useState('');
    const [level, setLevel] = useState(1);
+   const [isDisabled, setIsDisabled] = useState(true);
+   const [buttonText, setButtonText] = useState('Submit');
+
+   const newCharacter = current.name ? false : true;
 
    const handleSubmit = (e) => {
       e.preventDefault();
-      const character = CreateCharacter(name, level);
-      updateCharacter(character);
-      // console.log('Character created:', character);
-      // console.log('This is a test', character.OpTest())
+      if (!newCharacter) {
+         if (current.name !== name) updateByName('name', name);
+         if (current.level !== level) updateLevel(level);
+      }
+      else {
+         createCharacter(name, level);
+      }
+      setIsDisabled(true);
    }
 
+   const handleChange = (cat, e) => {
+      const value = e.target.value;
+      if (cat === 'level') {
+         const newLevel = parseInt(value);
+         if (!newCharacter && current.Level !== newLevel) {
+         }
+         setLevel(newLevel);
+      }
+      if (cat === 'name') {
+         if (!newCharacter && current.Name !== value) {
+         }
+         setName(value);
+      }
+   }
+
+   useEffect(() => {
+      if (isDisabled && name) {
+         setIsDisabled(false);
+         if (!newCharacter) setButtonText('Update');
+         else setButtonText('Submit');
+      }
+   },[name, level]);
+
+   useEffect(() => console.log(current), [current])
+
    return (
-      <form className='flex flex-col gap-3' onSubmit={handleSubmit}>
-         <input type='text' name='characterName' placeholder='Character Name' required value={name} onChange={(e) => setName(e.target.value)} />
-         <select name='characterLevel' value={level} onChange={(e) => setLevel(e.target.value)} >
+      <form className='flex flex-col gap-3 p-2 border-2' onSubmit={handleSubmit}>
+         <input type='text' name='characterName' placeholder='Character Name' required value={name} onChange={(e) => handleChange('name', e)} />
+         <select name='characterLevel' value={level} onChange={(e) => handleChange('level', e)} >
             {[...Array(20).keys()].map(level => (
                <option key={level + 1} value={level + 1}>{level + 1}</option>
             ))}
          </select>
-         <Button />
+         <Button value={buttonText} isDisabled={isDisabled} />
       </form>
    )
 }

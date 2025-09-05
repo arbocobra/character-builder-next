@@ -10,6 +10,9 @@ export class Character {
    Background = null;
    Species = null;
    Bio = null;
+   
+   setName = (newName) => this.Name = newName
+   setLevel = (newLevel) => this.Level = newLevel
 
    OpTest() {
       this.Bio = 'This is also a test';

@@ -18,19 +18,19 @@ class baseProficiencies {
       Languages: null,
    }
    
-   addProficiency(proficiency, value) {
-      if (typeof value === 'object') {
-         value.array.forEach(el => this.addProficiency(el));
-      } else {
-         if (!this[proficiency].includes(value)) {
-            this[proficiency].push(value);
-         }
-      }
-   }
+   // addProficiency(proficiency, value) {
+   //    if (typeof value === 'object') {
+   //       value.array.forEach(el => this.addProficiency(el));
+   //    } else {
+   //       if (!this[proficiency].includes(value)) {
+   //          this[proficiency].push(value);
+   //       }
+   //    }
+   // }
    
-   getProficiency(val) {
-      return this[val];
-   }
+   // getProficiency(val) {
+   //    return this[val];
+   // }
 }
 
 export default baseProficiencies;

@@ -1,9 +1,7 @@
-// import styles from '@/ui/home.module.css'
-import styles from '../home.module.css';
 
-const Button = (props) => {
+const Button = ({value, isDisabled}) => {
    return (
-      <input className='button' type='submit' value='Submit' />
+      <input className='button' type='submit' value={value} disabled={isDisabled} />
    );
 }
 

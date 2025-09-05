@@ -3,18 +3,17 @@ import baseProficiencies from './baseProficiencies';
 export class BaseClass {
    constructor(className, level) {
       this.Name = className;
-      this.GrantFeatures(level);
+      this.Features = this.GrantFeatures(level);
+      this.Proficiencies = new baseProficiencies();
    }
-   Name;
-   Proficiencies = new baseProficiencies();
-   Features;
+
    HitDice;
 
    GrantFeatures(level) {
-      this.Features = [];
-
+      // this.Features = [];
       let list = featureList.filter((_,i) => i < level).flat();
-      this.Features = list.map(feature => Features.find(f => f.name === feature))
+      
+      return list.map(feature => Features.find(f => f.name === feature))
    }
    // UnlockSubclass(level) {}
 }
@@ -37,7 +36,7 @@ const featureList = [['Rage', 'Unarmoured Defence'], ['Reckless Attack', 'Danger
 export class Barbarian extends BaseClass {
    constructor(level) {
       super('Barbarian', level);
-      this.HitDice = '1d12';
+      this.HitDice = 12;
       this.Proficiencies.SavingThrows = ['Strength', 'Constitution'];
       this.Proficiencies.Armour = ['Light Armour', 'Medium Armour', 'Shields'];
       this.Proficiencies.Weapons = ['Simple Weapons', 'Martial Weapons'];
