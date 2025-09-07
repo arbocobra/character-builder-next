@@ -1,15 +1,19 @@
 class Abilities {
-   constructor(base, classMods, speciesMods, featMods) {
-      this.Base = base || [10,10,10,10,10,10];
-      this.Class = classMods || [0,0,0,0,0,0];
-      this.Species = speciesMods || [0,0,0,0,0,0];
-      this.Feats = featMods || [0,0,0,0,0,0];
-      this.Total = this.calculateTotal();
-      this.Modifiers = this.calculateModifiers();
+   constructor(currentAbilities) {
+   // constructor(currentAbilities, base, classMods, speciesMods, featMods) {
+      this.base = currentAbilities ? currentAbilities.base : [10,10,10,10,10,10];
+      this.ASI = currentAbilities ? currentAbilities.ASI : new ClassASI()
+      this.class = currentAbilities ? currentAbilities.class : this.ASI.total;
+      this.species = currentAbilities ? currentAbilities.species : [0,0,0,0,0,0];
+      this.feats = currentAbilities ? currentAbilities.feats : [0,0,0,0,0,0];
+      this.total = currentAbilities ? currentAbilities.total : this.calculateTotal();
+      this.modifiers = currentAbilities ? currentAbilities.modifiers : this.calculateModifiers();
    }
 
+   // strength = [0], dex = [1], con = [2], int = [3], wis = [4], cha = [5]
+
    calculateTotal() {
-      const total = [...this.Base];
+      const total = [...this.base];
       const addModifiers = (modArray) => {
          modArray.forEach((mod, index) => {
             if (typeof mod === 'number') {
@@ -17,25 +21,23 @@ class Abilities {
             }
          });
       };
-      addModifiers(this.Class);
-      addModifiers(this.Species);
-      addModifiers(this.Feats);
+      addModifiers(this.class);
+      addModifiers(this.species);
+      addModifiers(this.feats);
       return total;
    }
 
    calculateModifiers() {
-      return this.Total.map(score => Math.floor((score - 10) / 2));
+      return this.total.map(score => Math.floor((score - 10) / 2));
    }
 
-   getAbilities() {
-      return {
-         base: this.Base,
-         class: this.Class,
-         species: this.Species,
-         feats: this.Feats,
-         total: this.Total,
-         modifiers: this.Modifiers
-      }
+   clearCategory(cat) {
+      if (cat === 'class') {
+         this.ASI =  new ClassASI()
+         this.class = this.ASI.total
+      } else this[cat] = [0,0,0,0,0,0]
+      this.modifiers = this.calculateModifiers()
+      this.total = this.calculateTotal()
    }
 }
 
@@ -44,7 +46,7 @@ export class ClassASI {
       if (!newASI) this.ASI_list = currentASIlist || [];
       else this.ASI_list = currentASIlist.push(newASI)
 
-      this.Total = this.calculateTotal();
+      this.total = this.calculateTotal();
    }
 
    // addToASI(level, score) { 

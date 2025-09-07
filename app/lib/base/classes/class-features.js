@@ -1,12 +1,41 @@
-// const Features = [
-//    { name: 'Rage', level: 1, appliedBy: 'class' },
-//    { name: 'Unarmoured Defence', level: 1, appliedBy: 'class' },
-//    { name: 'Reckless Attack', level: 2, appliedBy: 'class' },
-//    { name: 'Danger Sense', level: 2, appliedBy: 'class' },
-//    { name: 'Primal Path', level: 3, appliedBy: 'class' },
-//    { name: 'Ability Score Improvement', level: 4, appliedBy: 'class' },
-//    { name: 'Extra Attack', level: 5, appliedBy: 'class' },
-//    { name: 'Fast Movement', level: 5, appliedBy: 'class' },
-//    { name: 'Path Feature', level: 6, appliedBy: 'class' },
-//    { name: 'Feral Instinct', level: 7, appliedBy: 'class' }
-// ]
+export const features = {
+   barbarian: [
+      { name: 'Rage', level: 1 },
+      { name: 'Unarmoured Defence', level: 1 },
+      { name: 'Reckless Attack', level: 2 },
+      { name: 'Danger Sense', level: 2 },
+      { name: 'Primal Path', level: 3 },
+      { name: 'Ability Score Improvement', level: 4 },
+      { name: 'Extra Attack', level: 5 },
+      { name: 'Fast Movement', level: 5 },
+      { name: 'Path Feature', level: 6 },
+      { name: 'Feral Instinct', level: 7 }
+   ],
+   bard: [],
+   cleric: [],
+   druid: [],
+   fighter: [],
+   monk: [],
+   paladin: [],
+   ranger: [],
+   rogue: [],
+   sorcerer: [],
+   warlock: [],
+   wizard: []
+}
+
+export const featureList = {
+   barbarian: [['Rage', 'Unarmoured Defence'], ['Reckless Attack', 'Danger Sense'], ['Primal Path'], ['Ability Score Improvement'], ['Extra Attack', 'Fast Movement'], ['Path Feature'], ['Feral Instinct']],
+   bard: [],
+   cleric: [],
+   druid: [],
+   fighter: [],
+   monk: [],
+   paladin: [],
+   ranger: [],
+   rogue: [],
+   sorcerer: [],
+   warlock: [],
+   wizard: []
+};
+

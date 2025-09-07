@@ -1,34 +1,12 @@
-// import { BaseClass } from '@/lib/base/baseClass';
+import BaseClass from './base-class';
 
-// class Barbarian extends BaseClass {
-//    constructor(level) {
-//       super('Barbarian', level);
-//       this.HitDice = 12;
-//       this.Proficiencies.SavingThrows = ['Strength', 'Constitution'];
-//       this.Proficiencies.Armour = ['Light Armour', 'Medium Armour', 'Shields'];
-//       this.Proficiencies.Weapons = ['Simple Weapons', 'Martial Weapons'];
-//       this.Proficiencies.SelectFromList.Skills = { list: ['Animal Handling', 'Athletics', 'Intimidation', 'Survival'], count: 2 };
-//    }
-
-//    // SelectEquipment = [
-//    //    { list: ['Greataxe', 'Any martial melee weapon'], count: 1 },
-//    //    { list: ['2 Handaxes', 'Any simple weapon'], count: 1 }
-//    // ];
-// }
-
-// const Features = [
-//    { name: 'Rage', level: 1, appliedBy: 'class' },
-//    { name: 'Unarmoured Defence', level: 1, appliedBy: 'class' },
-//    { name: 'Reckless Attack', level: 2, appliedBy: 'class' },
-//    { name: 'Danger Sense', level: 2, appliedBy: 'class' },
-//    { name: 'Primal Path', level: 3, appliedBy: 'class' },
-//    { name: 'Ability Score Improvement', level: 4, appliedBy: 'class' },
-//    { name: 'Extra Attack', level: 5, appliedBy: 'class' },
-//    { name: 'Fast Movement', level: 5, appliedBy: 'class' },
-//    { name: 'Path Feature', level: 6, appliedBy: 'class' },
-//    { name: 'Feral Instinct', level: 7, appliedBy: 'class' }
-// ]
-
-// const featureList = [['Rage', 'Unarmoured Defence'], ['Reckless Attack', 'Danger Sense'], ['Primal Path'], ['Ability Score Improvement'], ['Extra Attack', 'Fast Movement'], ['Path Feature'], ['Feral Instinct']];
-
-// export default Barbarian;
+export class Barbarian extends BaseClass {
+   constructor(level) {
+      super('barbarian', level);
+      this.hitDice = 12;
+      this.proficiencies.savingThrows = ['Strength', 'Constitution'];
+      this.proficiencies.armour = ['Light Armour', 'Medium Armour', 'Shields'];
+      this.proficiencies.weapons = ['Simple Weapons', 'Martial Weapons'];
+      this.proficiencies.selectFromList.skills = { list: ['Animal Handling', 'Athletics', 'Intimidation', 'Survival'], count: 2 };
+   }
+}

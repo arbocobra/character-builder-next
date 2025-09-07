@@ -1,11 +1,11 @@
 class Features {
    constructor(currentFeatures) {
       if (!currentFeatures) {
-         this.Class = {},
-         this.Species = {},
-         this.Background = {},
-         this.Feats = {},
-         this.Total = {}
+         this.Class = {};
+         this.Species = {};
+         this.Background = {};
+         this.Feats = {};
+         this.Total = {};
       } else {
          this.Class = currentFeatures.Class;
          this.Species = currentFeatures.Species;
@@ -33,7 +33,6 @@ class Features {
    }
    
    getFeatures() {
-      // return Object.assign({}, this.Class, this.Species, this.Background, this.Total)
       return {
          class: this.Class,
          species: this.Species,

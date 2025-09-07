@@ -7,55 +7,50 @@ import { classes } from '@/lib/init-data';
 import dynamic from "next/dynamic";
 const Select = dynamic(() => import('react-select'), { ssr: false });
 
-const ClassForm = ({current, setClass, updateByName}) => {
+const ClassForm = ({current, setClass, updateByName, updateProficiences, clearClass}) => {
 
    const [className, setClassName] = useState('');
+   const [skills, setSkills] = useState([])
    const [isDisabled, setIsDisabled] = useState(false);
    const [buttonText, setButtonText] = useState('Select');
 
-   const options = classes.map(el => ({ value: el.toLowerCase(), label: el }));
+   const skillSelectOptions = current.class ? current.proficiencies.class.selectFromList.skills : null
 
-   const handleSubmit = (e) => {
+   const classOptions = classes.map(el => ({ value: el.toLowerCase(), label: el, category: 'class' }));
+   const skillsOptions = current.class ? skillSelectOptions.list.map(el => ({ value: el.toLowerCase(), label: el, category: 'skills' })) : null;
+
+   const handleSubmitClass = (e) => {
       e.preventDefault();
-      if (current.name !== className) {}
-      setClass(className);
-      // if (!newCharacter) {
-      //    if (current.name !== name) updateByName('name', name);
-      //    if (current.level !== level) updateLevel(level);
-      // }
-      // else {
-      //    createCharacter(name, level);
-      // }
-      // setIsDisabled(true);
+      if (className && !current.class) setClass(className);
+      else if (className && current.class !== className) setClass(className); // make update class
+      else if (current.class && !className) clearClass() // make clear class
    }
 
-   const handleChange = (val) => {
-      setClassName(val.value);
-      // const value = e.target.value;
-      // if (cat === 'class') setClassName(value);
-
-      // if (cat === 'level') {
-      //    const newLevel = parseInt(value);
-      //    if (!newCharacter && current.Level !== newLevel) {
-      //    }
-      //    setLevel(newLevel);
-      // }
-      // if (cat === 'name') {
-      //    if (!newCharacter && current.Name !== value) {
-      //    }
-      //    setName(value);
-      // }
+   const handlePathSubmit = (e) => {
+      e.preventDefault();
+      updateProficiences('class.skills', skills);
    }
 
-   useEffect(() => {
-      console.log(className);
-   },[className]);
+   const handleClassChange = (val) => {
+      setClassName(val ? val.value : null);
+   }
+
+   const handleSkillChange = (val) => {
+      let newVal = val.map(el => el.value)
+      setSkills(newVal)
+   }
 
    return (
-      <form className='flex flex-row gap-3 p-2 border-2' onSubmit={handleSubmit}>
-         <Select options={options} id='select-class' defaultValue={className} onChange={handleChange}/>
-         <Button value={buttonText} isDisabled={isDisabled} />
-      </form>
+      <>
+         {current.name && <form className='flex flex-row gap-3 p-2 border-2 justify-stretch' onSubmit={handleSubmitClass}>
+            <Select options={classOptions} isClearable name='class' id='select-class' defaultValue={className} onChange={handleClassChange}/>
+            <Button value={buttonText} isDisabled={isDisabled} />
+         </form>}
+         { current.class && (<form className='flex flex-row gap-3 p-2 border-2' onSubmit={handlePathSubmit}>
+            <Select options={skillsOptions} isOptionDisabled={() => skills.length >= skillSelectOptions.count} id='select-skills' defaultValue={[]} isMulti onChange={handleSkillChange}/>
+            <Button value={buttonText} isDisabled={isDisabled} />
+         </form>)}
+      </>
    )
 }
 
