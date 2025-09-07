@@ -1,5 +1,5 @@
-import CharacterSelect from '@/ui/create/character-select';
-import CharacterDisplay from '@/ui/create/character-display';
+import CharacterSelect from '@/app/ui/create/select/character-select';
+import CharacterDisplay from '@/app/ui/create/display/character-display';
 
 const Page = () => {
 

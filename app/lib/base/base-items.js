@@ -1,6 +1,5 @@
-class baseItems {
+class BaseItems {
    constructor() {}
-   
    armour = [];
    weapons = [];
    equipment = [];
@@ -15,4 +14,4 @@ class baseItems {
    }
 }
 
-export default baseItems;
+export default BaseItems;

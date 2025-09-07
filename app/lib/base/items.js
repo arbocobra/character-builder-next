@@ -1,12 +1,10 @@
-import baseItems from './base-items';
+import BaseItems from '@/lib/base/base-items';
 
 class Items {
-   constructor(current) {
-      this.class = current ? current.class : new baseItems();
-      this.species = current ? current.species : new baseItems();
-      this.background = current ? current.background : new baseItems();
-      this.feats = current ? current.feats : new baseItems();
-      this.total = this.calculateTotal();
+   constructor() {
+      this.class = new BaseItems();
+      this.background = new BaseItems();
+      this.total = { armour: [], weapons: [], equipment: [], currency: [], tools: [] }
    }
    calculateTotal() {
       let total = { armour: [], weapons: [], equipment: [], currency: [], tools: [] }
@@ -19,9 +17,17 @@ class Items {
             });
          });
       }
-      [this.class, this.species, this.background, this.feats].forEach(mod => addModifiers(mod))
 
-      return total;
+      addModifiers(this.class)
+      addModifiers(this.background)
+      this.total = total
+   }
+
+   updateItems(key, value) {
+      if (typeof key === 'object') {
+         this[key[0]][key[1]] = value
+      } else this[key] = value
+      this.calculateTotal();
    }
 }
 

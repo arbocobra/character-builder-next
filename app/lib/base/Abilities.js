@@ -1,6 +1,5 @@
 class Abilities {
    constructor(currentAbilities) {
-   // constructor(currentAbilities, base, classMods, speciesMods, featMods) {
       this.base = currentAbilities ? currentAbilities.base : [10,10,10,10,10,10];
       this.ASI = currentAbilities ? currentAbilities.ASI : new ClassASI()
       this.class = currentAbilities ? currentAbilities.class : this.ASI.total;

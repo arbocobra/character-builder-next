@@ -1,11 +1,13 @@
-import baseProficiencies from '../baseProficiencies';
-import { featureList, features } from './class-features';
+import BaseProficiencies from '@/lib/base/base-proficiencies'
+import BaseItems from '@/lib/base/base-items'
+import { featureList, features } from '@/lib/base/classes/class-features';
 
 class BaseClass {
    constructor(className, level) {
       this.name = className;
       this.features = this.GrantFeatures(className, level);
-      this.proficiencies = new baseProficiencies();
+      this.proficiencies = new BaseProficiencies();
+      this.items = new BaseItems()
    }
 
    GrantFeatures(className, level) {

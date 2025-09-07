@@ -1,8 +1,8 @@
 import { Barbarian } from '@/lib/base/classes/classes';
-import Proficiencies from './base/Proficiencies';
-import baseProficiencies from './base/baseProficiencies';
+import Proficiencies from '@/lib/base/proficiencies';
+import baseProficiencies from './base/base-proficiencies';
 import HitPoints from './base/hit-points';
-import Abilities, { ClassASI } from './base/Abilities';
+import Abilities, { ClassASI } from './base/abilities';
 
 export const getClassObject = (val, level) => {
    switch (val) {
@@ -39,57 +39,61 @@ export const getClassObject = (val, level) => {
 export const applyClass = (className, level, state) => {
    const classObject = getClassObject(className, level);
 
-   const currentProficiencies = state.proficiencies;
-   currentProficiencies.class = classObject.proficiencies;
-   const updatedProficiencies = new Proficiencies(currentProficiencies)
+   // const currentProficiencies = state.proficiencies;
+   // currentProficiencies.class = classObject.proficiencies;
+   // const updatedProficiencies = new Proficiencies(currentProficiencies)
+   state.proficiencies.updateProficiency('class', classObject.proficiencies)
 
    state.hit_points.calculateBaseHP(classObject.hitDice, level, state.abilities.modifiers[2])
+
+   state.features.class = classObject.features
+   state.equipment.updateItems('class', classObject.items)
    // const currentHP = state.hit_points;
    // currentHP.class = calcHP(level, classObject.hitDice, state.abilities.modifiers[2])
    // const updatedHP = new HitPoints(currentHP)
 
    return {
       hit_dice: classObject.hitDice,
-      features: {...state.features, class: classObject.features},
-      proficiencies: updatedProficiencies,
+      // features: {...state.features, class: classObject.features},
+      // proficiencies: updatedProficiencies,
       // hit_points: state.hit_points,
    }
 }
 
-export const calcHP = (level, ditDice, con) => {
-   let avg = ditDice / 2 + 1
-   let result = 0
-   for (let i = 0; i < level; i++) {
-      if (i == 0) result += ditDice + con
-      else result += avg + con
-   }
+// export const calcHP = (level, ditDice, con) => {
+//    let avg = ditDice / 2 + 1
+//    let result = 0
+//    for (let i = 0; i < level; i++) {
+//       if (i == 0) result += ditDice + con
+//       else result += avg + con
+//    }
 
-   return result
-}
+//    return result
+// }
 
-export const updateProficiences = (obj, path, value) => {
-   let current = obj;
-   let keys = path.split('.');
-   current[keys[0]][keys[1]] = value
-   const updatedProficiencies = new Proficiencies(obj)
-   return updatedProficiencies;
-}
+// export const updateProficiences = (obj, path, value) => {
+//    let current = obj;
+//    let keys = path.split('.');
+//    current[keys[0]][keys[1]] = value
+//    const updatedProficiencies = new Proficiencies(obj)
+//    return updatedProficiencies;
+// }
 
-export const clearFromGrouped = (current, category, group) => {
-   let updated;
+// export const clearFromGrouped = (current, category, group) => {
+//    let updated;
 
-   if (category == 'proficiencies') {
-      current[group] = new baseProficiencies()
-      updated = new Proficiencies(current)
-   } else if (category == 'hit points') {
-      current[group] = 0;
-      updated = new HitPoints(current)
-   } else if (category == 'abilities') {
-      if (group == 'class') {
-         current.ASI = new ClassASI()
-         current.class = current.ASI.total
-      } else current[group] = [0,0,0,0,0,0]
-      updated = new Abilities(current)
-   }
-   return updated;
-}
+//    if (category == 'proficiencies') {
+//       current[group] = new baseProficiencies()
+//       updated = new Proficiencies(current)
+//    } else if (category == 'hit points') {
+//       current[group] = 0;
+//       updated = new HitPoints(current)
+//    } else if (category == 'abilities') {
+//       if (group == 'class') {
+//          current.ASI = new ClassASI()
+//          current.class = current.ASI.total
+//       } else current[group] = [0,0,0,0,0,0]
+//       updated = new Abilities(current)
+//    }
+//    return updated;
+// }

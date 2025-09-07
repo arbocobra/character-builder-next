@@ -1,4 +1,4 @@
-class baseProficiencies {
+class BaseProficiencies {
    constructor() {}
    
    armour = [];
@@ -18,4 +18,4 @@ class baseProficiencies {
    }
 }
 
-export default baseProficiencies;
+export default BaseProficiencies;

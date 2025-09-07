@@ -9,7 +9,8 @@ export const features = {
       { name: 'Extra Attack', level: 5 },
       { name: 'Fast Movement', level: 5 },
       { name: 'Path Feature', level: 6 },
-      { name: 'Feral Instinct', level: 7 }
+      { name: 'Feral Instinct', level: 7 },
+      { name: 'Ability Score Improvement', level: 8 }
    ],
    bard: [],
    cleric: [],
@@ -25,7 +26,7 @@ export const features = {
 }
 
 export const featureList = {
-   barbarian: [['Rage', 'Unarmoured Defence'], ['Reckless Attack', 'Danger Sense'], ['Primal Path'], ['Ability Score Improvement'], ['Extra Attack', 'Fast Movement'], ['Path Feature'], ['Feral Instinct']],
+   barbarian: [['Rage', 'Unarmoured Defence'], ['Reckless Attack', 'Danger Sense'], ['Primal Path'], ['Ability Score Improvement'], ['Extra Attack', 'Fast Movement'], ['Path Feature'], ['Feral Instinct'], ['Ability Score Improvement']],
    bard: [],
    cleric: [],
    druid: [],

@@ -1,11 +1,11 @@
 'use client';
 
-import InitialForm from './init-form';
-import ClassForm from './class-form';
-import useCharacter from '@/app/dashboard/character-context';
+import InitialForm from '@/select/forms/init-form';
+import ClassForm from '@/select/forms/class-form';
+import useCharacter from '@/dash/character-context';
 
 const CharacterSelect = () => {
-
+   
    const { 
       character, 
       createCharacter,

@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-// import Select from 'react-select'
+import { useState } from 'react';
 import Button from '@/ui/elements/button';
 import { classes } from '@/lib/init-data';
-import dynamic from "next/dynamic";
+import dynamic from 'next/dynamic';
 const Select = dynamic(() => import('react-select'), { ssr: false });
 
 const ClassForm = ({current, setClass, updateByName, updateProficiences, clearClass}) => {
@@ -23,7 +22,10 @@ const ClassForm = ({current, setClass, updateByName, updateProficiences, clearCl
       e.preventDefault();
       if (className && !current.class) setClass(className);
       else if (className && current.class !== className) setClass(className); // make update class
-      else if (current.class && !className) clearClass() // make clear class
+      else if (current.class && !className) {
+         setSkills([])
+         clearClass()
+      }
    }
 
    const handlePathSubmit = (e) => {

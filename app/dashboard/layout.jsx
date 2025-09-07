@@ -1,5 +1,4 @@
-// import CharacterProvider from './provider';
-import { CharacterProvider } from './character-context';
+import { CharacterProvider } from '@/dash/character-context'
 
 const Layout = ({ children }) => {
   return (

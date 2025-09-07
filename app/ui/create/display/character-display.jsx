@@ -1,6 +1,6 @@
 'use client';
 
-import useCharacter from '@/app/dashboard/character-context';
+import useCharacter from '@/dash/character-context';
 
 const CharacterDisplay = () => {
 
@@ -15,7 +15,8 @@ const CharacterDisplay = () => {
          {character.name && <DisplayBasic current={character} cat={'Basic Stats'} />}
          {character.class && <DisplayClass current={character} cat={'Class Stats'} />}
          {proficDisplay && <DisplayProficiencies current={character.proficiencies.total} cat={'Proficiencies'} />}
-         {/* {featureDisplay && <DisplayCategory current={character} cat={'Features'} names={featureNames} />} */}
+         {featureDisplay && <DisplayFeatures current={character.features} cat={'Features'} />}
+         {proficDisplay && <DisplayEquipment current={character.equipment.total} cat={'Items'} />}
       </div>
    );
 }
@@ -59,18 +60,52 @@ const DisplayClass = ({current, cat}) => {
 }
 
 const DisplayProficiencies = ({current, cat}) => {
-
+ 
    const proficObject = [
       {label: 'Armour', value: current.armour}, 
       {label: 'Weapons', value: current.weapons}, 
       {label: 'Languages', value: current.languages}, 
       {label: 'Tools', value: current.tools}, 
+      {label: 'Skills', value: current.skills}
    ]
 
    return (
       <>
          <div>{cat}</div>
          { proficObject.map((el,i) => (<div key={`${cat}-${i}`}>{el.label}: {el.value}</div>))}
+      </>
+   )
+}
+
+const DisplayFeatures = ({current, cat}) => {
+   return (
+      <>
+         <div>{cat}</div>
+         {['class', 'species', 'background', 'feats'].map((c) => {
+            if (current[c].length) return (
+               <div key={`feat-${c}`}>
+                  <div>{c}</div>
+                  {current[c].map((f,i) => (<div key={`f-${c}-${i}`}>{f.name}</div>))}
+               </div>
+            )
+         })}
+      </>
+   )
+}
+
+const DisplayEquipment = ({current, cat}) => {
+
+   const equipObject = [
+      {label: 'Armour', value: current.armour}, 
+      {label: 'Weapons', value: current.weapons}, 
+      {label: 'Equipment', value: current.equipment}, 
+      {label: 'Currency', value: current.currency}, 
+      {label: 'Tools', value: current.tools}
+   ]
+   return (
+      <>
+         <div>{cat}</div>
+         { equipObject.map((el,i) => (<div key={`${cat}-${i}`}>{el.label}: {el.value}</div>))}
       </>
    )
 }

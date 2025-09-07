@@ -1,17 +1,14 @@
-'use client';
-import { getClassObject, applyClass, updateProficiences, clearFromGrouped } from './actions';
-import Abilities from './base/Abilities';
-import { features } from './base/classes/class-features';
-import Proficiencies from './base/Proficiencies';
+import { applyClass, updateProficiences } from './actions';
+import Abilities from './base/abilities';
+import Proficiencies from './base/proficiencies';
 import HitPoints from './base/hit-points';
 import ArmourClass from './base/armour-class';
-// import Features from './base/Features';
-// import { species } from './init-data';
+import Features from './base/features';
+import Items from './base/items';
 
 const characterReducer = (state, action) => {
    switch (action.type) {
       case 'CREATE_CHARACTER':
-         // const res = createCharacterSupport()
          return {
             ...state, 
             name: action.payload.name, 
@@ -19,19 +16,22 @@ const characterReducer = (state, action) => {
             abilities: new Abilities(), 
             proficiencies: new Proficiencies(),
             hit_points: new HitPoints(),
-            armour_class: new ArmourClass()
+            armour_class: new ArmourClass(),
+            features: new Features(),
+            equipment: new Items(),
          };
       case 'UPDATE_LEVEL':
          let newProf = Math.ceil((action.payload) / 4) + 1;
          if (state.class) state.hit_points.calculateBaseHP(state.hit_dice, action.payload, state.abilities.modifiers[2])
+         if (state.level > action.payload) state.features.removeByLevel(action.payload)
          return {...state, level: action.payload, proficiency_bonus: newProf};
       case 'UPDATE_STAT_BY_NAME':
          return {...state, [action.payload.name]: action.payload.value};
       case 'UPDATE_PROFICIENCY':
-         const {path, value} = action.payload;
-         const current = { ...state.proficiencies }
-         const updated = updateProficiences(current, path, value)
-         return {...state, proficiencies: updated};
+         const value = action.payload.value;
+         let keys = action.payload.path.split('.');
+         state.proficiencies.updateProficiency(keys, value)
+         return {...state};
       case 'SET_CLASS':
          const {className, level} = action.payload;
          const update = applyClass(className, level, state)
@@ -39,8 +39,6 @@ const characterReducer = (state, action) => {
             ...state, 
             class: className,
             hit_dice: update.hit_dice,
-            features: update.features,
-            proficiencies: update.proficiencies,
          };
       case 'CLEAR_CLASS':
          state.proficiencies.clearCategory('class')
@@ -52,9 +50,6 @@ const characterReducer = (state, action) => {
             class: null,
             hit_dice: null,
             features: {...state.features, class: []},
-            // proficiencies: updatedClass.proficiencies,
-            // hit_points: updatedClass.hit_points,
-            // abilities: updatedClass.abilities
          }
       default:
          return state;
@@ -75,12 +70,7 @@ export const initialState = {
    speed: 30,
    initiative_bonus: 0,
    armour_class: {},
-   features: {
-      class: [],
-      species: [],
-      background: [],
-      feats: [],
-   },
+   features: {},
    equipment: {},
 };
 

@@ -4,7 +4,9 @@
     "paths": {
       "@/*": ["./*"],
       "@/lib/*": ["./app/lib/*"],
-      "@/ui/*": ["./app/ui/*"]
+      "@/ui/*": ["./app/ui/*"],
+      "@/dash/*": ["./app/dashboard/*"],
+      "@/select/*": ["./app/ui/create/select/*"]
     }
   }
 }
