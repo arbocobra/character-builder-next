@@ -27,7 +27,7 @@ const characterReducer = (state, action) => {
          return {...state, level: action.payload, proficiency_bonus: newProf};
       case 'UPDATE_STAT_BY_NAME':
          return {...state, [action.payload.name]: action.payload.value};
-      case 'UPDATE_PROFICIENCY':
+      case 'UPDATE_BY_PATH':
          const value = action.payload.value;
          let keys = action.payload.path.split('.');
          state[keys[0]].updateValue([keys[1], keys[2]], value)

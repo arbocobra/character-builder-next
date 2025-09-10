@@ -10,7 +10,7 @@ const CharacterDisplay = () => {
    const proficDisplay = character.class || character.species || character.background
 
    return (
-      <div className='flex flex-col w-1/2 p-4 m-1'>
+      <div className='flex flex-col w-1/2 p-4 m-1 gap-y-3'>
          Display
          {character.name && <DisplayBasic current={character} cat={'Basic Stats'} />}
          {character.class && <DisplayClass current={character} cat={'Class Stats'} />}
@@ -29,18 +29,18 @@ const DisplayBasic = ({current, cat}) => {
    const basicObject = [
       {label: 'Name', value: current.name}, 
       {label: 'Level', value: current.level}, 
-      {label: 'Speed', value: current.speed}, 
       {label: 'Proficiency Bonus', value: current.proficiency_bonus}, 
       {label: 'Armour Class', value: current.armour_class.total}, 
       {label: 'Hit Points', value: current.hit_points.total || 0}, 
-      {label: 'Initiative Bonus', value: current.abilities.modifiers[1] || 0}
+      {label: 'Initiative Bonus', value: current.abilities.modifiers[1] || 0},
+      {label: 'Speed', value: current.speed},
    ]
 
    return (
-      <>
-         <div>{cat}</div>
-         { basicObject.map((el,i) => (<div key={`${cat}-${i}`}>{el.label}: {el.value}</div>))}
-      </>
+      <div className='gap-y-3 p-2 border-1'>
+         <p>{cat}</p>
+         <div className='flex flex-row flex-wrap gap-y-1'>{ basicObject.map((el,i) => (<div className='basis-1/2' key={`${cat}-${i}`}>{el.label}: {el.value}</div>))}</div>
+      </div>
    )
 }
 
@@ -52,10 +52,10 @@ const DisplayClass = ({current, cat}) => {
    ]
 
    return (
-      <>
-         <div>{cat}</div>
-         { classObject.map((el,i) => (<div key={`${cat}-${i}`}>{el.label}: {el.value}</div>))}
-      </>
+      <div className='gap-y-3 p-2 border-1'>
+         <p>{cat}</p>
+         <div className='flex flex-row flex-wrap gap-y-1'>{ classObject.map((el,i) => (<div className='basis-1/2'  key={`${cat}-${i}`}>{el.label}: {el.value}</div>))}</div>
+      </div>
    )
 }
 
@@ -69,27 +69,35 @@ const DisplayProficiencies = ({current, cat}) => {
       {label: 'Skills', value: current.skills}
    ]
 
+   const valueList = (list) => list.map(l => (<div>{l}</div>))
+
    return (
-      <>
-         <div>{cat}</div>
-         { proficObject.map((el,i) => (<div key={`${cat}-${i}`}>{el.label}: {el.value}</div>))}
-      </>
+      <div className='gap-y-3 p-2 border-1'>
+         <p>{cat}</p>
+         <div className='flex flex-col gap-y-1'>
+            { proficObject.map((el,i) => (
+               <div className='flex flex-row gap-1' key={`${cat}-${i}`}>
+                  <div>{el.label}:</div>
+                  <div className='flex flex-row flex-wrap gap-x-2 gap-y-1'>{valueList(el.value)}</div>
+               </div>))}
+         </div>
+      </div>
    )
 }
 
 const DisplayFeatures = ({current, cat}) => {
    return (
-      <>
-         <div>{cat}</div>
+      <div className='gap-y-3 p-2 border-1'>
+         <p>{cat}</p>
          {['class', 'species', 'background', 'feats'].map((c) => {
             if (current[c].length) return (
                <div key={`feat-${c}`}>
-                  <div>{c}</div>
-                  {current[c].map((f,i) => (<div key={`f-${c}-${i}`}>{f.name}</div>))}
+                  <p className='uppercase underline'>{c}</p>
+                  <div className='flex flex-row flex-wrap gap-x-2 gap-y-1'>{current[c].map((f,i) => (<div  key={`f-${c}-${i}`}>{f.name}</div>))}</div>
                </div>
             )
          })}
-      </>
+      </div>
    )
 }
 
@@ -102,10 +110,19 @@ const DisplayEquipment = ({current, cat}) => {
       {label: 'Currency', value: current.currency}, 
       {label: 'Tools', value: current.tools}
    ]
+
+   const valueList = (list) => list.map(l => (<div>{l}</div>))
+
    return (
-      <>
-         <div>{cat}</div>
-         { equipObject.map((el,i) => (<div key={`${cat}-${i}`}>{el.label}: {el.value}</div>))}
-      </>
+      <div className='gap-y-3 p-2 border-1'>
+         <p>{cat}</p>
+         <div className='flex flex-col gap-y-1'>
+            { equipObject.map((el,i) => (
+               <div className='flex flex-row gap-1' key={`${cat}-${i}`}>
+                  <div>{el.label}:</div>
+                  <div className='flex flex-row flex-wrap gap-x-2 gap-y-1'>{valueList(el.value)}</div>
+               </div>))}
+         </div>
+      </div>
    )
 }

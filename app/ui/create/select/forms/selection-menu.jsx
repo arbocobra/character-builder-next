@@ -1,52 +1,9 @@
 'use client';
 
-import { useState, useEffect, isValidElement } from 'react';
+import { useState } from 'react';
 import Button from '@/ui/elements/button';
 import dynamic from 'next/dynamic';
 const Select = dynamic(() => import('react-select'), { ssr: false });
-
-const SelectMenu = ({list, title, count, currentCount, handleChange, handleSubmit, id}) => {
-   const options = list.map(el => ({ value: el.toLowerCase(), label: el }));
-   return (
-      <div>
-         <p>{title}</p>
-         <form className='flex flex-row gap-3 p-2 border-2' onSubmit={(e) => handleSubmit(e, id)}>
-            <Select options={options} name={id} defaultValue={[]} isClearable isOptionDisabled={() => currentCount >= count} id={id} isMulti={count > 1} onChange={handleChange}/>
-            <Button value='Select' isDisabled={false} />
-         </form>
-      </div>
-   )
-} 
-
-export const SelectMenuMulti = ({multiList, multiItems, handleChange, handleSubmit, id}) => {
-   const [select, setSelect] = useState(new Array(multiList.length).fill([]))
-   
-   const localChange = (val, action) => {
-      if (action.action === 'clear') {
-         setSelect(current => current.map((el, i) => i === action.name ? [] : el))}
-      else {
-         if (Array.isArray(val)) setSelect(current => current.map((el, i) => i === action.name ? val : el))
-         else setSelect(current => current.map((el, i) => i === action.name ? [val] : el))
-      }
-   }
-
-   useEffect(() => {
-      handleChange(select, id)
-   }, [select])
-
-   return (
-      <div>
-         <form className='flex flex-col gap-3 p-2 border-2' onSubmit={(e) => handleSubmit(e, id, select)}>
-            { multiList && multiList.map((el,i) => 
-               <div className='flex flex-col' key={`item-${id}-${i}`} >
-                  <p>{multiItems[i].title}</p>
-                  <Select options={el} name={i} isOptionDisabled={() => select[i].length >= multiItems[i].count} defaultValue={[]} isClearable isMulti={multiItems[i].count > 1} onChange={localChange} />
-               </div> )}
-            <Button value='Select' isDisabled={false} />
-         </form>
-      </div>
-   )
-}
 
 export const SimpleSelectForm = ({list, title, id, count, submit}) => {
    const [select, setSelect] = useState([]);
@@ -68,7 +25,7 @@ export const SimpleSelectForm = ({list, title, id, count, submit}) => {
          <p>{title}</p>
          <form className='flex flex-row gap-3 p-2 border-2' onSubmit={(e) => handleSubmit(e, id)}>
             <Select options={options} name={id} defaultValue={[]} isClearable id={id} isMulti={count > 1 ? true : false} isOptionDisabled={() => count > 1 ? select.length >= count : false} onChange={handleChange} />
-            <Button value='Select' isDisabled={false} />
+            <Button value='Submit' isDisabled={false} />
          </form>
       </div>
    )
@@ -164,7 +121,6 @@ export const IteratingGroupSelectForm = ({list, id, submit}) => {
    return (
       <div>
          <p>Iterating Selection Here</p>
-         {/* <form className='flex flex-col gap-3 p-2 border-2' onSubmit={(e) => handleSubmit(e, id)}> */}
          <form className='flex flex-col gap-3 p-2 border-2' onSubmit={handleSubmit}>
             { getSelection() }
             <Button value='Select' isDisabled={false} />
@@ -172,5 +128,3 @@ export const IteratingGroupSelectForm = ({list, id, submit}) => {
       </div>
    )
 }
-
-export default SelectMenu
