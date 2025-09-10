@@ -69,7 +69,7 @@ const DisplayProficiencies = ({current, cat}) => {
       {label: 'Skills', value: current.skills}
    ]
 
-   const valueList = (list) => list.map(l => (<div>{l}</div>))
+   const valueList = (list) => list.map((l, i) => (<div key={`prof-display-${i}`}>{l}</div>))
 
    return (
       <div className='gap-y-3 p-2 border-1'>
@@ -111,7 +111,7 @@ const DisplayEquipment = ({current, cat}) => {
       {label: 'Tools', value: current.tools}
    ]
 
-   const valueList = (list) => list.map(l => (<div>{l}</div>))
+   const valueList = (list) => list.map((l, i) => (<div key={`item-display-${i}`}>{l}</div>))
 
    return (
       <div className='gap-y-3 p-2 border-1'>

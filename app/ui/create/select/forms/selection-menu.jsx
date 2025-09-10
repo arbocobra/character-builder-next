@@ -34,7 +34,7 @@ export const SimpleSelectForm = ({list, title, id, count, submit}) => {
 export const GroupSelectForm = ({list, title, id, count, submit}) => {
    const [select, setSelect] = useState();
    const getGroupOptions = () => {
-      let group = [{label: null, options: [] }]
+      let group = typeof list[0] == 'string' ? [{label: null, options: [] }] : []
       const titleArray = title.split(' OR ')
       list.forEach((el,i) => {
          if (typeof el == 'string') {
@@ -76,7 +76,7 @@ export const IteratingGroupSelectForm = ({list, id, submit}) => {
 
    const getOptions = (val) => val.map(el => ({ value: el.toLowerCase(), label: el }));
    const getGroupOptions = (val, title) => {
-      let group = [{label: null, options: [] }]
+      let group = typeof val[0] == 'string' ? [{label: null, options: [] }] : []
       const titleArray = title.split(' OR ')
       val.forEach((el,i) => {
          if (typeof el == 'string') {

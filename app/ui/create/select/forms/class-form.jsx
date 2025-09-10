@@ -49,11 +49,13 @@ const ClassForm = ({current, setClass, updateByPath, clearClass}) => {
 const ProficiencySelect = ({proficiencySelect, submit}) => {
    const skillSelect = proficiencySelect.skills;
    const toolSelect = proficiencySelect.tools;
+   const isGroupList = !toolSelect ? false : toolSelect.list.every(el => typeof el == 'string') ? false : true
 
    return (
       <>
          { skillSelect && <SimpleSelectForm list={skillSelect.list} title={skillSelect.title} id={'skills'} count={skillSelect.count} submit={submit} /> }
-         { toolSelect && <SimpleSelectForm list={toolSelect.list} title={toolSelect.title} id={'tools'} count={toolSelect.count} submit={submit} />}
+         { toolSelect && isGroupList && <GroupSelectForm list={toolSelect.list} title={toolSelect.title} id={'tools'} count={toolSelect.count} submit={submit} />}
+         { toolSelect && !isGroupList && <SimpleSelectForm list={toolSelect.list} title={toolSelect.title} id={'tools'} count={toolSelect.count} submit={submit} />}
       </>
    )
 }
