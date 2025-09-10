@@ -30,7 +30,7 @@ const characterReducer = (state, action) => {
       case 'UPDATE_PROFICIENCY':
          const value = action.payload.value;
          let keys = action.payload.path.split('.');
-         state.proficiencies.updateProficiency(keys, value)
+         state[keys[0]].updateValue([keys[1], keys[2]], value)
          return {...state};
       case 'SET_CLASS':
          const {className, level} = action.payload;

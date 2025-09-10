@@ -26,7 +26,7 @@ class HitPoints {
       if (cat === 'modifiers') {
          this.modifierList.list = this.modifierList.list.filter(mod => mod.name !== name)
          this.modifierList.calculateTotal()
-      } else this[cat] = 0
+      } else this.base = 0
       this.calculateTotal()
    }
 

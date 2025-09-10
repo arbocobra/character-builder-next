@@ -1,4 +1,4 @@
-import { Barbarian } from '@/lib/base/classes/classes';
+import { Barbarian, Bard } from '@/lib/base/classes/classes';
 import Proficiencies from '@/lib/base/proficiencies';
 import baseProficiencies from './base/base-proficiencies';
 import HitPoints from './base/hit-points';
@@ -7,10 +7,9 @@ import Abilities, { ClassASI } from './base/abilities';
 export const getClassObject = (val, level) => {
    switch (val) {
       case 'barbarian':
-         const base = new Barbarian(level);
-         return base;
+         return new Barbarian(level);
       case 'bard':
-         return 'make Bard class';
+         return new Bard(level);
       case 'cleric':
          return 'make Cleric class';
       case 'druid':
@@ -42,12 +41,12 @@ export const applyClass = (className, level, state) => {
    // const currentProficiencies = state.proficiencies;
    // currentProficiencies.class = classObject.proficiencies;
    // const updatedProficiencies = new Proficiencies(currentProficiencies)
-   state.proficiencies.updateProficiency('class', classObject.proficiencies)
+   state.proficiencies.updateValue('class', classObject.proficiencies)
 
    state.hit_points.calculateBaseHP(classObject.hitDice, level, state.abilities.modifiers[2])
 
    state.features.class = classObject.features
-   state.equipment.updateItems('class', classObject.items)
+   state.equipment.updateValue('class', classObject.items)
    // const currentHP = state.hit_points;
    // currentHP.class = calcHP(level, classObject.hitDice, state.abilities.modifiers[2])
    // const updatedHP = new HitPoints(currentHP)

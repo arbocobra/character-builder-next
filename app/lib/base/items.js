@@ -23,10 +23,14 @@ class Items {
       this.total = total
    }
 
-   updateItems(key, value) {
+   updateValue(key, value) {
       if (typeof key === 'object') {
+         // const current = this[key[0]][key[1]]
+         // value.forEach(val => { if (!current.includes(val)) current.push(val) })
          this[key[0]][key[1]] = value
-      } else this[key] = value
+      } else {
+         this[key] = value
+      }
       this.calculateTotal();
    }
 }

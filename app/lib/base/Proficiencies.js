@@ -1,13 +1,6 @@
 import BaseProficiencies from '@/app/lib/base/base-proficiencies';
 
 class Proficiencies {
-   // constructor(currentProficiencies) {
-   //    this.class = currentProficiencies ? currentProficiencies.class : new BaseProficiencies();
-   //    this.species = currentProficiencies ? currentProficiencies.species : new BaseProficiencies();
-   //    this.background = currentProficiencies ? currentProficiencies.background : new BaseProficiencies();
-   //    this.feats = currentProficiencies ? currentProficiencies.feats : new FeatList();
-   //    this.total = { armour: [], weapons: [], tools: [], savingThrows: [], skills: [], languages: [] }
-   // }
    constructor() {
       this.class = new BaseProficiencies();
       this.species = new BaseProficiencies();
@@ -32,10 +25,21 @@ class Proficiencies {
       this.total = total;
    }
 
-   updateProficiency(key, value) {
+   // updateValue(key, value) {
+   //    if (typeof key === 'object') {
+   //       this[key[0]][key[1]] = value
+   //    } else this[key] = value
+   //    this.calculateTotal();
+   // }
+
+   updateValue(key, value) {
       if (typeof key === 'object') {
+         // const current = this[key[0]][key[1]]
+         // value.forEach(val => { if (!current.includes(val)) current.push(val) })
          this[key[0]][key[1]] = value
-      } else this[key] = value
+      } else {
+         this[key] = value
+      }
       this.calculateTotal();
    }
 
@@ -55,16 +59,6 @@ class Proficiencies {
       if (cat === 'feat') this.feats = new FeatList();
       else this[cat] = new BaseProficiencies();
       this.calculateTotal();
-   }
-   
-   getProficiencies() {
-      return {
-         class: this.class,
-         species: this.species,
-         background: this.background,
-         feats: this.feats,
-         total: this.total
-      }
    }
 }
 
