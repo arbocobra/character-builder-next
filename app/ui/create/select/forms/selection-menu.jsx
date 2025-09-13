@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import {SubmitButton} from '@/ui/elements/button';
 import dynamic from 'next/dynamic';
 const Select = dynamic(() => import('react-select'), { ssr: false });
@@ -137,7 +137,8 @@ export const ConditionalTwoPartSimpleSelection = ({listA, listB, title, idA, idB
 
    const handleChangeA = (val) => {
       if (val) {
-         setSelectA(val.value)
+         setSelectA(val)
+         if (selectB) setSelectB(null)
          if (listB[val.value]) {
             let subSelect = listB[val.value].map(el => ({ value: el.toLowerCase(), label: el }));
             setSecondSelect(subSelect)
@@ -149,19 +150,20 @@ export const ConditionalTwoPartSimpleSelection = ({listA, listB, title, idA, idB
       }
    }
 
-   const handleChangeB = (val) => setSelectB(val.value)
+   const handleChangeB = (val) => setSelectB(val)
 
    const handleSubmit = (e) => {
       e.preventDefault();
-      submit(selectA, selectB, idA)
+
+      submit(selectA.value, selectB ? selectB.value : null, idA)
    }
 
    return (
       <div>
          <p>{title}</p>
          <form className='flex flex-row gap-3 p-2 border-2' onSubmit={handleSubmit}>
-            <Select options={firstSelect} required name={idA} defaultValue={[]} isClearable id={idA} onChange={handleChangeA} />
-            {secondSelect && <Select options={secondSelect} required name={idB} defaultValue={[]} isClearable id={idB} onChange={handleChangeB} />}
+            <Select options={firstSelect} required name={idA} value={selectA} isClearable id={idA} onChange={handleChangeA} />
+            {secondSelect && <Select options={secondSelect} required name={idB} value={selectB} isClearable id={idB} onChange={handleChangeB} />}
             <SubmitButton value='Submit' isDisabled={false} />
          </form>
       </div>

@@ -15,7 +15,8 @@ const CharacterSelect = () => {
       updateByPath,
       setClass,
       changeClass,
-      setSpecies
+      setSpecies,
+      changeSpecies
    } = useCharacter();
    
    return (
@@ -23,7 +24,7 @@ const CharacterSelect = () => {
          Select
          <InitialForm current={character} createCharacter={createCharacter} updateLevel={updateLevel} updateByName={updateByName} />
          <ClassForm current={character} setClass={setClass} updateByPath={updateByPath} changeClass={changeClass} />
-         <SpeciesForm current={character} setSpecies={setSpecies} updateByPath={updateByPath} />
+         <SpeciesForm current={character} setSpecies={setSpecies} updateByPath={updateByPath} changeSpecies={changeSpecies} />
       </div>
    );
 }

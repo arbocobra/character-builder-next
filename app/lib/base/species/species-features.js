@@ -23,6 +23,43 @@ export const features = {
       {name: 'Sunlight Sensitivity', species: 'dark elf', level: 1},
       {name: 'Drow Magic', species: 'dark elf', level: 1},
       {name: 'Drow Weapon Training', species: 'dark elf', level: 1},
+   ],
+   halfling: [
+      {name: 'Lucky', species: 'base', level: 1},
+      {name: 'Brave', species: 'base', level: 1},
+      {name: 'Halfling Nimbleness', species: 'base', level: 1},
+      {name: 'Naturally Stealthy', species: 'lightfoot halfling', level: 1},
+      {name: 'Stout Resilience', species: 'stout halfling', level: 1},
+   ],
+   human: [],
+   dragonborn: [
+      {name: 'Draconic Ancestry', species: 'base', level: 1},
+      {name: 'Breath Weapon', species: 'base', level: 1},
+      {name: 'Damage Resistance', species: 'base', level: 1},
+   ],
+   gnome: [
+      {name: 'Darkvision', species: 'base', level: 1},
+      {name: 'Gnome Cunning', species: 'base', level: 1},
+      {name: 'Natural Illusionist', species: 'forest gnome', level: 1},
+      {name: 'Speak with Small Beasts', species: 'forest gnome', level: 1},
+      {name: 'Artificer\'s Lore', species: 'rock gnome', level: 1},
+      {name: 'Tinker', species: 'rock gnome', level: 1},
+   ],
+   'half-elf': [
+      {name: 'Darkvision', species: 'base', level: 1},
+      {name: 'Fey Ancestry', species: 'base', level: 1},
+      {name: 'Skill Versatility', species: 'base', level: 1},
+   ],
+   'half-orc': [
+      {name: 'Darkvision', species: 'base', level: 1},
+      {name: 'Menacing', species: 'base', level: 1},
+      {name: 'Relentless Endurance', species: 'base', level: 1},
+      {name: 'Savage Attacks', species: 'base', level: 1},
+   ],
+   tiefling: [
+      {name: 'Darkvision', species: 'base', level: 1},
+      {name: 'Hellish Resistance', species: 'base', level: 1},
+      {name: 'Infernal Legacy', species: 'base', level: 1},   
    ]
 }
 
@@ -33,5 +70,16 @@ export const featureList = {
    elf: ['Darkvision', 'Keen Senses', 'Fey Ancestry', 'Trance'],
    'high elf': ['Elf Weapon Training', 'Cantrip', 'Extra Language'],
    'wood elf': ['Elf Weapon Training', 'Fleet of Foot', 'Mask of the Wild'],
-   'dark elf': ['Superior Darkvision', 'Sunlight Sensitivity', 'Drow Magic', 'Drow Weapon Training']
+   'dark elf': ['Superior Darkvision', 'Sunlight Sensitivity', 'Drow Magic', 'Drow Weapon Training'],
+   halfling: ['Lucky', 'Brave', 'Halfling Nimbleness'],
+   'lightfoot halfling': ['Naturally Stealthy'],
+   'stout halfling': ['Stout Resilience'],
+   human: [],
+   dragonborn: ['Draconic Ancestry', 'Breath Weapon', 'Damage Resistance'],
+   gnome: ['Darkvision', 'Gnome Cunning'],
+   'forest gnome': ['Natural Illusionist', 'Speak with Small Beasts'],
+   'rock gnome': ['Artificer\'s Lore', 'TInker'],
+   'half-elf': ['Darkvision', 'Fey Ancestry', 'Skill Versatility'],
+   'half-orc': ['Darkvision', 'Menacing', 'Relentless Endurance', 'Savage Attacks'],
+   tiefling: ['Darkvision', 'Hellish Resistance', 'Infernal Legacy']
 }

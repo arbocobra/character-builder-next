@@ -1,4 +1,4 @@
-import { applyClass, changeClass, applySpecies } from './actions';
+import { applyClass, changeClass, applySpecies, changeSpecies } from './actions';
 import Abilities from './base/abilities';
 import Proficiencies from './base/proficiencies';
 import HitPoints from './base/hit-points';
@@ -49,10 +49,20 @@ const characterReducer = (state, action) => {
          }
       case 'SET_SPECIES':
          const {species, subspecies} = action.payload;
-         const updateSpecies = applySpecies(species, subspecies, state)
+         const setSpecies = applySpecies(species, subspecies, state)
          return {
             ...state,
             species: subspecies ? subspecies : species,
+            size: setSpecies.size,
+            speed: setSpecies.speed
+         }
+      case 'CHANGE_SPECIES':
+         const newSpecies = action.payload.species;
+         const newSubspecies = action.payload.subspecies;
+         const updateSpecies = changeSpecies(newSpecies, newSubspecies, state)
+         return {
+            ...state,
+            species: newSubspecies ? newSubspecies : newSpecies,
             size: updateSpecies.size,
             speed: updateSpecies.speed
          }

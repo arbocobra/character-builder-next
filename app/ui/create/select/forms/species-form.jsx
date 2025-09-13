@@ -3,14 +3,14 @@ import { species, subSpecies } from '@/lib/init-data'
 import { ConditionalTwoPartSimpleSelection, SimpleSelectForm, GroupSelectForm, IteratingGroupSelectForm } from '@/select/forms/selection-menu'
 import { ToggleButton } from '@/ui/elements/button';
 
-const SpeciesForm = ({current, setSpecies, updateByPath}) => {
+const SpeciesForm = ({current, setSpecies, updateByPath, changeSpecies}) => {
    const [display, setDisplay] = useState(false)
    const initProficiencies = useRef(null);
   const hasSpecies = current.species ? true : false;
    
   const handleSubmitSpecies = (speciesVal, subspeciesVal) => {
       if (!hasSpecies) setSpecies(speciesVal, subspeciesVal);
-
+      else changeSpecies(speciesVal, subspeciesVal)
    }
 
    const handleSubmitProficiency = (val, id) => {

@@ -1,5 +1,5 @@
 import { Barbarian, Bard, Cleric, Druid, Fighter, Monk } from '@/lib/base/classes/classes';
-import { Dwarf, Elf } from '@/lib/base/species/species'
+import { Dwarf, Elf, Halfling, Human, Dragonborn, Gnome, HalfElf, HalfOrc, Tiefling } from '@/lib/base/species/species'
 
 export const getClassObject = (val, level) => {
    switch (val) {
@@ -38,6 +38,20 @@ const getSpeciesObject = (val, sub, level) => {
          return new Dwarf(level, sub);
       case 'elf':
          return new Elf(level, sub);
+      case 'halfling':
+         return new Halfling(level, sub);
+      case 'human':
+         return new Human(level, sub);
+      case 'dragonborn':
+         return new Dragonborn(level, sub);
+      case 'gnome':
+         return new Gnome(level, sub);
+      case 'half-elf':
+         return new HalfElf(level, sub);
+      case 'half-orc':
+         return new HalfOrc(level, sub);
+      case 'tiefling':
+         return new Tiefling(level, sub);
       default:
          throw new Error(`Species ${val} not implemented`);
    }
@@ -74,6 +88,18 @@ export const applySpecies = (species, subspecies, state) => {
    state.features.species = speciesObject.features;
    return {
       // species: subspecies ? subspecies : species,
+      size: speciesObject.size,
+      speed: speciesObject.speed
+   }
+}
+
+export const changeSpecies = (species, subspecies, state) => {
+   const speciesObject = getSpeciesObject(species, subspecies, state.level);
+   state.proficiencies.updateValue('species', speciesObject.proficiencies)
+   state.abilities.setCategory('species', speciesObject.abilityImprovement)
+   state.features.class = speciesObject.features
+
+   return {
       size: speciesObject.size,
       speed: speciesObject.speed
    }

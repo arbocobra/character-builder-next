@@ -28,6 +28,9 @@ export const CharacterProvider = ({ children }) => {
    const setSpecies = (species, subspecies = null) => {
       dispatch({type: 'SET_SPECIES', payload: {species, subspecies}})
    }
+   const changeSpecies = (species, subspecies = null) => {
+      dispatch({type: 'CHANGE_SPECIES', payload: {species, subspecies}})
+   }
 
    const value = {
       character: state,
@@ -37,7 +40,8 @@ export const CharacterProvider = ({ children }) => {
       updateByPath,
       setClass,
       changeClass,
-      setSpecies
+      setSpecies,
+      changeSpecies
    };
 
    return <CharacterContext.Provider value={value}>{children}</CharacterContext.Provider>;

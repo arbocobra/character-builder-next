@@ -13,7 +13,7 @@ class BaseSpecies {
    }
 
    GrantFeatures(speciesName, subspecies) {
-      let subspeciesList = subspecies ? featureList[subspecies] : null
+      let subspeciesList = subspecies ? featureList[subspecies] : []
       let list = [...featureList[speciesName], ...subspeciesList]
       return list.map(feature => features[speciesName].find(f => f.name === feature))
    }
