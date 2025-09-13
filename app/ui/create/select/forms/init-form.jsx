@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Button from '@/ui/elements/button';
+import {SubmitButton} from '@/ui/elements/button';
 
 const InitialForm = ({current, createCharacter, updateLevel, updateByName}) => {
 
@@ -57,7 +57,7 @@ const InitialForm = ({current, createCharacter, updateLevel, updateByName}) => {
                <option key={level + 1} value={level + 1}>{level + 1}</option>
             ))}
          </select>
-         <Button value={buttonText} isDisabled={isDisabled} />
+         <SubmitButton value={buttonText} isDisabled={isDisabled} />
       </form>
    )
 }

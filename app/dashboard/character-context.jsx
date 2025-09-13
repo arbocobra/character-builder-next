@@ -22,8 +22,11 @@ export const CharacterProvider = ({ children }) => {
    const setClass = (className) => {
       dispatch({type: 'SET_CLASS', payload: {className, level: state.level}});
    }
-   const clearClass = () => {
-      dispatch({type: 'CLEAR_CLASS'})
+   const changeClass = (className) => {
+      dispatch({type: 'CHANGE_CLASS', payload: className})
+   }
+   const setSpecies = (species, subspecies = null) => {
+      dispatch({type: 'SET_SPECIES', payload: {species, subspecies}})
    }
 
    const value = {
@@ -33,7 +36,8 @@ export const CharacterProvider = ({ children }) => {
       updateByName,
       updateByPath,
       setClass,
-      clearClass
+      changeClass,
+      setSpecies
    };
 
    return <CharacterContext.Provider value={value}>{children}</CharacterContext.Provider>;

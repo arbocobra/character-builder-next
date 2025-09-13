@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import Button from '@/ui/elements/button';
+import { useState, useEffect, useRef } from 'react';
+import {SubmitButton} from '@/ui/elements/button';
 import dynamic from 'next/dynamic';
 const Select = dynamic(() => import('react-select'), { ssr: false });
 
@@ -24,8 +24,8 @@ export const SimpleSelectForm = ({list, title, id, count, submit}) => {
       <div>
          <p>{title}</p>
          <form className='flex flex-row gap-3 p-2 border-2' onSubmit={(e) => handleSubmit(e, id)}>
-            <Select options={options} name={id} defaultValue={[]} isClearable id={id} isMulti={count > 1 ? true : false} isOptionDisabled={() => count > 1 ? select.length >= count : false} onChange={handleChange} />
-            <Button value='Submit' isDisabled={false} />
+            <Select options={options} required name={id} defaultValue={[]} isClearable id={id} isMulti={count > 1 ? true : false} isOptionDisabled={() => count > 1 ? select.length >= count : false} onChange={handleChange} />
+            <SubmitButton value='Submit' isDisabled={false} />
          </form>
       </div>
    )
@@ -66,7 +66,7 @@ export const GroupSelectForm = ({list, title, id, count, submit}) => {
          <p>{title}</p>
          <form className='flex flex-row gap-3 p-2 border-2' onSubmit={(e) => handleSubmit(e, id)}>
             <Select options={groupOptions} name={id} defaultValue={[]} isClearable id={id} isMulti={count > 1 ? true : false} isOptionDisabled={() => count > 1 ? select.length >= count : false} onChange={handleChange} />
-            <Button value='Select' isDisabled={false} />
+            <SubmitButton value='Select' isDisabled={false} />
          </form>
       </div>
    )
@@ -123,7 +123,46 @@ export const IteratingGroupSelectForm = ({list, id, submit}) => {
          <p>Iterating Selection Here</p>
          <form className='flex flex-col gap-3 p-2 border-2' onSubmit={handleSubmit}>
             { getSelection() }
-            <Button value='Select' isDisabled={false} />
+            <SubmitButton value='Select' isDisabled={false} />
+         </form>
+      </div>
+   )
+}
+export const ConditionalTwoPartSimpleSelection = ({listA, listB, title, idA, idB, submit}) => {
+   const [selectA, setSelectA] = useState(null);
+   const [selectB, setSelectB] = useState(null);
+   const [secondSelect, setSecondSelect] = useState(null)
+
+   const firstSelect = listA.map(el => ({ value: el.toLowerCase(), label: el }));
+
+   const handleChangeA = (val) => {
+      if (val) {
+         setSelectA(val.value)
+         if (listB[val.value]) {
+            let subSelect = listB[val.value].map(el => ({ value: el.toLowerCase(), label: el }));
+            setSecondSelect(subSelect)
+         }
+         else setSecondSelect(null)
+      } else {
+         setSecondSelect(null)
+         setSelectA(null)
+      }
+   }
+
+   const handleChangeB = (val) => setSelectB(val.value)
+
+   const handleSubmit = (e) => {
+      e.preventDefault();
+      submit(selectA, selectB, idA)
+   }
+
+   return (
+      <div>
+         <p>{title}</p>
+         <form className='flex flex-row gap-3 p-2 border-2' onSubmit={handleSubmit}>
+            <Select options={firstSelect} required name={idA} defaultValue={[]} isClearable id={idA} onChange={handleChangeA} />
+            {secondSelect && <Select options={secondSelect} required name={idB} defaultValue={[]} isClearable id={idB} onChange={handleChangeB} />}
+            <SubmitButton value='Submit' isDisabled={false} />
          </form>
       </div>
    )

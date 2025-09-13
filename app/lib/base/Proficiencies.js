@@ -10,7 +10,7 @@ class Proficiencies {
    }
    calculateTotal() {
       let total = { armour: [], weapons: [], tools: [], savingThrows: [], skills: [], languages: [] }
-      
+
       const addModifiers = (source) => {
          ['armour', 'weapons', 'tools', 'savingThrows', 'skills', 'languages'].forEach((prop) => {
             source[prop].forEach((item) => {
@@ -25,17 +25,8 @@ class Proficiencies {
       this.total = total;
    }
 
-   // updateValue(key, value) {
-   //    if (typeof key === 'object') {
-   //       this[key[0]][key[1]] = value
-   //    } else this[key] = value
-   //    this.calculateTotal();
-   // }
-
    updateValue(key, value) {
       if (typeof key === 'object') {
-         // const current = this[key[0]][key[1]]
-         // value.forEach(val => { if (!current.includes(val)) current.push(val) })
          this[key[0]][key[1]] = value
       } else {
          this[key] = value
@@ -43,14 +34,16 @@ class Proficiencies {
       this.calculateTotal();
    }
 
-   addToFeats(value) {
+   addToList(featObj) {
       this.feats.list.push(value)
       this.feats.calculateTotal()
       this.calculateTotal()
    }
 
    removeFeat(id) {
-      this.feats.list = this.feats.list.filter(feat => feat.name !== id)
+      if (typeof id === 'string') this.feats.list = this.feats.list.filter(feat => feat.name !== id)
+      else if (typeof id === 'number') this.feats.list = this.feats.list.filter(feat =>feat.level <= it)
+      
       this.feats.calculateTotal()
       this.calculateTotal()
    }
@@ -70,14 +63,20 @@ class FeatList {
       this.total = new BaseProficiencies();
    }
    calculateTotal() {
+      // listObject = { name, level, value = new BaseClass() }
       let total = { armour: [], weapons: [], tools: [], savingThrows: [], skills: [], languages: [] }
-      ['armour', 'weapons', 'tools', 'savingThrows', 'skills', 'languages'].forEach((prop) => {
-         this.list.forEach((item) => {
-            if (!total[prop].includes(item)) {
-               total[prop].push(item);
-            }
+      
+      const addModifiers = (source) => {
+         ['armour', 'weapons', 'tools', 'savingThrows', 'skills', 'languages'].forEach((prop) => {
+            source[prop].forEach((item) => {
+               if (!total[prop].includes(item)) {
+                  total[prop].push(item);
+               }
+            });
          });
-      });
+      }
+      
+      this.list.forEach(feat => addModifiers(feat))
       this.total = total;
    }
 }

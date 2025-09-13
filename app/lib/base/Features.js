@@ -1,4 +1,5 @@
 class Features {
+   // feature = {name, level, description} -- later incorporate update functions
    constructor() {
       this.class = [];
       this.species = [];
@@ -6,15 +7,22 @@ class Features {
       this.feats = [];
    }
 
-   addFeatures(key, values) {
-      let current = [...this[key]]
-      values.forEach(val => {
-         let i = current.findIndex(el => el.name == val.name)
-         if (i >= 0) {
-            if (val.level !== current[i].level) current.push(val)
-         } else current.push(val)
-      })
-      this[key] = current
+   addFeatures(key, value) {
+      if (Array.isArray(value)) value.forEach(val => this[key].push(val))
+      else this[key].push(value)
+      // let current = [...this[key]]
+      // values.forEach(val => {
+      //    let i = current.findIndex(el => el.name == val.name)
+      //    if (i >= 0) {
+      //       if (val.level !== current[i].level) current.push(val)
+      //    } else current.push(val)
+      // })
+      // this[key] = current
+      // this[key].push(value)
+   }
+
+   removeByName(key, name) {
+      this[key].filter(el => el.name !== name)
    }
 
    removeByLevel(newLevel) {
@@ -29,19 +37,11 @@ class Features {
    }
 }
 
-/*
-sample feature
-{
-   name:
-   level:
-   description:
-}
-*/
-
-// class FeatList {
-//    constructor(){
-//       this.list = [];
-//    }
-// }
-
 export default Features;
+
+class FeatList {
+   constructor() {
+      this.list = [];
+      this.total = [];
+   }
+}

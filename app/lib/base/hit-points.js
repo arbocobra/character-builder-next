@@ -16,22 +16,24 @@ class HitPoints {
       this.calculateTotal()
    }
 
-   addToList(mod) {
-      this.modifierList.list.push(mod)
-      this.modifierList.calculateTotal()
-      this.calculateTotal()
-   }
-
-   clearHitPoint(cat, name = '') {
-      if (cat === 'modifiers') {
-         this.modifierList.list = this.modifierList.list.filter(mod => mod.name !== name)
-         this.modifierList.calculateTotal()
-      } else this.base = 0
-      this.calculateTotal()
-   }
-
    calculateTotal() {
       this.total = this.base + this.modifierList.total
+   }
+
+   addToList(mod) {
+      this.modifierList.addToList(mod)
+      this.calculateTotal()
+   }
+
+   removeFromList(id) {
+      this.modifierList.removeFromList(id)
+      this.calculateTotal()
+   }
+
+   clearHitPoint(cat) {
+      if (cat === 'modifiers') this.modifierList = new HPModifiers();
+      else this.base = 0;
+      this.calculateTotal()
    }
 }
 
@@ -45,7 +47,18 @@ export class HPModifiers {
 
    calculateTotal() {
       let total = 0;
-      this.featList.forEach(el => total += el.value)
+      this.list.forEach(el => total += el.value)
       this.total = total
+   }
+
+   addToList(mod) {
+      this.list.push(mod)
+      this.calculateTotal()
+   }
+
+   removeFromList(id) {
+      if (typeof id === 'string') this[cat].list = this.list.filter(mod => mod.name !== id);
+      else if (typeof id === 'number') this[cat].list = this.list.filter(mod => mod.level !== level);
+      this.calculateTotal();
    }
 }

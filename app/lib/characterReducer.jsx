@@ -1,4 +1,4 @@
-import { applyClass, updateProficiences } from './actions';
+import { applyClass, changeClass, applySpecies } from './actions';
 import Abilities from './base/abilities';
 import Proficiencies from './base/proficiencies';
 import HitPoints from './base/hit-points';
@@ -34,22 +34,27 @@ const characterReducer = (state, action) => {
          return {...state};
       case 'SET_CLASS':
          const {className, level} = action.payload;
-         const update = applyClass(className, level, state)
+         const setClass = applyClass(className, level, state)
          return {
             ...state, 
             class: className,
-            hit_dice: update.hit_dice,
+            hit_dice: setClass.hit_dice,
          };
-      case 'CLEAR_CLASS':
-         state.proficiencies.clearCategory('class')
-         state.abilities.clearCategory('class')
-         state.hit_points.clearHitPoint('class')
-
+      case 'CHANGE_CLASS':
+         const updateClass = changeClass(action.payload, state)
          return {
             ...state,
-            class: null,
-            hit_dice: null,
-            features: {...state.features, class: []},
+            class: action.payload,
+            hit_dice: updateClass.hit_dice,
+         }
+      case 'SET_SPECIES':
+         const {species, subspecies} = action.payload;
+         const updateSpecies = applySpecies(species, subspecies, state)
+         return {
+            ...state,
+            species: subspecies ? subspecies : species,
+            size: updateSpecies.size,
+            speed: updateSpecies.speed
          }
       default:
          return state;

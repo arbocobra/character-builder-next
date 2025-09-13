@@ -1,4 +1,5 @@
 import { Barbarian, Bard, Cleric, Druid, Fighter, Monk } from '@/lib/base/classes/classes';
+import { Dwarf, Elf } from '@/lib/base/species/species'
 
 export const getClassObject = (val, level) => {
    switch (val) {
@@ -31,6 +32,17 @@ export const getClassObject = (val, level) => {
    }
 }
 
+const getSpeciesObject = (val, sub, level) => {
+   switch (val) {
+      case 'dwarf':
+         return new Dwarf(level, sub);
+      case 'elf':
+         return new Elf(level, sub);
+      default:
+         throw new Error(`Species ${val} not implemented`);
+   }
+}
+
 export const applyClass = (className, level, state) => {
    const classObject = getClassObject(className, level);
    state.proficiencies.updateValue('class', classObject.proficiencies)
@@ -40,5 +52,29 @@ export const applyClass = (className, level, state) => {
 
    return {
       hit_dice: classObject.hitDice,
+   }
+}
+
+export const changeClass = (className, state) => {
+   const classObject = getClassObject(className, state.level);
+   state.proficiencies.updateValue('class', classObject.proficiencies)
+   state.hit_points.calculateBaseHP(classObject.hitDice, state.level, state.abilities.modifiers[2])
+   state.features.class = classObject.features
+   state.equipment.updateValue('class', classObject.items)
+
+   return {
+      hit_dice: classObject.hitDice,
+   }
+}
+
+export const applySpecies = (species, subspecies, state) => {
+   const speciesObject = getSpeciesObject(species, subspecies, state.level);
+   state.proficiencies.updateValue('species', speciesObject.proficiencies);
+   state.abilities.setCategory('species', speciesObject.abilityImprovement)
+   state.features.species = speciesObject.features;
+   return {
+      // species: subspecies ? subspecies : species,
+      size: speciesObject.size,
+      speed: speciesObject.speed
    }
 }

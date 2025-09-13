@@ -12,21 +12,28 @@ class ArmourClass {
    }
 
    addToList(mod) {
-      this.modifierList.list.push(mod)
-      this.modifierList.calculateTotal()
+      this.modifierList.addToList(mod)
       this.calculateTotal()
    }
 
-   clearArmour(cat, name = '') {
-      if (cat === 'modifiers') {
-         this.modifierList.list = this.modifierList.list.filter(mod => mod.name !== name)
-         this.modifierList.calculateTotal()
-      } else this[cat] = 0
+   removeFromList(id) {
+      this.modifierList.removeFromList(id)
+      this.calculateTotal();
+   }
+
+   setCategory(cat, val) {
+      this[cat] = val;
+      this.calculateTotal();
+   }
+
+   clearCategory(cat) {
+      if (cat === 'modifiers') this.modifierList = new ACModifiers();
+      else this[cat] = 0
       this.calculateTotal()
    }
 
    calculateTotal() {
-      this.total = this.base + this.dexMOd + this.modifierList.total
+      this.total = this.base + this.dexMod + this.modifierList.total
    }
 }
 
@@ -40,7 +47,17 @@ export class ACModifiers {
 
    calculateTotal() {
       let total = 0;
-      this.featList.forEach(el => total += el.value)
+      this.list.forEach(el => total += el.value)
       this.total = total
+   }
+
+   addToList(val) {
+      this.list.push(val);
+      this.calculateTotal()
+   }
+
+   removeFromList(id) {
+      this.list = this.list.filter(el => el.name !== id)
+      this.calculateTotal()
    }
 }

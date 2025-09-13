@@ -1,9 +1,13 @@
 export const classes = [
    'Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard'
 ]
+
 export const species = [
-   'Dwarf - Hill', 'Dwarf - Mountain', 'Elf - Dark', 'Elf - High', 'Elf - Wood', 'Halfling - Lightfoot', 'Halfling - Stout', 'Human', 'Dragonborn', 'Gnome - Forest', 'Gnome - Rock', 'Half-Elf', 'Half-Orc', 'Tiefling'
+   'Dwarf', 'Elf', 'Halfling', 'Human', 'Dragonborn', 'Gnome', 'Half-Elf', 'Half-Orc', 'Tiefling'
 ]
+export const subSpecies = {
+   dwarf: ['Hill Dwarf', 'Mountain Dwarf'], elf: ['Dark Elf', 'High Elf', 'Wood Elf'], halfling: ['Lightfoot Halfling', 'Stout Halfling'], gnome: ['Forest Gnome', 'Rock Gnome']
+}
 
 export const backgrounds = [
    'Acolyte', 'Charlatan', 'Criminal', 'Spy', 'Entertainer', 'Gladiator', 'Folk Hero', 'Guild Artisan', 'Guild Merchant', 'Hermit', 'Noble', 'Knight', 'Outlander', 'Sage', 'Sailor', 'Pirate', 'Soldier', 'Urchin'
@@ -48,4 +52,6 @@ export const ArtisansTools = [
    'Alchemist\'s Supplies', 'Brewer\'s Supplies', 'Calligrapher\'s Supplies', 'Carpenter\'s Tools', 'Cartographer\'s Tools', 'Cobbler\'s Tools', 'Cook\'s Utensils', 'Glassblower\'s Tools', 'Jeweler\'s Tools', 'Leatherworker\'s Tools', 'Mason\'s Tools', 'Painter\'s Supplies', 'Potter\'s Tools', 'Smith\'s Tools', 'Tinker\'s Tools', 'Weaver\'s Tools', 'Woodcarver\'s Tools'
 ]
 
-export const Musical_Instruments = ['Bagpipes', 'Drums', 'Dulcimer', 'Flute', 'Lute', 'Lyre', 'Horn', 'Pan flute', 'Shawm', 'Viol']
+export const Musical_Instruments = ['Bagpipes', 'Drums', 'Dulcimer', 'Flute', 'Lute', 'Lyre', 'Horn', 'Pan flute', 'Shawm', 'Viol'];
+
+export const Languages = ['Common', 'Dwarvish', 'Elvish', 'Giant', 'Gnomish', 'Goblin', 'Halfling', 'Orc', 'Abyssal', 'Celestial', 'Draconic', 'Deep Speech', 'Infernal', 'Primordial', 'Sylvan', 'Undercommon'];

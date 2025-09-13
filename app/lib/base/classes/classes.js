@@ -23,7 +23,7 @@ export class Bard extends BaseClass {
       this.hitDice = 8;
       this.proficiencies.savingThrows = ['Dexterity', 'Charisma'];
       this.proficiencies.armour = ['Light Armour'];
-      this.proficiencies.weapons = ['Simple Weapons', 'Hand Crossbows', 'Longswords', 'Rapier', 'Shortswords'];
+      this.proficiencies.weapons = ['Simple Weapons', 'Hand Crossbow', 'Longsword', 'Rapier', 'Shortsword'];
       this.proficiencies.selectFromList.skills = { list: Skills, count: 3, title: 'Select 3 skills from list' };
       this.proficiencies.selectFromList.tools = { list: Musical_Instruments, count: 3, title: 'Select 3 Musical Instruments' };
       this.items.weapons = ['dagger'];
@@ -57,7 +57,7 @@ export class Druid extends BaseClass {
       this.hitDice = 8;
       this.proficiencies.savingThrows = ['Intelligence', 'Wisdom'];
       this.proficiencies.armour = ['Light Armour', 'Medium Armour', 'Shields (non-metal)'];
-      this.proficiencies.weapons = ['Clubs', 'Daggers', 'Darts', 'Javelins', 'Maces', 'Quarterstaffs', 'Scimitars', 'Sickles', 'Slings', 'Spears'];
+      this.proficiencies.weapons = ['Club', 'Dagger', 'Dart', 'Javelin', 'Mace', 'Quarterstaff', 'Scimitar', 'Sickle', 'Sling', 'Spear'];
       this.proficiencies.tools = ['Herbalism Kit'];
       this.proficiencies.selectFromList.skills = { list: ['Arcana', 'Animal Handling', 'Insight', 'Medicine', 'Nature', 'Perception', 'Religion', 'Survival'], count: 2, title: 'Select 2 skills from list' };
       this.items.armour = ['leather armour']
@@ -86,7 +86,7 @@ export class Monk extends BaseClass {
       super('monk', level);
       this.hitDice = 8;
       this.proficiencies.savingThrows = ['Strength', 'Dexterity'];
-      this.proficiencies.weapons = ['Simple Weapons', 'Shortswords'];
+      this.proficiencies.weapons = ['Simple Weapons', 'Shortsword'];
       this.proficiencies.selectFromList.skills = { list: ['Acrobatics', 'Athletics', 'History', 'Insight', 'Religion', 'Stealth'], count: 2, title: 'Select 2 skills from list' };
       this.proficiencies.selectFromList.tools = { list: [ArtisansTools, Musical_Instruments], count: 1, title: 'Any artisan\'s tools OR Any musical instrument' };
       this.items.weapons = ['10 darts'];

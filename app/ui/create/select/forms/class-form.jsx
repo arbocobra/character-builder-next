@@ -1,19 +1,20 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { SimpleSelectForm, GroupSelectForm, IteratingGroupSelectForm } from '@/select/forms/selection-menu'
 import { classes } from '@/lib/init-data';
+import { ToggleButton } from '@/ui/elements/button';
 
-const ClassForm = ({current, setClass, updateByPath, clearClass}) => {
+const ClassForm = ({current, setClass, updateByPath, changeClass}) => {
+   const [display, setDisplay] = useState(false)
    const hasClass = current.class ? true : false
    const initProficiencies = useRef(null);
    const initEquipment = useRef(null);
 
    const handleSubmitClass = (val, _id) => {
       const update = val[0]
-      if (update && !hasClass) setClass(update);
-      else if (!update && hasClass) clearClass()
-      // need to make change class later
+      if (hasClass) changeClass(update);
+      else setClass(update)
    }
 
    const handleSubmitProficiency = (val, id) => {
@@ -30,6 +31,8 @@ const ClassForm = ({current, setClass, updateByPath, clearClass}) => {
       updateByPath(`equipment.class.${id}`, update);
    }
 
+   const toggleDisplay = () => setDisplay(!display)
+
    useEffect(() => {
       if (hasClass && !initProficiencies.current && !initEquipment.current) {
          initProficiencies.current = JSON.parse(JSON.stringify(current.proficiencies.class))
@@ -37,13 +40,21 @@ const ClassForm = ({current, setClass, updateByPath, clearClass}) => {
       }
    }, [current])
 
-   return (
-      <div>
-         { current.name && <SimpleSelectForm list={classes} title={'Select Character Class'} id={'class'} count={1} submit={handleSubmitClass} /> }
-         { hasClass && <ProficiencySelect proficiencySelect={current.proficiencies.class.selectFromList} submit={handleSubmitProficiency} />}
-         { hasClass && <ItemSelect itemSelect={current.equipment.class.selectFromList} submit={handleSubmitItem} />}
-      </div>
-   )
+   if (current.name) {
+      return (
+         <div className='bg-amber-100 p-2'>
+            <div className='flex flex-row justify-between'>
+               <div>Display Class Selection</div>
+               <ToggleButton value={display ? 'Close' : 'Open'}  handleClick={toggleDisplay}/>
+            </div>
+            { display && (<div>
+               { current.name && <SimpleSelectForm list={classes} title={'Select Character Class'} id={'class'} count={1} required submit={handleSubmitClass} /> }
+               { hasClass && <ProficiencySelect proficiencySelect={current.proficiencies.class.selectFromList} submit={handleSubmitProficiency} />}
+               { hasClass && <ItemSelect itemSelect={current.equipment.class.selectFromList} submit={handleSubmitItem} />}
+            </div>) }
+         </div>
+      )
+   }
 }
 
 const ProficiencySelect = ({proficiencySelect, submit}) => {

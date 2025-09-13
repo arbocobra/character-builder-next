@@ -29,6 +29,7 @@ const DisplayBasic = ({current, cat}) => {
    const basicObject = [
       {label: 'Name', value: current.name}, 
       {label: 'Level', value: current.level}, 
+      {label: 'Species', value: current.species || ''},
       {label: 'Proficiency Bonus', value: current.proficiency_bonus}, 
       {label: 'Armour Class', value: current.armour_class.total}, 
       {label: 'Hit Points', value: current.hit_points.total || 0}, 
