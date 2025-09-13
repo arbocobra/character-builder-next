@@ -84,7 +84,7 @@ export const changeClass = (className, state) => {
 export const applySpecies = (species, subspecies, state) => {
    const speciesObject = getSpeciesObject(species, subspecies, state.level);
    state.proficiencies.updateValue('species', speciesObject.proficiencies);
-   state.abilities.setCategory('species', speciesObject.abilityImprovement)
+   state.abilities.updateValue('species', speciesObject.abilityImprovement)
    state.features.species = speciesObject.features;
    return {
       // species: subspecies ? subspecies : species,
@@ -96,7 +96,7 @@ export const applySpecies = (species, subspecies, state) => {
 export const changeSpecies = (species, subspecies, state) => {
    const speciesObject = getSpeciesObject(species, subspecies, state.level);
    state.proficiencies.updateValue('species', speciesObject.proficiencies)
-   state.abilities.setCategory('species', speciesObject.abilityImprovement)
+   state.abilities.updateValue('species', speciesObject.abilityImprovement)
    state.features.class = speciesObject.features
 
    return {

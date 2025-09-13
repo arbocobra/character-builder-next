@@ -21,7 +21,7 @@ class ArmourClass {
       this.calculateTotal();
    }
 
-   setCategory(cat, val) {
+   updateValue(cat, val) {
       this[cat] = val;
       this.calculateTotal();
    }

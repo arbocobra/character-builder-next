@@ -30,7 +30,10 @@ const characterReducer = (state, action) => {
       case 'UPDATE_BY_PATH':
          const value = action.payload.value;
          let keys = action.payload.path.split('.');
-         state[keys[0]].updateValue([keys[1], keys[2]], value)
+         // console.log(keys[0], keys[1], value)
+         // console.log(state[keys[0]][keys[1]])
+         if (keys.length == 2) state[keys[0]].updateValue(keys[1], value)
+         else if (keys.length == 3) state[keys[0]].updateValue([keys[1], keys[2]], value)
          return {...state};
       case 'SET_CLASS':
          const {className, level} = action.payload;

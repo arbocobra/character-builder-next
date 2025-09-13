@@ -33,7 +33,7 @@ class Abilities {
       this.calculateTotal();
    }
 
-   setCategory(cat, value) {
+   updateValue(cat, value) {
       this[cat] = value;
       this.calculateTotal()
    }
