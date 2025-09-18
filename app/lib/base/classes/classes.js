@@ -2,8 +2,8 @@ import BaseClass from '@/lib/base/classes/base-class';
 import { Simple_Weapons, Martial_Melee_Weapons, Skills, Musical_Instruments, Simple_Melee_Weapons, ArtisansTools } from '@/lib/init-data'
 
 export class Barbarian extends BaseClass {
-   constructor(level) {
-      super('barbarian', level);
+   constructor() {
+      super('barbarian');
       this.hitDice = 12;
       this.proficiencies.savingThrows = ['Strength', 'Constitution'];
       this.proficiencies.armour = ['Light Armour', 'Medium Armour', 'Shields'];
@@ -18,8 +18,8 @@ export class Barbarian extends BaseClass {
 }
 
 export class Bard extends BaseClass {
-   constructor(level) {
-      super('bard', level);
+   constructor() {
+      super('bard');
       this.hitDice = 8;
       this.proficiencies.savingThrows = ['Dexterity', 'Charisma'];
       this.proficiencies.armour = ['Light Armour'];
@@ -36,8 +36,8 @@ export class Bard extends BaseClass {
 }
 
 export class Cleric extends BaseClass {
-   constructor(level) {
-      super('cleric', level);
+   constructor() {
+      super('cleric');
       this.hitDice = 8;
       this.proficiencies.savingThrows = ['Wisdom', 'Charisma'];
       this.proficiencies.armour = ['Light Armour', 'Medium Armour', 'Shields'];
@@ -52,8 +52,8 @@ export class Cleric extends BaseClass {
 }
 
 export class Druid extends BaseClass {
-   constructor(level) {
-      super('druid', level);
+   constructor() {
+      super('druid');
       this.hitDice = 8;
       this.proficiencies.savingThrows = ['Intelligence', 'Wisdom'];
       this.proficiencies.armour = ['Light Armour', 'Medium Armour', 'Shields (non-metal)'];
@@ -68,8 +68,8 @@ export class Druid extends BaseClass {
 }
 
 export class Fighter extends BaseClass {
-   constructor(level) {
-      super('fighter', level);
+   constructor() {
+      super('fighter');
       this.hitDice = 10;
       this.proficiencies.savingThrows = ['Strength', 'Constitution'];
       this.proficiencies.armour = ['All Armour', 'Shields'];
@@ -82,8 +82,8 @@ export class Fighter extends BaseClass {
 }
 
 export class Monk extends BaseClass {
-   constructor(level) {
-      super('monk', level);
+   constructor() {
+      super('monk');
       this.hitDice = 8;
       this.proficiencies.savingThrows = ['Strength', 'Dexterity'];
       this.proficiencies.weapons = ['Simple Weapons', 'Shortsword'];
@@ -92,5 +92,96 @@ export class Monk extends BaseClass {
       this.items.weapons = ['10 darts'];
       this.items.selectFromList.weapons = [{list: ['Shortword', Simple_Weapons], count: 1, title: 'Shortword OR Any simple weapon' }]
       this.items.selectFromList.equipment = [{list: ['Dungeoneer\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Explorer\'s Pack' }];
+   }
+}
+
+export class Paladin extends BaseClass {
+   constructor() {
+      super('paladin');
+      this.hitDice = 10;
+      this.proficiencies.savingThrows = ['Wisdom', 'Charisma'];
+      this.proficiencies.weapons = ['Simple Weapons', 'Martial Weapons'];
+      this.proficiencies.armour = ['All Armour', 'Shields'];
+      this.proficiencies.selectFromList.skills = { list: ['Athletics', 'Insight', 'Intimidation', 'Medicine', 'Persuasion', 'Religion'], count: 2, title: 'Select 2 skills from list' };
+      this.items.armour = ['chainmail'];
+      this.items.equipment = ['holy symbol']
+      this.items.weapons = ['10 darts'];
+      this.items.selectFromList.weapons = [{list: ['5 Javelins', Simple_Melee_Weapons], count: 1, title: 'Five javelins OR Any simple selee weapon' }]
+      this.items.selectFromList.equipment = [{list: ['Priest\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Priest\'s Pack OR Explorer\'s Pack' }];
+      // need to figure out how to make shield OR weapon option
+   }
+}
+
+export class Ranger extends BaseClass {
+   constructor() {
+      super('ranger');
+      this.hitDice = 10;
+      this.proficiencies.savingThrows = ['Strength', 'Dexterity'];
+      this.proficiencies.armour = ['Light Armour', 'Medium Armour', 'Shields'];
+      this.proficiencies.weapons = ['Simple Weapons', 'Martial Weapons'];
+      this.proficiencies.selectFromList.skills = { list: ['Animal Handling', 'Athletics', 'Insight', 'Investigation', 'Nature', 'Perception', 'Stealth', 'Survival'], count: 3, title: 'Select 3 skills from list' };
+      this.items.weapons = ['longbow', '20 arrows'];
+      this.items.selectFromList.armour = [{list: ['Scale Mail', 'Leather Armour'], count: 1, title: 'Scale mail OR Leather armour' }]
+      // this.items.selectFromList.weapons = [{list: ['2 Shortwords', Simple_Melee_Weapons], count: 1, title: 'Shortword OR Any simple weapon' }]
+      this.items.selectFromList.equipment = [{list: ['Dungeoneer\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Explorer\'s Pack' }];
+      // need to figure out 2 shortwords OR 2 simple melee weapon option
+   }
+}
+
+export class Rogue extends BaseClass {
+   constructor() {
+      super('rogue');
+      this.hitDice = 8;
+      this.proficiencies.savingThrows = ['Dexterity', 'Intelligence'];
+      this.proficiencies.weapons = ['Simple Weapons', 'Hand crossbow', 'Longsword', 'Rapier', 'Shortsword'];
+      this.proficiencies.tools = ['Thieve\'s Tools'];
+      this.proficiencies.armour = ['Light Armour'];
+      this.proficiencies.selectFromList.skills = { list: ['Acrobatics', 'Athletics', 'Deception', 'Insight', 'Intimidation', 'Investigaion', 'Performance', 'Perception', 'Persuasion', 'Sleight of Hand', 'Stealth'], count: 4, title: 'Select 4 skills from list' };
+      this.items.weapons = ['2 Daggers'];
+      this.items.tools = ['Thieve\'s Tools'];
+      this.items.armour = ['Light Armour'];
+      this.items.selectFromList.weapons = [{ list: ['Rapier', 'Shortsword'], count: 1, title: 'Rapier OR Shortsword'}, { list: ['Shortbow + 20 Arrows', 'Shortsword'], count: 1, title: 'Shortbow with 20 Arrows OR Shortsword'}];
+      this.items.selectFromList.equipment = [{list: ['Burglar\'s Pack', 'Dungeoneer\'s Pack', 'Explorer\'s Pack'], count: 1, title: 'Burglar\'s Pack OR Dungeoneer\'s Pack OR Explorer\'s Pack' }];
+   }
+}
+
+export class Sorcerer extends BaseClass {
+   constructor() {
+      super('sorcerer');
+      this.hitDice = 6;
+      this.proficiencies.savingThrows = ['Constitution', 'Charisma'];
+      this.proficiencies.weapons = ['Dagger', 'Dart', 'Sling', 'Quarterstaff', 'Light Crossbow'];
+      this.proficiencies.selectFromList.skills = { list: ['Arcana', 'Deception', 'Insight', 'Intimidation', 'Persuasion', 'Religion'], count: 2, title: 'Select 2 skills from list' };
+      this.items.weapons = ['2 Daggers'];
+      this.items.selectFromList.weapons = [{list: ['Light Crossbow + 20 bolts', Simple_Weapons], count: 1, title: 'Light crossbow and 20 bolts OR Any simple weapon'}];
+      this.items.selectFromList.equipment = [{list: ['Component Pouch', 'Arcane Focus'], count: 1, title: 'Component Pouch OR Arcane focus' }, {list: ['Dungeoneer\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Explorer\'s Pack' }];
+   }
+}
+
+export class Warlock extends BaseClass {
+   constructor() {
+      super('warlock');
+      this.hitDice = 8;
+      this.proficiencies.savingThrows = ['Wisdom', 'Charisma'];
+      this.proficiencies.armour = ['Light Armour'];
+      this.proficiencies.weapons = ['Simple Weapons'];
+      this.proficiencies.selectFromList.skills = { list: ['Arcana', 'Deception', 'History', 'Intimidation', 'Investigation', 'Nature', 'Religion'], count: 2, title: 'Select 2 skills from list' };
+      this.items.weapons = ['2 Daggers'];
+      this.items.armour = ['Light Armour'];
+      this.items.selectFromList.weapons = [{list: ['Light Crossbow + 20 bolts', Simple_Weapons], count: 1, title: 'Light crossbow and 20 bolts OR Any simple weapon'}, {list: [Simple_Weapons], count: 1, title: 'Any simple weapon'}];
+      this.items.selectFromList.equipment = [{list: ['Component Pouch', 'Arcane Focus'], count: 1, title: 'Component Pouch OR Arcane focus' }, {list: ['Dungeoneer\'s pack', 'Scholar\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Scholar\'s Pack' }];
+   }
+}
+
+export class Wizard extends BaseClass {
+   constructor() {
+      super('wizard');
+      this.hitDice = 6;
+      this.proficiencies.savingThrows = ['Intelligence', 'Wisdom'];
+      this.proficiencies.weapons = ['Dagger, Dart, Sling, Quarterstaff, Light Crossbow'];
+      this.proficiencies.selectFromList.skills = { list: ['Arcana', 'History', 'Insight', 'Investigation', 'Medicine', 'Religion'], count: 2, title: 'Select 2 skills from list' };
+      this.items.equipment = ['Spellbook'];
+      this.items.selectFromList.weapons = [{ list: ['Quarterstaff', 'Rapier'], count: 1, title: 'Quarterstaff OR Rapier'}];
+      this.items.selectFromList.equipment = [{list: ['Component Pouch', 'Arcane Focus'], count: 1, title: 'Component Pouch OR Arcane focus' }, {list: ['Scholar\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Scholar\'s Pack OR Explorer\'s Pack' }];
    }
 }

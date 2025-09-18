@@ -147,12 +147,131 @@ export const features = {
       { name: 'Ability Score Improvement 5', level: 19 },
       { name: 'Perfect Self', level: 20 },
    ],
-   paladin: [],
-   ranger: [],
-   rogue: [],
-   sorcerer: [],
-   warlock: [],
-   wizard: []
+   paladin: [
+      { name: 'Divine Sense', level: 1 },
+      { name: 'Lay on Hands', level: 1 },
+      { name: 'Fighting Style', level: 2 },
+      { name: 'Spellcasting', level: 2 },
+      { name: 'Divine Smite 1', level: 2 },
+      { name: 'Divine Health', level: 3 },
+      { name: 'Sacred Oath', level: 3 },
+      { name: 'Ability Score Improvement 1', level: 4 },
+      { name: 'Extra Attack', level: 5 },
+      { name: 'Aura of Protection 1', level: 6 },
+      { name: 'Sacred Oath Feature 1', level: 7 },
+      { name: 'Ability Score Improvement 2', level: 8 },
+      { name: 'Aura of Courage 1', level: 10 },
+      { name: 'Divine Smite 2', level: 11 },
+      { name: 'Ability Score Improvement 3', level: 12 },
+      { name: 'Cleansing Touch', level: 14 },
+      { name: 'Sacred Oath Feature 2', level: 15 },
+      { name: 'Ability Score Improvement 4', level: 16 },
+      { name: 'Aura of Protection 2', level: 18 },
+      { name: 'Aura of Courage 2', level: 18 },
+      { name: 'Ability Score Improvement 5', level: 19 },
+      { name: 'Sacred Oath Feature 3', level: 20 },
+   ],
+   ranger: [
+      { name: 'Favoured Enemy 1', level: 1 },
+      { name: 'Natural Explorer 1', level: 1 },
+      { name: 'Fighting Style', level: 2 },
+      { name: 'Spellcasting', level: 2 },
+      { name: 'Ranger Archetype', level: 3 },
+      { name: 'Primeval Awareness', level: 3 },
+      { name: 'Ability Score Improvement 1', level: 4 },
+      { name: 'Extra Attack', level: 5 },
+      { name: 'Favoured Enemy 2', level: 6 },
+      { name: 'Natural Explorer 2', level: 6 },
+      { name: 'Ranger Archetype Feature 1', level: 7 },
+      { name: 'Ability Score Improvement 2', level: 8 },
+      { name: 'Land\'s Stride', level: 8 },
+      { name: 'Natural Explorer 3', level: 10 },
+      { name: 'Hide in Plain Sight', level: 10 },
+      { name: 'Ranger Archetype Feature 2', level: 11 },
+      { name: 'Ability Score Improvement 3', level: 12 },
+      { name: 'Favoured Enemy 3', level: 14 },
+      { name: 'Vanish', level: 14 },
+      { name: 'Ranger Archetype Feature 3', level: 15 },
+      { name: 'Ability Score Improvement 4', level: 16 },
+      { name: 'Feral Senses', level: 18 },
+      { name: 'Ability Score Improvement 5', level: 19 },
+      { name: 'Foe Slayer', level: 20 }
+   ],
+   rogue: [
+      {name: 'Expertise 1', level: 1},
+      {name: 'Sneak Attack', level: 1},
+      {name: 'Thieves\' Cant', level: 1},
+      {name: 'Cunning Action', level: 2},
+      {name: 'Roguish Archetype', level: 3},
+      {name: 'Ability Score Improvement 1', level: 4},
+      {name: 'Uncanny Dodge', level: 5},
+      {name: 'Expertise 2', level: 6},
+      {name: 'Evasion', level: 7},
+      {name: 'Ability Score Improvement 2', level: 8},
+      {name: 'Roguish Archetype Feature 1', level: 9},
+      {name: 'Ability Score Improvement 3', level: 10},
+      {name: 'Reliable Talent', level: 11},
+      {name: 'Ability Score Improvement 4', level: 12},
+      {name: 'Roguish Archetype Feature 2', level: 13},
+      {name: 'Blindsense', level: 14},
+      {name: 'Slippery Mind', level: 15},
+      {name: 'Ability Score Improvement 5', level: 16},
+      {name: 'Roguish Archetype Feature 3', level: 17},
+      {name: 'Elusive', level: 18},
+      {name: 'Ability Score Improvement 6', level: 19},
+      {name: 'Stroke of Luck', level: 20}
+   ],
+   sorcerer: [
+      {name: 'Spellcasting', level: 1},
+      {name: 'Sorcerous Origins', level: 1},
+      {name: 'Font of Magic', level: 2},
+      {name: 'Metamagic 1', level: 3},
+      {name: 'Ability Score Improvement 1', level: 4},
+      {name: 'Sorcerous Origins Feature 1', level: 6},
+      {name: 'Ability Score Improvement 2', level: 8},
+      {name: 'Metamagic 2', level: 10},
+      {name: 'Ability Score Improvement 3', level: 12},
+      {name: 'Sorcerous Origins Feature 2', level: 14},
+      {name: 'Ability Score Improvement 4', level: 16},
+      {name: 'Metamagic 3', level: 17},
+      {name: 'Sorcerous Origins Feature 3', level: 18},
+      {name: 'Ability Score Improvement 5', level: 19},
+      {name: 'Sorcerous Restoration', level: 20}
+   ],
+   warlock: [
+      { name: 'Otherworldly Patron', level: 1 },
+      { name: 'Pact Magic', level: 1 },
+      { name: 'Eldritch Invocations 1', level: 2 },
+      { name: 'Pact Boon', level: 3 },
+      { name: 'Ability Score Improvement 1', level: 4 },
+      { name: 'Otherworldly Patron Feature 1', level: 6 },
+      { name: 'Ability Score Improvement 2', level: 8 },
+      { name: 'Otherworldly Patron Feature 2', level: 10 },
+      { name: 'Mystic Arcanum 1', level: 11 },
+      { name: 'Ability Score Improvement 3', level: 12 },
+      { name: 'Mystic Arcanum 2', level: 13 },
+      { name: 'Otherworldly Patron Feature 3', level: 14 },
+      { name: 'Mystic Arcanum 3', level: 15 },
+      { name: 'Ability Score Improvement 4', level: 16 },
+      { name: 'Mystic Arcanum 4', level: 17 },
+      { name: 'Ability Score Improvement 5', level: 19 },
+      { name: 'Eldritch Master', level: 20 }
+   ],
+   wizard: [
+      { name: 'Spellcasting', level: 1 },
+      { name: 'Arcane Recovery', level: 1 },
+      { name: 'Arcane Tradition', level: 2 },
+      { name: 'Ability Score Improvement 1', level: 4 },
+      { name: 'Arcane Tradition Feature 1', level: 6 },
+      { name: 'Ability Score Improvement 2', level: 8 },
+      { name: 'Arcane Tradition Feature 2', level: 10 },
+      { name: 'Ability Score Improvement 3', level: 12 },
+      { name: 'Arcane Tradition Feature 3', level: 14 },
+      { name: 'Ability Score Improvement 4', level: 16 },
+      { name: 'Spell Mastery', level: 18 },
+      { name: 'Ability Score Improvement 5', level: 19 },
+      { name: 'Signature Spell', level: 20 }
+   ]
 }
 
 export const featureList = {
@@ -174,11 +293,23 @@ export const featureList = {
    monk: [
       ['Unarmoured Defence', 'Martial Arts'], ['Ki', 'Unarmoured Movement 1'], ['Monastic Tradition', 'Deflect Missiles'], ['Ability Score Improvement 1', 'Slow Fall'], ['Extra Attack', 'Stunning Strike'], ['Ki-Empowered Strikes', 'Monastic Tradition Feature 1'], ['Evasion', 'Stillness of Mind'], ['Ability Score Improvement 2'], ['Unarmoured Movement 2'], ['Purity of Body'], ['Monastic Tradition Feature 2'], ['Ability Score Improvement 3'], ['Tongue of the Sun and Moon'], ['Diamond Soul'], ['Timeless Body'], ['Ability Score Improvement 4'], ['Monastic Tradition Feature 3'], ['Empty Body'], ['Ability Score Improvement 5'], ['Perfect Self']
    ],
-   paladin: [],
-   ranger: [],
-   rogue: [],
-   sorcerer: [],
-   warlock: [],
-   wizard: []
+   paladin: [
+      ['Divine Sense', 'Lay on Hands'], ['Fighting Style', 'Spellcasting', 'Divine Smite 1'], ['Divine Health', 'Sacred Oath'], ['Ability Score Improvement 1'], ['Extra Attack'], ['Aura of Protection 1'], ['Sacred Oath Feature 1'], ['Ability Score Improvement 2'], [], ['Aura of Courage 1'], ['Divine Smite 2'], ['Ability Score Improvement 3'], [], ['Cleansing Touch'], ['Sacred Oath Feature 2'], ['Ability Score Improvement 4'], [], ['Aura of Protection 2', 'Aura of Courage 2'], ['Ability Score Improvement 5'], ['Sacred Oath Feature 3']
+   ],
+   ranger: [
+      ['Favoured Enemy 1', 'Natural Explorer 1'], ['Fighting Style', 'Spellcasting'], ['Ranger Archetype', 'Primeval Awareness'], ['Ability Score Improvement 1'], ['Extra Attack'], ['Favoured Enemy 2', 'Natural Explorer 2'], ['Ranger Archetype Feature 1'], ['Ability Score Improvement 2', 'Land\'s Stride'], [], ['Natural Explorer 3', 'Hide in Plain Sight'], ['Ranger Archetype Feature 2'], ['Ability Score Improvement 3'], [], ['Favoured Enemy 3', 'Vanish'], ['Ranger Archetype Feature 3'], ['Ability Score Improvement 4'], [], ['Feral Senses'], ['Ability Score Improvement 5'], ['Foe Slayer']
+   ],
+   rogue: [
+      ['Expertise 1', 'Sneak Attack', 'Thieves\' Cant'], ['Cunning Action'], ['Roguish Archetype'], ['Ability Score Improvement 1'], ['Uncanny Dodge'], ['Expertise 2'], ['Evasion'], ['Ability Score Improvement 2'], ['Roguish Archetype Feature 1'], ['Ability Score Improvement 3'], ['Reliable Talent'], ['Ability Score Improvement 4'], ['Roguish Archetype Feature 2'], ['Blindsense'], ['Slippery Mind'], ['Ability Score Improvement 5'], ['Roguish Archetype Feature 3'], ['Elusive'], ['Ability Score Improvement 6'], ['Stroke of Luck']
+   ],
+   sorcerer: [
+      ['Spellcasting', 'Sorcerous Origins'], ['Font of Magic'], ['Metamagic 1'] ['Ability Score Improvement 1'], [], ['Sorcerous Origins Feature 1'], [], ['Ability Score Improvement 2'], [], ['Metamagic 2'], [], ['Ability Score Improvement 3'], [], ['Sorcerous Origins Feature 2'], [], ['Ability Score Improvement 4'], ['Metamagic 3'], ['Sorcerous Origins Feature 3'], ['Ability Score Improvement 5'], ['Sorcerous Restoration']
+   ],
+   warlock: [
+      ['Otherworldly Patron', 'Pact Magic'], ['Eldritch Invocations 1'], ['Pact Boon'], ['Ability Score Improvement 1'], [], ['Otherworldly Patron Feature 1'], [], ['Ability Score Improvement 2'], [], ['Otherworldly Patron Feature 2'], ['Mystic Arcanum 1'], ['Ability Score Improvement 3'], ['Mystic Arcanum 2'], ['Otherworldly Patron Feature 3'], ['Mystic Arcanum 3'], ['Ability Score Improvement 4'], ['Mystic Arcanum 4'], [], ['Ability Score Improvement 5'], ['Eldritch Master']
+   ],
+   wizard: [
+      ['Spellcasting', 'Arcane Recovery'], ['Arcane Tradition'], [], ['Ability Score Improvement 1'], [], ['Arcane Tradition Feature 1'], [], ['Ability Score Improvement 2'], [], ['Arcane Tradition Feature 2'], [], ['Ability Score Improvement 3'], [], ['Arcane Tradition Feature 3'], [], ['Ability Score Improvement 4'], [], ['Spell Mastery'], ['Ability Score Improvement 5'], ['Signature Spell']
+   ]
 };
 

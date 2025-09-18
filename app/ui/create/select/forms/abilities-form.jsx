@@ -4,14 +4,17 @@ import { useState, useEffect, useRef } from 'react';
 import { ToggleButton } from '@/ui/elements/button';
 import StandardArray from './standard-array';
 import RandomArray from './random-array';
+import PointBuy from './point-buy';
 
-const AbilitiesForm = ({current, updateByPath}) => {
-   const [display, setDisplay] = useState(true)
+const AbilitiesForm = ({current, updateByPath, updateAbilities}) => {
+   const [display, setDisplay] = useState(false)
    const [abilitySelection, setAbilitySelection] = useState(null)
    // const hasClass = current.class ? true : false //hasBase?
    const abilities = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma']
+   
    const handleSubmit = (val) => {
-      updateByPath('abilities.base', val)
+      // updateByPath('abilities.base', val)
+      updateAbilities(val)
    }
 
    const handleSelect = (e) => {
@@ -37,21 +40,21 @@ const AbilitiesForm = ({current, updateByPath}) => {
                <div>Display Ability Selection</div>
                <ToggleButton value={display ? 'Close' : 'Open'}  handleClick={toggleDisplay}/>
             </div>
-            { display && (<div>
+            { display && (<div className='flex flex-col gap-3'>
                { current.name && (
                   <>
                   <div>Choose ability selection method:</div>
-                  <div className='flex flex-row justify-evenly'>
+                  <div className='flex flex-row justify-between'>
                      <label><input type='radio' name='ability' id='standard' value='standard' onChange={handleSelect} />Standard Array</label>
                      <label><input type='radio' name='ability' id='random' value='random' onChange={handleSelect} />Random Array</label>
                      <label><input type='radio' name='ability' id='point-buy' value='point-buy' onChange={handleSelect} />Point Buy</label>
                   </div>
                   </>
                ) }
+               { abilitySelection == 'standard' && <StandardArray abilities={abilities} submit={handleSubmit} /> }
+               { abilitySelection == 'random' && <RandomArray abilities={abilities} submit={handleSubmit} /> }
+               { abilitySelection == 'point-buy' && <PointBuy abilities={abilities} submit={handleSubmit} />}
             </div>) }
-            { abilitySelection == 'standard' && <StandardArray abilities={abilities} submit={handleSubmit} /> }
-            { abilitySelection == 'random' && <RandomArray abilities={abilities} submit={handleSubmit} /> }
-            { abilitySelection == 'point-buy' && <div>Point Buy</div>}
          </div>
       )
    }

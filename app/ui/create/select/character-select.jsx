@@ -17,16 +17,16 @@ const CharacterSelect = () => {
       setClass,
       changeClass,
       setSpecies,
-      changeSpecies
+      changeSpecies,
+      updateAbilities
    } = useCharacter();
    
    return (
       <div className='items-start flex flex-col w-1/2 p-4 m-1 gap-4 items-stretch'>
-         Select
          <InitialForm current={character} createCharacter={createCharacter} updateLevel={updateLevel} updateByName={updateByName} />
          <ClassForm current={character} setClass={setClass} updateByPath={updateByPath} changeClass={changeClass} />
          <SpeciesForm current={character} setSpecies={setSpecies} updateByPath={updateByPath} changeSpecies={changeSpecies} />
-         <AbilitiesForm current={character} updateByPath={updateByPath} />
+         <AbilitiesForm current={character} updateByPath={updateByPath} updateAbilities={updateAbilities} />
       </div>
    );
 }

@@ -29,18 +29,18 @@ const RandomArray = ({abilities, submit}) => {
 
    const handleChange = (val, action) => {
       if (val) {
-         const index = val.index
-         const prev = [...select]
-         prev[index] = val.value
-         setSelectedIndex(prev => [...prev, index])
-         setSelect(prev)
+         const index = action.name
+         const current = [...select]
+         current[index] = val.value
+         setSelectedIndex(prev => [...prev, val.index])
+         setSelect(current)
       } else {
          const removedValue = action.removedValues[0]
-         const index = removedValue.index
-         const prev = [...select]
-         prev[index] = ''
-         setSelectedIndex(prev => prev.filter(p => p !== index))
-         setSelect(prev)
+         const index = action.name
+         const current = [...select]
+         current[index] = ''
+         setSelectedIndex(prev => prev.filter(p => p !== removedValue.index))
+         setSelect(current)
       }
    }
 

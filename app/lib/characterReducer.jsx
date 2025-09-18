@@ -22,16 +22,16 @@ const characterReducer = (state, action) => {
          };
       case 'UPDATE_LEVEL':
          let newProf = Math.ceil((action.payload) / 4) + 1;
-         if (state.class) state.hit_points.calculateBaseHP(state.hit_dice, action.payload, state.abilities.modifiers[2])
-         if (state.level > action.payload) state.features.removeByLevel(action.payload)
-         return {...state, level: action.payload, proficiency_bonus: newProf};
+         if (state.class) {
+            state.hit_points.calculateBaseHP(state.hit_dice, action.payload, state.abilities.modifiers[2])
+            state.features.applyClassFeature(state.class, action.payload)
+         } 
+         return {...state, level: action.payload, proficiency_bonus: newProf}; 
       case 'UPDATE_STAT_BY_NAME':
          return {...state, [action.payload.name]: action.payload.value};
       case 'UPDATE_BY_PATH':
          const value = action.payload.value;
          let keys = action.payload.path.split('.');
-         // console.log(keys[0], keys[1], value)
-         // console.log(state[keys[0]][keys[1]])
          if (keys.length == 2) state[keys[0]].updateValue(keys[1], value)
          else if (keys.length == 3) state[keys[0]].updateValue([keys[1], keys[2]], value)
          return {...state};
@@ -69,6 +69,12 @@ const characterReducer = (state, action) => {
             size: updateSpecies.size,
             speed: updateSpecies.speed
          }
+      case 'UPDATE_ABILITIES':
+         state.abilities.updateValue('base', action.payload)
+         const modifiers = state.abilities.modifiers
+         state.hit_points.calculateBaseHP(state.hit_dice, state.level, modifiers[2])
+         state.armour_class.setDexMod(modifiers[1])
+         return { ...state }
       default:
          return state;
    }

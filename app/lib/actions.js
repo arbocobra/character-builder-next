@@ -1,4 +1,4 @@
-import { Barbarian, Bard, Cleric, Druid, Fighter, Monk } from '@/lib/base/classes/classes';
+import { Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin, Ranger, Rogue, Sorcerer, Warlock, Wizard } from '@/lib/base/classes/classes';
 import { Dwarf, Elf, Halfling, Human, Dragonborn, Gnome, HalfElf, HalfOrc, Tiefling } from '@/lib/base/species/species'
 
 export const getClassObject = (val, level) => {
@@ -16,17 +16,17 @@ export const getClassObject = (val, level) => {
       case 'monk':
          return new Monk(level);
       case 'paladin':
-         return 'make Paladin class';
+         return new Paladin(level);
       case 'ranger':
-         return 'make Ranger class';
+        return new Ranger(level);
       case 'rogue':
-         return 'make Rogue class';
+         return new Rogue(level);
       case 'sorcerer':
-         return 'make Sorcerer class';
+         return new Sorcerer(level);
       case 'warlock':
-         return 'make Warlock class';
+         return new Warlock(level);
       case 'wizard':
-         return 'make Wizard class';
+         return new Wizard(level);
       default:
          throw new Error(`Class ${val} not implemented`);
    }
@@ -61,7 +61,7 @@ export const applyClass = (className, level, state) => {
    const classObject = getClassObject(className, level);
    state.proficiencies.updateValue('class', classObject.proficiencies)
    state.hit_points.calculateBaseHP(classObject.hitDice, level, state.abilities.modifiers[2])
-   state.features.class = classObject.features
+   state.features.applyClassFeature(className, level)
    state.equipment.updateValue('class', classObject.items)
 
    return {
@@ -73,7 +73,7 @@ export const changeClass = (className, state) => {
    const classObject = getClassObject(className, state.level);
    state.proficiencies.updateValue('class', classObject.proficiencies)
    state.hit_points.calculateBaseHP(classObject.hitDice, state.level, state.abilities.modifiers[2])
-   state.features.class = classObject.features
+   state.features.applyClassFeature(className, state.level)
    state.equipment.updateValue('class', classObject.items)
 
    return {
@@ -97,7 +97,7 @@ export const changeSpecies = (species, subspecies, state) => {
    const speciesObject = getSpeciesObject(species, subspecies, state.level);
    state.proficiencies.updateValue('species', speciesObject.proficiencies)
    state.abilities.updateValue('species', speciesObject.abilityImprovement)
-   state.features.class = speciesObject.features
+   state.features.species = speciesObject.features
 
    return {
       size: speciesObject.size,

@@ -34,11 +34,11 @@ const ClassForm = ({current, setClass, updateByPath, changeClass}) => {
    const toggleDisplay = () => setDisplay(!display)
 
    useEffect(() => {
-      if (hasClass && !initProficiencies.current && !initEquipment.current) {
+      if (hasClass) {
          initProficiencies.current = JSON.parse(JSON.stringify(current.proficiencies.class))
          initEquipment.current = JSON.parse(JSON.stringify(current.equipment.class))
       }
-   }, [current])
+   }, [current.class])
 
    if (current.name) {
       return (

@@ -23,10 +23,10 @@ const SpeciesForm = ({current, setSpecies, updateByPath, changeSpecies}) => {
    const toggleDisplay = () => setDisplay(!display)
 
    useEffect(() => {
-         if (hasSpecies && !initProficiencies.current) {
+         if (hasSpecies) {
             initProficiencies.current = JSON.parse(JSON.stringify(current.proficiencies.species))
          }
-      }, [current])
+      }, [current.species])
 
    if (current.name) {
          return (

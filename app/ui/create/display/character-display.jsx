@@ -8,15 +8,16 @@ const CharacterDisplay = () => {
 
    const featureDisplay = character.class || character.species || character.background
    const proficDisplay = character.class || character.species || character.background
+   const abilityDisplay = character.name ? true : false
 
    return (
       <div className='flex flex-col w-1/2 p-4 m-1 gap-y-3'>
-         Display
          {character.name && <DisplayBasic current={character} cat={'Basic Stats'} />}
          {character.class && <DisplayClass current={character} cat={'Class Stats'} />}
          {proficDisplay && <DisplayProficiencies current={character.proficiencies.total} cat={'Proficiencies'} />}
          {featureDisplay && <DisplayFeatures current={character.features} cat={'Features'} />}
          {proficDisplay && <DisplayEquipment current={character.equipment.total} cat={'Items'} />}
+         {abilityDisplay && <DisplayAbilities current={character.abilities} cat={'Abilities'}/>}
       </div>
    );
 }
@@ -122,6 +123,33 @@ const DisplayEquipment = ({current, cat}) => {
                <div className='flex flex-row gap-1' key={`${cat}-${i}`}>
                   <div>{el.label}:</div>
                   <div className='flex flex-row flex-wrap gap-x-2 gap-y-1'>{valueList(el.value)}</div>
+               </div>))}
+         </div>
+      </div>
+   )
+}
+
+const DisplayAbilities = ({current, cat}) => {
+   const AbilityObject = [
+      {label: 'Strength', total: current.total[0], modifier: current.modifiers[0]}, 
+      {label: 'Dexterity', total: current.total[1], modifier: current.modifiers[1]}, 
+      {label: 'Constitution', total: current.total[2], modifier: current.modifiers[2]}, 
+      {label: 'Intelligence', total: current.total[3], modifier: current.modifiers[3]}, 
+      {label: 'Wisdom', total: current.total[4], modifier: current.modifiers[4]}, 
+      {label: 'Charisma', total: current.total[5], modifier: current.modifiers[5]}, 
+   ]
+
+   return (
+      <div className='gap-y-3 p-2 border-1'>
+         <p>{cat}</p>
+         <div className='flex flex-row gap-1 flex-wrap'>
+            { AbilityObject.map((el,i) => (
+               <div className='border-1 flex flex-col justify-center basis-1/4 rounded-full aspect-square' key={`${cat}-${i}`}>
+                  
+                  
+                  <div className='flex justify-center'>{el.label}:</div>
+                  <div className='flex justify-center text-lg'>{el.total}</div>
+                  <div className='flex justify-center text-sm'>{el.modifier > 0 ? `+${el.modifier}` : el.modifier}</div>
                </div>))}
          </div>
       </div>

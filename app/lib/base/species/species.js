@@ -10,7 +10,7 @@ export class Dwarf extends BaseSpecies {
       this.proficiencies.weapons = ['Battleaxe','Handaxe', 'Light Hammer', 'Warhammer'];
       this.abilityImprovement = sub === 'hill dwarf' ? [0,0,2,0,1,0] : [2,0,2,0,0,0];
       this.proficiencies.armour = sub === 'mountain dwarf' ? ['Light Armour', 'Medium Armour'] : [];
-      this.proficiencies.selectFromList.tools = [{list: ['Smith\'s Tools', 'Brewer\'s Supplies', 'Mason\'s Tools'], count: 1, title: 'Select Tool Prficiency'}]
+      this.proficiencies.selectFromList.tools = [{list: ['Smith\'s Tools', 'Brewer\'s Supplies', 'Mason\'s Tools'], count: 1, title: 'Select Tool Proficiency'}]
    }
 }
 

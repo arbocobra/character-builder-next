@@ -35,7 +35,7 @@ class Proficiencies {
    }
 
    addToList(featObj) {
-      this.feats.list.push(value)
+      this.feats.list.push(featObj)
       this.feats.calculateTotal()
       this.calculateTotal()
    }

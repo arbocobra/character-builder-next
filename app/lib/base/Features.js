@@ -1,3 +1,4 @@
+import { features, featureList } from './classes/class-features';
 class Features {
    // feature = {name, level, description} -- later incorporate update functions
    constructor() {
@@ -10,15 +11,11 @@ class Features {
    addFeatures(key, value) {
       if (Array.isArray(value)) value.forEach(val => this[key].push(val))
       else this[key].push(value)
-      // let current = [...this[key]]
-      // values.forEach(val => {
-      //    let i = current.findIndex(el => el.name == val.name)
-      //    if (i >= 0) {
-      //       if (val.level !== current[i].level) current.push(val)
-      //    } else current.push(val)
-      // })
-      // this[key] = current
-      // this[key].push(value)
+   }
+
+   applyClassFeature(className, newLevel = 1) {
+      let list = featureList[className].filter((_,i) => i < newLevel).flat();
+      this.class = list.map(feature => features[className].find(f => f.name === feature))
    }
 
    removeByName(key, name) {
@@ -45,3 +42,38 @@ class FeatList {
       this.total = [];
    }
 }
+
+
+
+// class Features {
+//    // feature = {name, level, description} -- later incorporate update functions
+//    constructor() {
+      
+//    }
+
+//    addFeatures(key, value) {
+      
+//    }
+
+//    removeByName(key, name) {
+      
+//    }
+
+//    removeByLevel(newLevel) {
+      
+//    }
+// }
+
+// export default Features;
+
+// class FeatList {
+//    constructor() {
+//       this.list = [];
+//       this.total = [];
+//    }
+// }
+
+// class BaseFeature {
+//    constructor() {};
+
+// }
