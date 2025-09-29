@@ -5,6 +5,7 @@ import { ToggleButton } from '@/ui/elements/button';
 import StandardArray from './standard-array';
 import RandomArray from './random-array';
 import PointBuy from './point-buy';
+import RadioSelect from '@/ui/elements/radio';
 
 const AbilitiesForm = ({current, updateByPath, updateAbilities}) => {
    const [display, setDisplay] = useState(false)
@@ -18,9 +19,7 @@ const AbilitiesForm = ({current, updateByPath, updateAbilities}) => {
    }
 
    const handleSelect = (e) => {
-      // e.preventDefault()
-      // const data = new FormData(e.target)
-      console.log(e.target.value)
+      e.preventDefault()
       setAbilitySelection(e.target.value)
    }
 
@@ -33,6 +32,8 @@ const AbilitiesForm = ({current, updateByPath, updateAbilities}) => {
    //    }
    // }, [current])
 
+   const radioOptions = [{label: 'Standard Array', value: 'standard'}, {label: 'Random Array', value: 'random'}, {label: 'Point Buy', value: 'point-buy'}]
+
    if (current.name) {
       return (
          <div className='bg-emerald-100 p-2'>
@@ -41,16 +42,7 @@ const AbilitiesForm = ({current, updateByPath, updateAbilities}) => {
                <ToggleButton value={display ? 'Close' : 'Open'}  handleClick={toggleDisplay}/>
             </div>
             { display && (<div className='flex flex-col gap-3'>
-               { current.name && (
-                  <>
-                  <div>Choose ability selection method:</div>
-                  <div className='flex flex-row justify-between'>
-                     <label><input type='radio' name='ability' id='standard' value='standard' onChange={handleSelect} />Standard Array</label>
-                     <label><input type='radio' name='ability' id='random' value='random' onChange={handleSelect} />Random Array</label>
-                     <label><input type='radio' name='ability' id='point-buy' value='point-buy' onChange={handleSelect} />Point Buy</label>
-                  </div>
-                  </>
-               ) }
+               { current.name && <RadioSelect title='Choose ability selection method:' handleSelect={handleSelect} id='ability' options={radioOptions} />}
                { abilitySelection == 'standard' && <StandardArray abilities={abilities} submit={handleSubmit} /> }
                { abilitySelection == 'random' && <RandomArray abilities={abilities} submit={handleSubmit} /> }
                { abilitySelection == 'point-buy' && <PointBuy abilities={abilities} submit={handleSubmit} />}

@@ -19,7 +19,7 @@ class Abilities {
    }
 
    calculateModifiers(total) {
-      let mods = total.map(score => Math.floor((score - 10) / 2));
+      let mods = total.map(val => Math.floor((val - 10) / 2));
       this.modifiers = mods
    }
 
@@ -47,19 +47,19 @@ class Abilities {
 }
 
 export class AbilityScoreImprovements {
-   // list: [{name: '', level: 0, score: [0,0,...]}, ...]
+   // list: [{name: '', level: 0, value: [0,0,...]}, ...]
    constructor() {
       this.list = [];
       this.total = [];
    }
 
    calculateTotal() {
-      // return total array of ability score increases from list
+      // return total array of ability value increases from list
       let total = [0,0,0,0,0,0];
       this.list.forEach(asi => {
-         asi.score.forEach((scoreIncrease, index) => {
-            if (typeof scoreIncrease === 'number') {
-               total[index] += scoreIncrease;
+         asi.value.forEach((valIncrease, index) => {
+            if (typeof valIncrease === 'number') {
+               total[index] += valIncrease;
             }
          });
       });

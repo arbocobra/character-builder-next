@@ -17,7 +17,7 @@ const CharacterDisplay = () => {
          {proficDisplay && <DisplayProficiencies current={character.proficiencies.total} cat={'Proficiencies'} />}
          {featureDisplay && <DisplayFeatures current={character.features} cat={'Features'} />}
          {proficDisplay && <DisplayEquipment current={character.equipment.total} cat={'Items'} />}
-         {abilityDisplay && <DisplayAbilities current={character.abilities} cat={'Abilities'}/>}
+         {abilityDisplay && <DisplayAbilities abilities={character.abilities} cat={'Abilities'} bonus={character.proficiency_bonus} saves={character.proficiencies.total.savingThrows}/>}
       </div>
    );
 }
@@ -129,27 +129,50 @@ const DisplayEquipment = ({current, cat}) => {
    )
 }
 
-const DisplayAbilities = ({current, cat}) => {
+const DisplayAbilities = ({abilities, cat, bonus, saves}) => {
+
+   const getSaves = (name, index) => {
+      if (saves.includes(name)) return abilities.modifiers[index] + bonus
+      else return abilities.modifiers[index]
+   }
    const AbilityObject = [
-      {label: 'Strength', total: current.total[0], modifier: current.modifiers[0]}, 
-      {label: 'Dexterity', total: current.total[1], modifier: current.modifiers[1]}, 
-      {label: 'Constitution', total: current.total[2], modifier: current.modifiers[2]}, 
-      {label: 'Intelligence', total: current.total[3], modifier: current.modifiers[3]}, 
-      {label: 'Wisdom', total: current.total[4], modifier: current.modifiers[4]}, 
-      {label: 'Charisma', total: current.total[5], modifier: current.modifiers[5]}, 
+      {label: 'Strength', total: abilities.total[0], modifier: abilities.modifiers[0] }, 
+      {label: 'Dexterity', total: abilities.total[1], modifier: abilities.modifiers[1]}, 
+      {label: 'Constitution', total: abilities.total[2], modifier: abilities.modifiers[2]}, 
+      {label: 'Intelligence', total: abilities.total[3], modifier: abilities.modifiers[3]}, 
+      {label: 'Wisdom', total: abilities.total[4], modifier: abilities.modifiers[4]}, 
+      {label: 'Charisma', total: abilities.total[5], modifier: abilities.modifiers[5]}, 
    ]
 
+   const SavesObject = [
+      {label: 'STR', proficient: saves.includes('Strength'), total: getSaves('Strength', 0), }, 
+      {label: 'DEX', total: getSaves('Dexterity', 1), proficient: saves.includes('Dexterity')}, 
+      {label: 'CON', total: getSaves('Constitution', 2), proficient: saves.includes('Constitution')}, 
+      {label: 'INT', total: getSaves('Intelligence', 3), proficient: saves.includes('Intelligence')}, 
+      {label: 'WIS', total: getSaves('Wisdom', 4), proficient: saves.includes('Wisdom')}, 
+      {label: 'CHA', total: getSaves('Charisma', 5), proficient: saves.includes('Charisma')}
+   ]
+
+   // console.log(SavesObject)
+
+   
+
    return (
-      <div className='gap-y-3 p-2 border-1'>
+      <div className='flex flex-col gap-y-3 p-2 border-1'>
          <p>{cat}</p>
          <div className='flex flex-row gap-1 flex-wrap'>
             { AbilityObject.map((el,i) => (
                <div className='border-1 flex flex-col justify-center basis-1/4 rounded-full aspect-square' key={`${cat}-${i}`}>
-                  
-                  
                   <div className='flex justify-center'>{el.label}:</div>
                   <div className='flex justify-center text-lg'>{el.total}</div>
                   <div className='flex justify-center text-sm'>{el.modifier > 0 ? `+${el.modifier}` : el.modifier}</div>
+               </div>))}
+         </div>
+         <p>Saving Throws</p>
+         <div className='columns-2'>
+            { SavesObject.map((el,i) => (
+               <div className='flex flex-row gap-2' key={`saves-${cat}-${i}`}>
+                  {el.proficient ? '\u2B24' : '\u2B58' }{el.label}: {el.total}
                </div>))}
          </div>
       </div>

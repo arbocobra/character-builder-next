@@ -34,6 +34,9 @@ export const CharacterProvider = ({ children }) => {
    const updateAbilities = (abilities) => {
       dispatch({type: 'UPDATE_ABILITIES', payload: abilities})
    }
+   const addToList = (cat, val) => {
+      dispatch({type: 'ADD_TO_LIST', payload: {cat, val}})
+   }
 
    const value = {
       character: state,
@@ -45,7 +48,8 @@ export const CharacterProvider = ({ children }) => {
       changeClass,
       setSpecies,
       changeSpecies,
-      updateAbilities
+      updateAbilities,
+      addToList
    };
 
    return <CharacterContext.Provider value={value}>{children}</CharacterContext.Provider>;

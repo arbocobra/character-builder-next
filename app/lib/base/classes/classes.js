@@ -5,6 +5,7 @@ export class Barbarian extends BaseClass {
    constructor() {
       super('barbarian');
       this.hitDice = 12;
+      this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Strength', 'Constitution'];
       this.proficiencies.armour = ['Light Armour', 'Medium Armour', 'Shields'];
       this.proficiencies.weapons = ['Simple Weapons', 'Martial Weapons'];
@@ -21,6 +22,7 @@ export class Bard extends BaseClass {
    constructor() {
       super('bard');
       this.hitDice = 8;
+      this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Dexterity', 'Charisma'];
       this.proficiencies.armour = ['Light Armour'];
       this.proficiencies.weapons = ['Simple Weapons', 'Hand Crossbow', 'Longsword', 'Rapier', 'Shortsword'];
@@ -39,6 +41,7 @@ export class Cleric extends BaseClass {
    constructor() {
       super('cleric');
       this.hitDice = 8;
+      this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Wisdom', 'Charisma'];
       this.proficiencies.armour = ['Light Armour', 'Medium Armour', 'Shields'];
       this.proficiencies.weapons = ['Simple Weapons'];
@@ -55,6 +58,7 @@ export class Druid extends BaseClass {
    constructor() {
       super('druid');
       this.hitDice = 8;
+      this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Intelligence', 'Wisdom'];
       this.proficiencies.armour = ['Light Armour', 'Medium Armour', 'Shields (non-metal)'];
       this.proficiencies.weapons = ['Club', 'Dagger', 'Dart', 'Javelin', 'Mace', 'Quarterstaff', 'Scimitar', 'Sickle', 'Sling', 'Spear'];
@@ -71,6 +75,7 @@ export class Fighter extends BaseClass {
    constructor() {
       super('fighter');
       this.hitDice = 10;
+      this.asiLevels = [4,6,8,12,14,16,19]
       this.proficiencies.savingThrows = ['Strength', 'Constitution'];
       this.proficiencies.armour = ['All Armour', 'Shields'];
       this.proficiencies.weapons = ['Simple Weapons', 'Martial Weapons'];
@@ -85,6 +90,7 @@ export class Monk extends BaseClass {
    constructor() {
       super('monk');
       this.hitDice = 8;
+      this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Strength', 'Dexterity'];
       this.proficiencies.weapons = ['Simple Weapons', 'Shortsword'];
       this.proficiencies.selectFromList.skills = { list: ['Acrobatics', 'Athletics', 'History', 'Insight', 'Religion', 'Stealth'], count: 2, title: 'Select 2 skills from list' };
@@ -99,6 +105,7 @@ export class Paladin extends BaseClass {
    constructor() {
       super('paladin');
       this.hitDice = 10;
+      this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Wisdom', 'Charisma'];
       this.proficiencies.weapons = ['Simple Weapons', 'Martial Weapons'];
       this.proficiencies.armour = ['All Armour', 'Shields'];
@@ -116,6 +123,7 @@ export class Ranger extends BaseClass {
    constructor() {
       super('ranger');
       this.hitDice = 10;
+      this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Strength', 'Dexterity'];
       this.proficiencies.armour = ['Light Armour', 'Medium Armour', 'Shields'];
       this.proficiencies.weapons = ['Simple Weapons', 'Martial Weapons'];
@@ -132,6 +140,7 @@ export class Rogue extends BaseClass {
    constructor() {
       super('rogue');
       this.hitDice = 8;
+      this.asiLevels = [4,8,10,12,16,19]
       this.proficiencies.savingThrows = ['Dexterity', 'Intelligence'];
       this.proficiencies.weapons = ['Simple Weapons', 'Hand crossbow', 'Longsword', 'Rapier', 'Shortsword'];
       this.proficiencies.tools = ['Thieve\'s Tools'];
@@ -149,6 +158,7 @@ export class Sorcerer extends BaseClass {
    constructor() {
       super('sorcerer');
       this.hitDice = 6;
+      this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Constitution', 'Charisma'];
       this.proficiencies.weapons = ['Dagger', 'Dart', 'Sling', 'Quarterstaff', 'Light Crossbow'];
       this.proficiencies.selectFromList.skills = { list: ['Arcana', 'Deception', 'Insight', 'Intimidation', 'Persuasion', 'Religion'], count: 2, title: 'Select 2 skills from list' };
@@ -162,6 +172,7 @@ export class Warlock extends BaseClass {
    constructor() {
       super('warlock');
       this.hitDice = 8;
+      this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Wisdom', 'Charisma'];
       this.proficiencies.armour = ['Light Armour'];
       this.proficiencies.weapons = ['Simple Weapons'];
@@ -177,6 +188,7 @@ export class Wizard extends BaseClass {
    constructor() {
       super('wizard');
       this.hitDice = 6;
+      this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Intelligence', 'Wisdom'];
       this.proficiencies.weapons = ['Dagger, Dart, Sling, Quarterstaff, Light Crossbow'];
       this.proficiencies.selectFromList.skills = { list: ['Arcana', 'History', 'Insight', 'Investigation', 'Medicine', 'Religion'], count: 2, title: 'Select 2 skills from list' };

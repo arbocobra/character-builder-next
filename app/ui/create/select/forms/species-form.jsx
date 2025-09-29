@@ -75,29 +75,3 @@ const ProficiencySelect = ({proficiencySelect, submit}) => {
       </>
    )
 }
-
-// const ItemSelect = ({itemSelect, submit}) => {
-//    const armourSelect = itemSelect.armour;
-//    const weaponsSelect = itemSelect.weapons;
-//    const equipmentSelect = itemSelect.equipment;
-//    const toolSelect = itemSelect.tools;
-
-//    const identifyItemSelect = (val, n) => {
-//       if (val.length > 1) {
-//          if (val.every(inner => inner.list.every(el => typeof el == 'string'))) return
-//          else return (<IteratingGroupSelectForm list={val} id={n} submit={submit} />)
-//       } else {
-//          if (val[0].list.every(op => typeof op == 'string')) return (<SimpleSelectForm list={val[0].list} title={val[0].title} id={n} count={val[0].count} submit={submit} />)
-//          else return (<GroupSelectForm list={val[0].list} title={val[0].title} id={n} count={val[0].count} submit={submit} />)
-//       }
-//    }
-
-//    return (
-//       <>
-//          { armourSelect && identifyItemSelect(armourSelect, 'armour') }
-//          { weaponsSelect && identifyItemSelect(weaponsSelect, 'weapons') }
-//          { equipmentSelect && identifyItemSelect(equipmentSelect, 'equipment') }
-//          { toolSelect && identifyItemSelect(toolSelect, 'tools') }
-//       </>
-//    )
-// }

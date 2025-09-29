@@ -12,11 +12,12 @@ class HitPoints {
          if (i == 0) result += hitDice + con
          else result += avg + con
       }
+      // return result
       this.base = result
       this.calculateTotal()
    }
 
-   calculateTotal() {
+   calculateTotal(base = this.base, modTotal = this.modifierList.total) {
       this.total = this.base + this.modifierList.total
    }
 
@@ -39,7 +40,7 @@ class HitPoints {
 
 export default HitPoints;
 
-export class HPModifiers {
+class HPModifiers {
    constructor() {
       this.list = []
       this.total = 0

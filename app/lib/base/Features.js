@@ -1,4 +1,4 @@
-import { features, featureList } from './classes/class-features';
+import { features, featureList, descObject } from './classes/class-features';
 class Features {
    // feature = {name, level, description} -- later incorporate update functions
    constructor() {
@@ -15,7 +15,23 @@ class Features {
 
    applyClassFeature(className, newLevel = 1) {
       let list = featureList[className].filter((_,i) => i < newLevel).flat();
-      this.class = list.map(feature => features[className].find(f => f.name === feature))
+      let fullList = list.map(feature => features[className].find(f => f.name === feature))
+
+      let sample = fullList.map((feature, i) => {
+         let newF = feature.name.toLowerCase()
+         let lastdigit = Number.parseInt(newF.slice(-1))
+         if (Number.isInteger(lastdigit)) {
+            newF = newF.slice(0,-2)
+         }
+         if (newF in descObject) {
+            fullList[i].description = descObject[newF]
+         } else {
+            // console.log(feature.name)
+         }
+         return feature
+      })
+      // console.log(sample)
+      this.class = fullList
    }
 
    removeByName(key, name) {

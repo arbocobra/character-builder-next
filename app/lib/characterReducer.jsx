@@ -7,6 +7,7 @@ import Features from './base/features';
 import Items from './base/items';
 
 const characterReducer = (state, action) => {
+   let baseHP, updatedHPTotal
    switch (action.type) {
       case 'CREATE_CHARACTER':
          return {
@@ -42,6 +43,7 @@ const characterReducer = (state, action) => {
             ...state, 
             class: className,
             hit_dice: setClass.hit_dice,
+            class_ASI_levels: setClass.class_ASI_levels
          };
       case 'CHANGE_CLASS':
          const updateClass = changeClass(action.payload, state)
@@ -49,6 +51,7 @@ const characterReducer = (state, action) => {
             ...state,
             class: action.payload,
             hit_dice: updateClass.hit_dice,
+            class_ASI_levels: updateClass.class_ASI_levels
          }
       case 'SET_SPECIES':
          const {species, subspecies} = action.payload;
@@ -75,6 +78,17 @@ const characterReducer = (state, action) => {
          state.hit_points.calculateBaseHP(state.hit_dice, state.level, modifiers[2])
          state.armour_class.setDexMod(modifiers[1])
          return { ...state }
+      case 'ADD_TO_LIST':
+         const {cat, val} = action.payload
+         if (Array.isArray(cat)) {
+            console.log(state.abilities.total)
+            state.abilities.addToList(val, cat[1])
+            console.log(state.abilities.total)
+
+            // let mods = state.abilities.modifiers
+            // state.hit_points.calculateBaseHP(state.hit_dice, state.level, mods[2])
+            // state.armour_class.setDexMod(mods[1])
+         } else state[cat].addToList(val)
       default:
          return state;
    }

@@ -4,10 +4,12 @@ import { useState, useEffect, useRef } from 'react';
 import { SimpleSelectForm, GroupSelectForm, IteratingGroupSelectForm } from '@/select/forms/selection-menu'
 import { classes } from '@/lib/init-data';
 import { ToggleButton } from '@/ui/elements/button';
+import ASIMenu from './asi-selection';
 
-const ClassForm = ({current, setClass, updateByPath, changeClass}) => {
+const ClassForm = ({current, setClass, updateByPath, changeClass, addToList}) => {
    const [display, setDisplay] = useState(false)
    const hasClass = current.class ? true : false
+   const isSubmitting = useRef(false)
    const initProficiencies = useRef(null);
    const initEquipment = useRef(null);
 
@@ -31,6 +33,13 @@ const ClassForm = ({current, setClass, updateByPath, changeClass}) => {
       updateByPath(`equipment.class.${id}`, update);
    }
 
+   const handleSubmitASI = (value, level) => {
+      if (isSubmitting.current) return 
+      isSubmitting.current = true
+      addToList(['abilities', 'class'], {name: `class-asi-${level}`, level, value})
+      isSubmitting.current = false
+   }
+
    const toggleDisplay = () => setDisplay(!display)
 
    useEffect(() => {
@@ -51,6 +60,7 @@ const ClassForm = ({current, setClass, updateByPath, changeClass}) => {
                { current.name && <SimpleSelectForm list={classes} title={'Select Character Class'} id={'class'} count={1} required submit={handleSubmitClass} /> }
                { hasClass && <ProficiencySelect proficiencySelect={current.proficiencies.class.selectFromList} submit={handleSubmitProficiency} />}
                { hasClass && <ItemSelect itemSelect={current.equipment.class.selectFromList} submit={handleSubmitItem} />}
+               { hasClass && <ASISelect asiSelect={current.class_ASI_levels} level={current.level} submit={handleSubmitASI} />}
             </div>) }
          </div>
       )
@@ -94,6 +104,30 @@ const ItemSelect = ({itemSelect, submit}) => {
          { equipmentSelect && identifyItemSelect(equipmentSelect, 'equipment') }
          { toolSelect && identifyItemSelect(toolSelect, 'tools') }
       </>
+   )
+}
+
+const ASISelect = ({asiSelect, level, submit}) => {
+   
+   const abilities = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma']
+   const options = abilities.map((el,i) => ({value: i, label: el}))
+
+   return (
+      <div className='flex flex-col gap-4'>
+         <p>Ability Score Improvements</p>
+         {/* <div>Increase One Ability by Two, or Two Abilities by One - max 20:</div> */}
+         {asiSelect.map(el => el <= level ? (
+            <div key={`asi-selection-level-${el}`}>
+               {/* <div>Level {el} Improvement</div> */}
+               <ASIMenu options={options} id={el} submit={submit} />
+            </div>
+            ) : null)}
+         {/* <div className='flex flex-row justify-between'>
+            <label><input type='radio' name='ability' id='single' value='single' onChange={handleSelect} />Increase One Ability +2</label>
+            <label><input type='radio' name='ability' id='double' value='double' onChange={handleSelect} />Increase Two Abilities +1</label>
+         </div>
+         {option == 'single' && asiSelect.map(el => el <= level ? <SimpleSelectForm list={abilities} title={`Level ${el} Improvement`} id={el} count={2} submit={submit} /> : null)} */}
+      </div>
    )
 }
 

@@ -66,6 +66,7 @@ export const applyClass = (className, level, state) => {
 
    return {
       hit_dice: classObject.hitDice,
+      class_ASI_levels: classObject.asiLevels,
    }
 }
 
@@ -78,6 +79,7 @@ export const changeClass = (className, state) => {
 
    return {
       hit_dice: classObject.hitDice,
+      class_ASI_levels: classObject.asiLevels,
    }
 }
 
