@@ -17,7 +17,7 @@ class HitPoints {
       this.calculateTotal()
    }
 
-   calculateTotal(base = this.base, modTotal = this.modifierList.total) {
+   calculateTotal() {
       this.total = this.base + this.modifierList.total
    }
 

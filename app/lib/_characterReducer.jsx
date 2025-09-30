@@ -1,7 +1,8 @@
 import { applyClass, changeClass, applySpecies, changeSpecies } from './actions';
 import Abilities from './base/abilities';
 import Proficiencies from './base/proficiencies';
-import HitPoints from './base/hit-points';
+import HitPoints from './base/hit-points.js';
+// import { HitPoints, setBaseHP } from '@/lib/base/hit-points.ts'
 import ArmourClass from './base/armour-class';
 import Features from './base/features';
 import Items from './base/items';
