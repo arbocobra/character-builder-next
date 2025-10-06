@@ -1,16 +1,17 @@
-export interface ArmourClass {
+export default ArmourClass;
+type ArmourClass = {
    base: number,
    dexMod: number,
    modifierList: ArmourClassList,
    total: number
 }
 
-export interface ArmourClassList {
+export type ArmourClassList = {
    list: ArmourClassItem[],
    total: number
 }
 
-export interface ArmourClassItem {
+export type ArmourClassItem = {
    name: string,
    level: number,
    value: number

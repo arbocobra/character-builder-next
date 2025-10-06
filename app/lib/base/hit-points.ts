@@ -1,15 +1,16 @@
-export interface HitPoints {
+export default HitPoints
+type HitPoints = {
    base: number,
    modifierList: HitPointsList,
    total: number
 }
 
-export interface HitPointsList {
+export type HitPointsList = {
    list: HitPointsItem[],
    total: number
 }
 
-export interface HitPointsItem {
+export type HitPointsItem = {
    name: string,
    level: number,
    value: number

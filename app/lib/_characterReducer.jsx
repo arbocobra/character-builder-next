@@ -20,7 +20,7 @@ const characterReducer = (state, action) => {
             hit_points: new HitPoints(),
             armour_class: new ArmourClass(),
             features: new Features(),
-            equipment: new Items(),
+            items: new Items(),
          };
       case 'UPDATE_LEVEL':
          let newProf = Math.ceil((action.payload) / 4) + 1;
@@ -110,7 +110,7 @@ export const initialState = {
    initiative_bonus: 0,
    armour_class: {},
    features: {},
-   equipment: {},
+   items: {},
 };
 
 export default characterReducer;

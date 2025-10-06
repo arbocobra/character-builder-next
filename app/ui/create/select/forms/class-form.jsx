@@ -11,7 +11,7 @@ const ClassForm = ({current, setClass, updateByPath, changeClass, addToList}) =>
    const hasClass = current.class ? true : false
    const isSubmitting = useRef(false)
    const initProficiencies = useRef(null);
-   const initEquipment = useRef(null);
+   const inititems = useRef(null);
 
    const handleSubmitClass = (val, _id) => {
       const update = val[0]
@@ -26,11 +26,11 @@ const ClassForm = ({current, setClass, updateByPath, changeClass, addToList}) =>
    }
 
    const handleSubmitItem = (val, id) => {
-      const init = initEquipment.current[id]
+      const init = inititems.current[id]
       let update;
       if (Array.isArray(val)) update = [...init, ...val];
       else update = [...init, val.value];
-      updateByPath(`equipment.class.${id}`, update);
+      updateByPath(`items.class.${id}`, update);
    }
 
    const handleSubmitASI = (value, level) => {
@@ -45,7 +45,7 @@ const ClassForm = ({current, setClass, updateByPath, changeClass, addToList}) =>
    useEffect(() => {
       if (hasClass) {
          initProficiencies.current = JSON.parse(JSON.stringify(current.proficiencies.class))
-         initEquipment.current = JSON.parse(JSON.stringify(current.equipment.class))
+         inititems.current = JSON.parse(JSON.stringify(current.items.class))
       }
    }, [current.class])
 
@@ -59,7 +59,7 @@ const ClassForm = ({current, setClass, updateByPath, changeClass, addToList}) =>
             { display && (<div>
                { current.name && <SimpleSelectForm list={classes} title={'Select Character Class'} id={'class'} count={1} required submit={handleSubmitClass} /> }
                { hasClass && <ProficiencySelect proficiencySelect={current.proficiencies.class.selectFromList} submit={handleSubmitProficiency} />}
-               { hasClass && <ItemSelect itemSelect={current.equipment.class.selectFromList} submit={handleSubmitItem} />}
+               { hasClass && <ItemSelect itemSelect={current.items.class.selectFromList} submit={handleSubmitItem} />}
                { hasClass && <ASISelect asiSelect={current.class_ASI_levels} level={current.level} submit={handleSubmitASI} />}
             </div>) }
          </div>

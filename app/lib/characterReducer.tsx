@@ -1,32 +1,29 @@
-import { getLevelObject, getClassObject, getPathObject, applySpecies, changeSpecies } from './actions';
-// import Abilities from './base/abilities';
-// import Proficiencies from './base/proficiencies';
-// import HitPoints from './base/hit-points.js';
-import { Proficiencies, BaseProficiencies, updateValue as updatePValue } from '@/lib/base/proficiencies.ts';
-import { HitPoints, setBaseHP } from '@/lib/base/hit-points.ts'
-import { ArmourClass, setDexMod } from '@/lib/base/armour-class.ts'
-import { Abilities, updateValue, addToList } from '@/lib/base/abilities.ts';
-// import ArmourClass from './base/armour-class';
+import { getLevelObject, getClassObject, getPathObject, getAbilitiesUpdateObject, getAddToListObject, getSpeciesObject } from './actions';
+import Proficiencies from '@/lib/base/proficiencies.ts';
+import HitPoints from '@/lib/base/hit-points.ts'
+import ArmourClass from '@/lib/base/armour-class.ts'
+import Abilities from '@/lib/base/abilities.ts';
 import Features from './base/features';
-import Items from './base/items';
-// import BaseProficiencies from './base/base-proficiencies';
+// import Items from './base/items';
+import Items from '@/lib/base/items.ts';
+import Speed from '@/lib/base/speed.ts'
 
 type characterState = {
-   name?: string,
-   level: number,
-   class?: string,
-   species?: string,
-   background?: string,
-   proficiency_bonus: number,
-   hit_dice?: number,
-   hit_points: HitPoints
-   proficiencies: Proficiencies,
-   abilities: Abilities,
-   speed: number,
+   name?:string,
+   level:number,
+   class?:string,
+   species?:string,
+   background?:string,
+   proficiency_bonus:number,
+   hit_dice?:number,
+   hit_points:HitPoints
+   proficiencies:Proficiencies,
+   abilities:Abilities,
+   speed:Speed,
    initiative_bonus: 0,
    armour_class: ArmourClass,
    features: any,
-   equipment: any,
+   items: Items,
 }
 
 type characterActions = 
@@ -37,34 +34,29 @@ type characterActions =
   
 
 const characterReducer = (state:characterState, action:characterActions) => {
-   let updatedHP, updatedAC, updatedAbilities, modifiers
+   // let updatedHP, updatedAC, updatedAbilities, modifiers
    switch (action.type) {
       case 'CREATE_CHARACTER':
          return {
             ...state, 
             name: action.payload.name, 
             level: action.payload.level, 
-            features: new Features(),
-            equipment: new Items(),
+            // features: new Features(),
          };
       case 'UPDATE_LEVEL':
          let updateLevel = getLevelObject(action.payload, state.class ? true : false, state)
-         if (state.class) { // to be cleared
-            state.features.applyClassFeature(state.class, action.payload)
-         } else updatedHP = 0;
          return {
             ...state, 
             level: action.payload, 
-            proficiency_bonus: updateLevel.proficiency_bonus, 
-            hit_points: state.class ? updateLevel.hit_points : state.hit_points
+            proficiency_bonus: updateLevel.proficiencyBonus, 
+            hit_points: updateLevel.hitPoints,
+            features: updateLevel.features
          }; 
       case 'UPDATE_STAT_BY_NAME':
          return {...state, [action.payload.name]: action.payload.value};
       case 'UPDATE_BY_PATH':
-         const value = action.payload.value;
-         let [category, group, prop] = action.payload.path.split('.');
-         const updateByPath = getPathObject(value, category, state, group, prop)
-         return { ...state, [category as keyof characterState]: updateByPath.update };
+         const updateByPath = getPathObject(action.payload, state)
+         return { ...state, [updateByPath.name as keyof characterState]: updateByPath.update };
       case 'SET_CLASS':
          const {className, level} = action.payload;
          const setClass = getClassObject(className, level, state)
@@ -74,7 +66,9 @@ const characterReducer = (state:characterState, action:characterActions) => {
             hit_dice: setClass.hit_dice,
             class_ASI_levels: setClass.class_ASI_levels,
             hit_points: setClass.hit_points,
-            proficiencies: setClass.proficiencies
+            proficiencies: setClass.proficiencies,
+            items: setClass.items,
+            features: setClass.features
          };
       case 'CHANGE_CLASS':
          // probably need new function when class applying/removing features
@@ -88,45 +82,40 @@ const characterReducer = (state:characterState, action:characterActions) => {
             proficiencies: changeClass.proficiencies
          }
       case 'SET_SPECIES':
-         const {species, subspecies} = action.payload;
-         const setSpecies = applySpecies(species, subspecies, state)
+         const setSpecies = getSpeciesObject(action.payload, state)
          return {
             ...state,
-            species: subspecies ? subspecies : species,
+            species: setSpecies.species,
             size: setSpecies.size,
-            speed: setSpecies.speed
+            speed: setSpecies.speed,
+            proficiencies: setSpecies.proficiencies,
+            abilities: setSpecies.abilities,
+            features: setSpecies.features
          }
       case 'CHANGE_SPECIES':
-         const newSpecies = action.payload.species;
-         const newSubspecies = action.payload.subspecies;
-         const updateSpecies = changeSpecies(newSpecies, newSubspecies, state)
+         const changeSpecies = getSpeciesObject(action.payload, state)
          return {
             ...state,
-            species: newSubspecies ? newSubspecies : newSpecies,
-            size: updateSpecies.size,
-            speed: updateSpecies.speed
+            species: changeSpecies.species,
+            size: changeSpecies.size,
+            speed: changeSpecies.speed,
+            proficiencies: changeSpecies.proficiencies,
+            abilities: changeSpecies.abilities,
+            features: {...state.features, species: changeSpecies.features} // still to correct
          }
       case 'UPDATE_ABILITIES':
-         updatedAbilities = updateValue(action.payload, state.abilities, 'base')
-         modifiers = updatedAbilities.modifiers
-         updatedHP = setBaseHP(state.hit_dice ?? 6, state.level, modifiers[2], state.hit_points)
-         updatedAC = setDexMod(modifiers[1], state.armour_class)
-         return { ...state, abilities: updatedAbilities, armour_class: updatedAC, hit_points: updatedHP }
+         const updateAbilities = getAbilitiesUpdateObject(action.payload, state)
+         return {
+             ...state, 
+             abilities: updateAbilities.abilities as Abilities, 
+             armour_class: updateAbilities.armour_class as ArmourClass, 
+             hit_points: updateAbilities.hit_points as HitPoints 
+            }
       case 'ADD_TO_LIST':
-         const {cat, val} = action.payload
-         if (Array.isArray(cat)) {
-            // console.log(state.abilities.total)
-            // state.abilities.addToList(val, cat[1])
-            updatedAbilities = addToList(val, state.abilities, cat[1])
-         }
-         return { ...state, abilities: updatedAbilities }
-            // let mods = state.abilities.modifiers
-            // state.hit_points.calculateBaseHP(state.hit_dice, state.level, mods[2])
-            // state.armour_class.setDexMod(mods[1])
-         // } else {
-         //    //state[cat].addToList(val)
-         //    (state as any)[cat].addToList(val)
-         // }
+         const addToList = getAddToListObject(action.payload, state)
+         return addToList
+            ? { ...state, abilities: addToList.abilities, armour_class: addToList.armour_class, hit_points: addToList.hit_points }
+            : state;
       default:
          return state;
    }
@@ -177,11 +166,30 @@ export const initialState: characterState = {
       total: [10,10,10,10,10,10],
       modifiers: [0,0,0,0,0,0] 
    },
-   speed: 30,
+   speed: { base: 30, modifierList: { list: [], total: 0 }, total: 30 },
    initiative_bonus: 0,
    armour_class: { base: 10, dexMod: 0, modifierList: { list: [], total: 0 }, total: 10 },
-   features: undefined,
-   equipment: undefined,
+   features: { class: [], species:[], background: [], feats:[] },
+   items: {
+      class: {
+         armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: { 
+            armour: [], weapons: [], equipment: [], tools: []
+         }
+      }, 
+      background: {
+         armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: { 
+            armour: [], weapons: [], equipment: [], tools: []
+         }
+      },
+      purchased: { 
+         list: [], total: { 
+            armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: { 
+               armour: [], weapons: [], equipment: [], tools: []
+            } 
+         }
+      }, 
+      total: { armour: [], weapons: [], equipment: [], tools: [],  currency: 0 }
+   },
 };
 
 export default characterReducer;

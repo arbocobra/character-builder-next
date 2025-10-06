@@ -1,6 +1,6 @@
 // strength = [0], dex = [1], con = [2], int = [3], wis = [4], cha = [5]
-
-export interface Abilities {
+export default Abilities;
+type Abilities = {
    base: number[],
    species: number[],
    class: AbilitiesList,
@@ -9,12 +9,12 @@ export interface Abilities {
    modifiers: number[]
 }
 
-export interface AbilitiesList {
+export type AbilitiesList = {
    list: AbilitiesItem[],
    total: number[]
 }
 
-export interface AbilitiesItem {
+export type AbilitiesItem = {
    name: string,
    level: number,
    value: number[],
@@ -22,13 +22,18 @@ export interface AbilitiesItem {
 
 export const addToList = (mod:AbilitiesItem, current:Abilities, type:string):Abilities => {
    let newList:AbilitiesList
-   if (type === 'class') newList = {...current.class}
+   if (type === 'class') {newList = {...current.class}}
    else if (type === 'feats') newList = {...current.feats}
    else {
       throw new Error("Invalid type for addToList: " + type);
    }
-   let tempList = [...newList.list, mod]
-   newList.list = tempList
+   let repeatedIndex = newList.list.findIndex(el => el.name == mod.name)
+   if (repeatedIndex >= 0) {
+      newList.list[repeatedIndex] = mod
+   } else {
+      let tempList = [...newList.list, mod]
+      newList.list = tempList
+   }
    newList.total = getListTotal(newList.list)
    return calculateTotal(current, newList, type)
 }

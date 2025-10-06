@@ -3,7 +3,7 @@ class BaseItems {
    armour = [];
    weapons = [];
    equipment = [];
-   currency = [];
+   currency = 0;
    tools = [];
 
    selectFromList = {

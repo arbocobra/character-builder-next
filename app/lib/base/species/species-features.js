@@ -78,7 +78,7 @@ export const featureList = {
    dragonborn: ['Draconic Ancestry', 'Breath Weapon', 'Damage Resistance'],
    gnome: ['Darkvision', 'Gnome Cunning'],
    'forest gnome': ['Natural Illusionist', 'Speak with Small Beasts'],
-   'rock gnome': ['Artificer\'s Lore', 'TInker'],
+   'rock gnome': ['Artificer\'s Lore', 'Tinker'],
    'half-elf': ['Darkvision', 'Fey Ancestry', 'Skill Versatility'],
    'half-orc': ['Darkvision', 'Menacing', 'Relentless Endurance', 'Savage Attacks'],
    tiefling: ['Darkvision', 'Hellish Resistance', 'Infernal Legacy']

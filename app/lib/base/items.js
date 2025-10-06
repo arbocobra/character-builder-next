@@ -4,7 +4,7 @@ class Items {
    constructor() {
       this.class = new BaseItems();
       this.background = new BaseItems();
-      this.base = { armour: [], weapons: [], equipment: [], currency: [], tools: [] }
+      this.base = { armour: [], weapons: [], equipment: [], currency: 0, tools: [] }
       this.total = { armour: [], weapons: [], equipment: [], currency: [], tools: [] }
    }
    calculateTotal() {

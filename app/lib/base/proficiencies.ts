@@ -1,4 +1,5 @@
-export interface Proficiencies {
+export default Proficiencies
+type Proficiencies = {
    class:BaseProficiencies,
    species:BaseProficiencies,
    background:BaseProficiencies,
@@ -13,7 +14,7 @@ export interface Proficiencies {
    }
 }
 
-export interface BaseProficiencies {
+export type BaseProficiencies = {
    armour:string[],
    weapons:string[],
    tools:string[],
@@ -30,80 +31,118 @@ export interface BaseProficiencies {
    }
 }
 
-interface ProficienciesList {
+type ProficienciesList = {
    list:ProficienciesItem[],
    total: BaseProficiencies,
 }
 
-interface ProficienciesItem {
+type ProficienciesItem = {
    name:string,
+   prop:string,
    level:number,
-   value:string,
+   value:any[],
 }
 
 export const updateValue = (val:object, current:Proficiencies, keys:string|string[]):Proficiencies => {
-   if (typeof keys === 'string') return calculateTotal(current, val, keys)
-   else {
-      type Props = { armour:string[], weapons:string[], tools:string[], savingThrows:string[], skills:string[], languages:string[], selectFromList:object }
-      type CurrentKeys = keyof typeof current
-      const getCategory = (key:CurrentKeys) => current[key];
-      let newCategory:Props = getCategory(keys[0] as keyof Proficiencies) as Props
-      newCategory[keys[1] as keyof Props] = val as string[]
-      return calculateTotal(current, newCategory, keys[0])
-   }
+  let copy:{[key:string]:any} = {...current}
+  if (typeof keys === 'string') copy[keys] = val
+  else {
+    let category:{[key:string]:any} = copy[keys[0]]
+    if (Array.isArray(category[keys[1]])) category[keys[1]] = val
+    else category[keys[1]][keys[2]] = val
+  }
+    return calculateTotal(copy as Proficiencies)
 }
-// const addToList = () => {}
 
-// const removeFromList = () => {}
+export const addToList = (mod:object, current:Proficiencies):Proficiencies => {
+  let copy:{[key:string]:any} = {...current}
+  let featCopy:{[key:string]:any} = {...copy.feats}
+  if (isNew(featCopy.list, mod)) {
+    let tempList = [...featCopy.list, mod as ProficienciesItem]
+    featCopy.list = tempList
+    featCopy.total = getListTotal(tempList)
+  }
+  copy.feats = featCopy as ProficienciesList
+  return calculateTotal(copy as Proficiencies)
+}
 
-// const clearCategory = () => {}
+export const removeFromList = (id:string | number, current:Proficiencies):Proficiencies => {
+   let copy:{[key:string]:any} = {...current}
+   let featCopy:{[key:string]:any} = {...copy.feats}
+   let tempList;
+   if (typeof id === 'string') tempList = featCopy.list.filter((feat:ProficienciesItem) => feat.name !== id)
+   else tempList = featCopy.list.filter((feat:ProficienciesItem) => feat.level <= id)
+   featCopy.list = tempList
+   featCopy.total = getListTotal(tempList)
+   copy.feats = featCopy as ProficienciesList
+   return calculateTotal(copy as Proficiencies)
+}
 
-const isList = (val: object | ProficienciesList): val is ProficienciesList => {
-   return (val as ProficienciesList).list !== undefined;
-};
-
-const calculateTotal = (current:Proficiencies, updatedValue:object | ProficienciesList, type:string):Proficiencies => {
-   let newPros:Proficiencies = {...current}
-   if (isList(updatedValue)) newPros.feats = updatedValue
-   else {
-      if (type === 'class') newPros.class = updatedValue as BaseProficiencies
-      else if (type === 'species') newPros.species = updatedValue as BaseProficiencies
-      else if (type === 'background') newPros.background = updatedValue as BaseProficiencies
-   }
-
-   let total:{[key:string]: string[]} = {
-      armour: [], weapons: [], tools: [], savingThrows: [], skills: [], languages: [] 
-   } 
-   let data:{[key:string]: BaseProficiencies} = {
-      class: newPros.class, 
-      species: newPros.species, 
-      background: newPros.background, 
-      feats: newPros.feats.total
-   }
-
-   const addModifiers = (category:BaseProficiencies) => {
-      type PropKeys = keyof typeof category
-      for (let props of Object.keys(category)) {
-         if (props !== 'selectFromList') {
-            const getProp = (key:PropKeys) => category[key];
-            let prop = getProp(props as keyof BaseProficiencies) as string[];
-            prop.forEach(item => {
-               if (!total[props].includes(item)) {
-                  let tempList = [...total[props], item]
-                  total[props] = tempList;
-               }
-            })
-         }
+export const clearCategory = (key:string, current:Proficiencies) => {
+   let emptyBase:BaseProficiencies = {
+      armour: [], weapons: [], tools: [], savingThrows: [], skills: [], languages: [], selectFromList: {
+         armour: [], weapons: [], tools: [], savingThrows: [], skills: [], languages: []
       }
    }
-
-   for (let key of Object.keys(data)) addModifiers(data[key])
-
-   newPros.total = total as Proficiencies['total'];
-
-   return newPros;
-
+   let copy:{[key:string]:any} = {...current}
+   if (key === 'feats') copy[key] = {list: [], total: emptyBase} as ProficienciesList
+   else copy[key] = emptyBase
+  return calculateTotal(copy as Proficiencies)
 }
 
+const calculateTotal = (update:Proficiencies):Proficiencies => {
+  let total:{[key:string]: string[]} = {
+    armour: [], weapons: [], tools: [], savingThrows: [], skills: [], languages: []
+  }
+  
+  const addModifiers = (category:BaseProficiencies) => {
+    let cat:{[key:string]:any} = {...category}
+    for (let prop of Object.keys(cat)) {
+      if (prop !== 'selectFromList') {
+        let tempList = [...total[prop]]
+        let list = cat[prop]
+        if (list.length) {
+          list.forEach((item:string) => {
+            if (!tempList.includes(item)) tempList.push(item)
+          })
+        }
+        total[prop] = tempList;
+      }
+    }
+  }
 
-const getListTotal = () => {}
+  let categories:{[key:string]: BaseProficiencies} = {
+    class: update.class, 
+    species: update.species, 
+    background: update.background, 
+    feats: update.feats.total
+  }
+
+  Object.keys(categories).forEach(el => addModifiers(categories[el]))
+  update.total = total as Proficiencies['total'];
+  return update;
+}
+
+const isNew = (current: object[], update: object):boolean => (current as ProficienciesItem[]).every((el) => el.name !== (update as ProficienciesItem).name)
+
+const getListTotal = (feats: object[]):object => {
+  let total:{[key:string]:any} = {
+    armour: [], weapons: [], tools: [], savingThrows: [], skills: [], languages: [], selectFromList: {
+      armour: [], weapons: [], tools: [], savingThrows: [], skills: [], languages: []
+    }
+  }
+  
+  const addToTotal = (feat:ProficienciesItem) => {
+    let prop = feat.prop
+    if (prop !== 'selectFromList') {
+      let temp = [...total[prop]]
+      feat.value.forEach(el => {
+        if (!temp.includes(el)) temp.push(el)
+      })
+      total[prop] = temp
+    }
+  }
+
+  (feats as ProficienciesItem[]).forEach(feat => addToTotal(feat))
+  return total;
+}

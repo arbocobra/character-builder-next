@@ -2,8 +2,8 @@ import BaseClass from '@/lib/base/classes/base-class';
 import { Simple_Weapons, Martial_Melee_Weapons, Skills, Musical_Instruments, Simple_Melee_Weapons, ArtisansTools } from '@/lib/init-data'
 
 export class Barbarian extends BaseClass {
-   constructor() {
-      super('barbarian');
+   constructor(level) {
+      super('barbarian', level);
       this.hitDice = 12;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Strength', 'Constitution'];
@@ -13,14 +13,12 @@ export class Barbarian extends BaseClass {
       this.items.weapons = ['4 javelins'];
       this.items.equipment = ['explorer\'s pack']
       this.items.selectFromList.weapons = [{list: ['Greataxe', Martial_Melee_Weapons], count: 1, title: 'Greataxe OR Any martial melee weapon' }, {list: ['2 Handaxes', Simple_Weapons], count: 1, title: 'Two handaxes OR Any simple weapon'}]
-
-      this.proficiencies.skills = ['test'];
    }
 }
 
 export class Bard extends BaseClass {
-   constructor() {
-      super('bard');
+   constructor(level) {
+      super('bard', level);
       this.hitDice = 8;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Dexterity', 'Charisma'];
@@ -38,8 +36,8 @@ export class Bard extends BaseClass {
 }
 
 export class Cleric extends BaseClass {
-   constructor() {
-      super('cleric');
+   constructor(level) {
+      super('cleric', level);
       this.hitDice = 8;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Wisdom', 'Charisma'];
@@ -55,8 +53,8 @@ export class Cleric extends BaseClass {
 }
 
 export class Druid extends BaseClass {
-   constructor() {
-      super('druid');
+   constructor(level) {
+      super('druid', level);
       this.hitDice = 8;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Intelligence', 'Wisdom'];
@@ -72,8 +70,8 @@ export class Druid extends BaseClass {
 }
 
 export class Fighter extends BaseClass {
-   constructor() {
-      super('fighter');
+   constructor(level) {
+      super('fighter', level);
       this.hitDice = 10;
       this.asiLevels = [4,6,8,12,14,16,19]
       this.proficiencies.savingThrows = ['Strength', 'Constitution'];
@@ -87,8 +85,8 @@ export class Fighter extends BaseClass {
 }
 
 export class Monk extends BaseClass {
-   constructor() {
-      super('monk');
+   constructor(level) {
+      super('monk', level);
       this.hitDice = 8;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Strength', 'Dexterity'];
@@ -102,8 +100,8 @@ export class Monk extends BaseClass {
 }
 
 export class Paladin extends BaseClass {
-   constructor() {
-      super('paladin');
+   constructor(level) {
+      super('paladin', level);
       this.hitDice = 10;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Wisdom', 'Charisma'];
@@ -120,8 +118,8 @@ export class Paladin extends BaseClass {
 }
 
 export class Ranger extends BaseClass {
-   constructor() {
-      super('ranger');
+   constructor(level) {
+      super('ranger', level);
       this.hitDice = 10;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Strength', 'Dexterity'];
@@ -137,8 +135,8 @@ export class Ranger extends BaseClass {
 }
 
 export class Rogue extends BaseClass {
-   constructor() {
-      super('rogue');
+   constructor(level) {
+      super('rogue', level);
       this.hitDice = 8;
       this.asiLevels = [4,8,10,12,16,19]
       this.proficiencies.savingThrows = ['Dexterity', 'Intelligence'];
@@ -155,8 +153,8 @@ export class Rogue extends BaseClass {
 }
 
 export class Sorcerer extends BaseClass {
-   constructor() {
-      super('sorcerer');
+   constructor(level) {
+      super('sorcerer', level);
       this.hitDice = 6;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Constitution', 'Charisma'];
@@ -169,8 +167,8 @@ export class Sorcerer extends BaseClass {
 }
 
 export class Warlock extends BaseClass {
-   constructor() {
-      super('warlock');
+   constructor(level) {
+      super('warlock', level);
       this.hitDice = 8;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Wisdom', 'Charisma'];
@@ -185,8 +183,8 @@ export class Warlock extends BaseClass {
 }
 
 export class Wizard extends BaseClass {
-   constructor() {
-      super('wizard');
+   constructor(level) {
+      super('wizard', level);
       this.hitDice = 6;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Intelligence', 'Wisdom'];
