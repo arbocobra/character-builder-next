@@ -13,6 +13,19 @@ export class Barbarian extends BaseClass {
       this.items.weapons = ['4 javelins'];
       this.items.equipment = ['explorer\'s pack']
       this.items.selectFromList.weapons = [{list: ['Greataxe', Martial_Melee_Weapons], count: 1, title: 'Greataxe OR Any martial melee weapon' }, {list: ['2 Handaxes', Simple_Weapons], count: 1, title: 'Two handaxes OR Any simple weapon'}]
+      this.special = this.getSpecial()
+   }
+
+   getSpecial(level) {
+      let rages, rageDamage, brutalCritical;
+      rages = level < 3 ? 2 : level < 6 ? 3 : level < 12 ? 4 : level < 17 ? 5 : level < 20 ? 6 : 'unlimited'
+      rageDamage = level < 9 ? '+2' : level < 16 ? '+3' : '+4'
+      brutalCritical = level > 16 ? '+3 damage die' : level > 12 ? '+2 damage die' : level > 8 ? '+1 damage die' : null
+      return {
+         rages,
+         'rage damage': rageDamage, 
+         'brutal critical': brutalCritical
+      }
    }
 }
 

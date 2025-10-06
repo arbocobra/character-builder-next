@@ -68,8 +68,9 @@ export const getLevelObject = (level, hasClass, state) => {
    let proficiencyBonus = Math.ceil(level / 4) + 1;
    let hitPoints, features;
    if (hasClass) {
+      const classObject = applyClass(state.class, level);
       hitPoints = setBaseHP(state.hit_dice, level, state.abilities.modifiers[2], state.hit_points)
-      if (level > state.level) features = addToListF(state.features, 'class', [level, state.class])
+      if (level > state.level) features = updateValueF(state.features, 'class', classObject.features)
       else features = removeFromListF(level, state.features, 'class')
    } else {
       hitPoints = state.hit_points
@@ -84,18 +85,17 @@ export const getLevelObject = (level, hasClass, state) => {
 
 export const getClassObject = (className, level, state) => {
    const classObject = applyClass(className, level);
-   const features = updateValueF(state.features, level, 'class', className)
-   // const features = updateValueF(classObject.features, state.features, 'class')
-   // state.features.applyClassFeature(className, level)
+   const features = updateValueF(state.features, 'class', classObject.features)
+   // const features = updateValueF(state.features, level, 'class', className)
    const hitPoints = setBaseHP(classObject.hitDice, level, state.abilities.modifiers[2], state.hit_points)
    const proficiencies = updateValueP(classObject.proficiencies, state.proficiencies, 'class')
    const items = updateValueI(classObject.items, state.items, 'class')
    return {
-      hit_dice: classObject.hitDice,
-      hit_points: hitPoints,
+      hitDice: classObject.hitDice,
+      hitPoints,
       class_ASI_levels: classObject.asiLevels,
-      proficiencies: proficiencies,
-      items: items,
+      proficiencies,
+      items,
       features
    }
 }
@@ -140,7 +140,8 @@ export const getSpeciesObject = (payload, state) => {
    const proficiencies = updateValueP(speciesObject.proficiencies, state.proficiencies, 'species')
    const speed = setBase(speciesObject.speed, state.speed)
    const abilities = updateValueA(speciesObject.abilityImprovement, state.abilities, 'species')
-   const features = updateValueF(state.features, state.level, 'species', species, subspecies)
+   // const features = updateValueF(state.features, state.level, 'species', species, subspecies)
+   const features = updateValueF(state.features, 'species', speciesObject.features)
 
    return {
       species: subspecies ? subspecies : species,

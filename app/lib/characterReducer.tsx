@@ -63,9 +63,9 @@ const characterReducer = (state:characterState, action:characterActions) => {
          return {
             ...state, 
             class: className,
-            hit_dice: setClass.hit_dice,
+            hit_dice: setClass.hitDice,
             class_ASI_levels: setClass.class_ASI_levels,
-            hit_points: setClass.hit_points,
+            hit_points: setClass.hitPoints,
             proficiencies: setClass.proficiencies,
             items: setClass.items,
             features: setClass.features
@@ -76,10 +76,12 @@ const characterReducer = (state:characterState, action:characterActions) => {
          return {
             ...state, 
             class: action.payload,
-            hit_dice: changeClass.hit_dice,
+            hit_dice: changeClass.hitDice,
             class_ASI_levels: changeClass.class_ASI_levels,
-            hit_points: changeClass.hit_points,
-            proficiencies: changeClass.proficiencies
+            hit_points: changeClass.hitPoints,
+            proficiencies: changeClass.proficiencies,
+            items: changeClass.items,
+            features: changeClass.features
          }
       case 'SET_SPECIES':
          const setSpecies = getSpeciesObject(action.payload, state)
@@ -101,7 +103,7 @@ const characterReducer = (state:characterState, action:characterActions) => {
             speed: changeSpecies.speed,
             proficiencies: changeSpecies.proficiencies,
             abilities: changeSpecies.abilities,
-            features: {...state.features, species: changeSpecies.features} // still to correct
+            features: changeSpecies.features
          }
       case 'UPDATE_ABILITIES':
          const updateAbilities = getAbilitiesUpdateObject(action.payload, state)

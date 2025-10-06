@@ -15,32 +15,49 @@ type FeatureItem = {
    description?:string
 }
 
-export const updateValue = (current:Features, level:number, type:string, id:string, sub?:string):Features => {
+// export const updateValue = (current:Features, level:number, type:string, id:string, sub?:string):Features => {
+//    let copy:{[key:string]:any} = {...current}
+//    let featObj = getFeaturesByType(type, id)
+//    let result = filterFeatures(level, type, featObj, sub)
+//    copy[type] = result;
+//    return copy as Features;
+// }
+
+export const updateValue = (current:Features, type:string, featObj:object[]):Features => {
    let copy:{[key:string]:any} = {...current}
-   let featObj = getFeaturesByType(type, id)
-   let result = filterFeatures(level, type, featObj, sub)
-   copy[type] = result;
+   let feats = featObj.map((el:any) => el as FeatureItem)
+   copy[type] = feats;
    return copy as Features;
 }
 
-export const addToList = (current:Features, type:string, params:any[]):Features => {
+export const addToList = (current:Features, type:string, mod:object):Features => {
    let copy:{[key:string]:any} = {...current}
-   if (params.length === 1) {
-      let [mod] = params
-      let checkIndex = copy[type].findIndex((el:FeatureItem) => el.name == (mod as FeatureItem).name)
-      if (checkIndex < 0) {
-         let tempList = [...copy[type], mod]
-         copy[type] = tempList
-      }
-      return copy as Features
-   } else {
-      let [level, className] = params;
-      let featObj = getFeaturesByType(type, className)
-      let result = filterFeatures(level, type, featObj)
-      copy[type] = result;
-      return copy as Features;
+   let checkIndex = copy[type].findIndex((el:FeatureItem) => el.name == (mod as FeatureItem).name)
+   if (checkIndex < 0) {
+      let tempList = [...copy[type], mod]
+      copy[type] = tempList
    }
+   return copy as Features
 }
+
+// export const addToList = (current:Features, type:string, params:any[]):Features => {
+//    let copy:{[key:string]:any} = {...current}
+//    if (params.length === 1) {
+//       let [mod] = params
+//       let checkIndex = copy[type].findIndex((el:FeatureItem) => el.name == (mod as FeatureItem).name)
+//       if (checkIndex < 0) {
+//          let tempList = [...copy[type], mod]
+//          copy[type] = tempList
+//       }
+//       return copy as Features
+//    } else {
+//       let [level, className] = params;
+//       let featObj = getFeaturesByType(type, className)
+//       let result = filterFeatures(level, type, featObj)
+//       copy[type] = result;
+//       return copy as Features;
+//    }
+// }
 
 export const removeFromList = (id: string | number, current:Features, type:string):Features => {
    let copy:{[key:string]:any} = {...current}
