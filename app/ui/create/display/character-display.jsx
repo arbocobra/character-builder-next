@@ -31,23 +31,23 @@ const CharacterDisplay = () => {
    return (
       <div className='flex flex-col w-1/2 p-4 m-1 gap-y-3'>
          {character.name && 
-            <DisplayContainer name='Basic'>
+            <DisplayContainer name='Basic' show={true}>
                <DisplayBasic current={character} cat={'Basic Stats'} getRow={getRow} />
             </DisplayContainer>}
          {proficDisplay && 
-            <DisplayContainer name='Proficiencies'>
+            <DisplayContainer name='Proficiencies' show={false}>
                <DisplayProficiencies current={character.proficiencies.total} cat={'Proficiencies'} getRow={getRow} />
             </DisplayContainer>}
          {featureDisplay && 
-            <DisplayContainer name='Features'>
+            <DisplayContainer name='Features' show={false}>
                <DisplayFeatures current={character.features} cat={'Proficiencies'} getRow={getRow} />
             </DisplayContainer>}
          {proficDisplay && 
-            <DisplayContainer name='Items'>
+            <DisplayContainer name='Items' show={false}>
                <DisplayItems current={character.items.total} cat={'Items'} getRow={getRow} />
             </DisplayContainer>}
          {abilityDisplay && 
-            <DisplayContainer name='Abilities & Saving Throws'>
+            <DisplayContainer name='Abilities & Saving Throws' show={false}>
                <DisplayAbilities abilities={character.abilities} cat={'Abilities'} bonus={character.proficiency_bonus} saves={character.proficiencies.total.savingThrows} getRow={getRow} />
             </DisplayContainer>}
       </div>
@@ -66,7 +66,7 @@ const DisplayBasic = ({current, cat, getRow}) => {
       {label: 'Name', value: current.name, type: 'text-row'}, 
       {label: 'Level', value: current.level, type: 'text-row'}, 
       {label: 'Class', value: current.class, type: 'text-row'}, 
-      {label: 'Subclass', value: current.class || '', type: 'text-row'}, 
+      {label: 'Subclass', value: current.subclass || '', type: 'text-row'}, 
       {label: 'Species', value: current.species || '', type: 'text-row'}, 
       {label: 'Background', value: current.background || '', type: 'text-row'}, 
       {label: 'Proficiency Bonus', value: `+${current.proficiency_bonus}`, type: 'block-row'}, 

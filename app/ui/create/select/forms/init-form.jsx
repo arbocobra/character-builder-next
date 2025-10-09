@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import {SubmitButton} from '@/ui/elements/button';
+import dynamic from 'next/dynamic';
+import { customStyles75 } from '@/ui/elements/select-theme'
+const Select = dynamic(() => import('react-select'), { ssr: false });
 
 const InitialForm = ({current, createCharacter, updateLevel, updateByName}) => {
 
@@ -11,6 +14,7 @@ const InitialForm = ({current, createCharacter, updateLevel, updateByName}) => {
    const [buttonText, setButtonText] = useState('Submit');
 
    const newCharacter = current.name ? false : true;
+   const options = [...Array(20).keys()].map(l => ({label: l + 1, value: l + 1}))
 
    const handleSubmit = (e) => {
       e.preventDefault();
@@ -24,19 +28,12 @@ const InitialForm = ({current, createCharacter, updateLevel, updateByName}) => {
       setIsDisabled(true);
    }
 
-   const handleChange = (cat, e) => {
-      const value = e.target.value;
-      if (cat === 'level') {
-         const newLevel = parseInt(value);
-         if (!newCharacter && current.Level !== newLevel) {
-         }
-         setLevel(newLevel);
-      }
-      if (cat === 'name') {
-         if (!newCharacter && current.Name !== value) {
-         }
-         setName(value);
-      }
+   const handleLevelChange = (val) => {
+         setLevel(val.value);
+   }
+
+   const handleNameChange = (e) => {
+      setName(e.target.value);
    }
 
    useEffect(() => {
@@ -49,14 +46,16 @@ const InitialForm = ({current, createCharacter, updateLevel, updateByName}) => {
 
    useEffect(() => console.log(current), [current])
 
+   const inputStyle = 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+
    return (
-      <form className='flex flex-col gap-3 p-2 border-2' onSubmit={handleSubmit}>
-         <input type='text' name='characterName' placeholder='Character Name' required value={name} onChange={(e) => handleChange('name', e)} />
-         <select name='characterLevel' value={level} onChange={(e) => handleChange('level', e)} >
-            {[...Array(20).keys()].map(level => (
-               <option key={level + 1} value={level + 1}>{level + 1}</option>
-            ))}
-         </select>
+      <form className='flex flex-row flex-wrap gap-3 items-center justify-between' onSubmit={handleSubmit}>
+         <label htmlFor='characterName' className='flex gap-3 items-center text-base font-medium text-gray-900 dark:text-white'>
+            Name:
+            <input type='text' id='characterName' className={inputStyle} placeholder='Character Name' required value={name} onChange={handleNameChange} />
+         </label>
+         <div className='text-base font-medium text-gray-900 dark:text-white'>Level:</div>
+         <Select placeholder={'---'} styles={customStyles75} options={options} required name='level' defaultValue={''} onChange={handleLevelChange} />
          <SubmitButton value={buttonText} isDisabled={isDisabled} />
       </form>
    )

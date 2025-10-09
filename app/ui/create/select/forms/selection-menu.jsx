@@ -1,7 +1,9 @@
 'use client';
 
+import { customStyles175 } from '@/ui/elements/select-theme'
 import { useState } from 'react';
-import {SubmitButton, ToggleButton} from '@/ui/elements/button';
+import {SubmitButton} from '@/ui/elements/button';
+import HideDisplay from '@/ui/elements/hide-display';
 import dynamic from 'next/dynamic';
 const Select = dynamic(() => import('react-select'), { ssr: false });
 
@@ -22,15 +24,20 @@ export const SimpleSelectForm = ({list, title, id, count, submit}) => {
      submit(values, id)
    }
 
+   const resetDisplay = () => {
+      setSelect([])
+      setDisplay(true)
+   }
+
    return (
-      <div>
+      <div className='flex flex-col gap-2 basis-full'>
          <p>{title}</p>
          {display ? 
-         <form className='flex flex-row gap-3 p-2 border-2' onSubmit={(e) => handleSubmit(e, id)}>
-            <Select options={options} required name={id} defaultValue={[]} isClearable id={id} isMulti={count > 1 ? true : false} isOptionDisabled={() => count > 1 ? select.length >= count : false} onChange={handleChange} />
+         <form className='flex flex-row gap-4 grow items-start' onSubmit={(e) => handleSubmit(e, id)}>
+            <Select isSearchable={false} options={options} required name={id} defaultValue={[]} isClearable id={id} isMulti={count > 1 ? true : false} isOptionDisabled={() => count > 1 ? select.length >= count : false} onChange={handleChange} />
             <SubmitButton value='Submit' isDisabled={false} />
          </form>
-         : <HideDisplay select={select} setDisplay={setDisplay} />
+         : <HideDisplay select={select} resetDisplay={resetDisplay} />
          }
       </div>
    )
@@ -69,14 +76,19 @@ export const GroupSelectForm = ({list, title, id, count, submit}) => {
      submit(values, id)
    }
 
+   const resetDisplay = () => {
+      setSelect([])
+      setDisplay(true)
+   }
+
    return (
       <div>
          <p>{title}</p>
-         {display ? <form className='flex flex-row gap-3 p-2 border-2' onSubmit={(e) => handleSubmit(e, id)}>
+         {display ? <form className='flex flex-row gap-3' onSubmit={(e) => handleSubmit(e, id)}>
             <Select options={groupOptions} name={id} defaultValue={[]} isClearable id={id} isMulti={count > 1 ? true : false} isOptionDisabled={() => count > 1 ? select.length >= count : false} onChange={handleChange} />
             <SubmitButton value='Select' isDisabled={false} />
          </form>
-         : <HideDisplay select={select} setDisplay={setDisplay} />
+         : <HideDisplay select={select} resetDisplay={resetDisplay} />
          }
       </div>
    )
@@ -129,14 +141,18 @@ export const IteratingGroupSelectForm = ({list, id, submit}) => {
       submit(values, id)
    }
 
+   const resetDisplay = () => {
+      setSelect([])
+      setDisplay(true)
+   }
+
    return (
       <div>
-         <p>Iterating Selection Here</p>
-         {display ? <form className='flex flex-col gap-3 p-2 border-2' onSubmit={handleSubmit}>
+         {display ? <form className='flex flex-row flex-wrap gap-3 items-end' onSubmit={handleSubmit}>
             { getSelection() }
             <SubmitButton value='Select' isDisabled={false} />
          </form>
-         : <HideDisplay select={select} setDisplay={setDisplay} />
+         : <HideDisplay select={select} resetDisplay={resetDisplay} />
          }
       </div>
    )
@@ -145,6 +161,7 @@ export const ConditionalTwoPartSimpleSelection = ({listA, listB, title, idA, idB
    const [selectA, setSelectA] = useState(null);
    const [selectB, setSelectB] = useState(null);
    const [secondSelect, setSecondSelect] = useState(null)
+   const [display, setDisplay] = useState(true)
 
    const firstSelect = listA.map(el => ({ value: el.toLowerCase(), label: el }));
 
@@ -167,32 +184,26 @@ export const ConditionalTwoPartSimpleSelection = ({listA, listB, title, idA, idB
 
    const handleSubmit = (e) => {
       e.preventDefault();
-
+      setDisplay(false)
       submit(selectA.value, selectB ? selectB.value : null, idA)
+   }
+
+   const resetDisplay = () => {
+      setSelectA(null)
+      setSelectB(null)
+      setDisplay(true)
    }
 
    return (
       <div>
          <p>{title}</p>
+         {display ?
          <form className='flex flex-row gap-3 p-2 border-2' onSubmit={handleSubmit}>
             <Select options={firstSelect} required name={idA} value={selectA} isClearable id={idA} onChange={handleChangeA} />
             {secondSelect && <Select options={secondSelect} required name={idB} value={selectB} isClearable id={idB} onChange={handleChangeB} />}
             <SubmitButton value='Submit' isDisabled={false} />
-         </form>
-      </div>
-   )
-}
-
-const HideDisplay = ({select, setDisplay}) => {
-   const handleToggle = (e) => {
-      e.preventDefault();
-      setDisplay(true)
-   }
-
-   return (
-      <div className='flex flex-row flex-wrap gap-2 p-2 border-2'>
-         <div className='flex flex-row flex-wrap gap-1'>Selected: {select.map((el,i) => <div key={`selected-${i}`} className='flex flex-row gap-1'>{el.label}</div>)}</div>
-         <ToggleButton value={'Reselect'} handleClick={handleToggle} />
+         </form> 
+         : <HideDisplay select={selectB ? [selectB] : [selectA]} resetDisplay={resetDisplay} /> }
       </div>
    )
 }

@@ -3,8 +3,7 @@ import Proficiencies from '@/lib/base/proficiencies.ts';
 import HitPoints from '@/lib/base/hit-points.ts'
 import ArmourClass from '@/lib/base/armour-class.ts'
 import Abilities from '@/lib/base/abilities.ts';
-import Features from './base/features';
-// import Items from './base/items';
+import Features from '@/lib/base/features.ts';
 import Items from '@/lib/base/items.ts';
 import Speed from '@/lib/base/speed.ts'
 
@@ -12,6 +11,7 @@ type characterState = {
    name?:string,
    level:number,
    class?:string,
+   subclass?:string,
    species?:string,
    background?:string,
    proficiency_bonus:number,
@@ -22,7 +22,7 @@ type characterState = {
    speed:Speed,
    initiative_bonus: 0,
    armour_class: ArmourClass,
-   features: any,
+   features: Features,
    items: Items,
 }
 
@@ -35,6 +35,7 @@ type characterActions =
 
 const characterReducer = (state:characterState, action:characterActions) => {
    // let updatedHP, updatedAC, updatedAbilities, modifiers
+   let className, subName;
    switch (action.type) {
       case 'CREATE_CHARACTER':
          return {
@@ -58,11 +59,13 @@ const characterReducer = (state:characterState, action:characterActions) => {
          const updateByPath = getPathObject(action.payload, state)
          return { ...state, [updateByPath.name as keyof characterState]: updateByPath.update };
       case 'SET_CLASS':
-         const {className, level} = action.payload;
-         const setClass = getClassObject(className, level, state)
+         className = action.payload.className;
+         subName = action.payload.subName;
+         const setClass = getClassObject(className, state)
          return {
             ...state, 
             class: className,
+            subclass: subName,
             hit_dice: setClass.hitDice,
             class_ASI_levels: setClass.class_ASI_levels,
             hit_points: setClass.hitPoints,
@@ -72,10 +75,13 @@ const characterReducer = (state:characterState, action:characterActions) => {
          };
       case 'CHANGE_CLASS':
          // probably need new function when class applying/removing features
-         const changeClass = getClassObject(action.payload, state.level, state)
+         className = action.payload.className;
+         subName = action.payload.subName;
+         const changeClass = getClassObject(className, state)
          return {
             ...state, 
-            class: action.payload,
+            class: className,
+            subclass: subName,
             hit_dice: changeClass.hitDice,
             class_ASI_levels: changeClass.class_ASI_levels,
             hit_points: changeClass.hitPoints,
@@ -127,6 +133,7 @@ export const initialState: characterState = {
    name: undefined,
    level: 1,
    class: undefined,
+   subclass: undefined,
    species: undefined,
    background: undefined,
    proficiency_bonus: 2,

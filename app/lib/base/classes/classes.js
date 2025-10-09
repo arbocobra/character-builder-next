@@ -13,7 +13,9 @@ export class Barbarian extends BaseClass {
       this.items.weapons = ['4 javelins'];
       this.items.equipment = ['explorer\'s pack']
       this.items.selectFromList.weapons = [{list: ['Greataxe', Martial_Melee_Weapons], count: 1, title: 'Greataxe OR Any martial melee weapon' }, {list: ['2 Handaxes', Simple_Weapons], count: 1, title: 'Two handaxes OR Any simple weapon'}]
-      this.special = this.getSpecial()
+      this.special = this.getSpecial();
+      this.subName = ['Primal Path', 'Path of the '];
+      this.subLevel = 3;
    }
 
    getSpecial(level) {

@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import {SubmitButton} from '@/ui/elements/button';
+import { customStyles125 } from '@/ui/elements/select-theme'
 import dynamic from 'next/dynamic';
 const Select = dynamic(() => import('react-select'), { ssr: false });
 
@@ -13,37 +14,40 @@ const PointBuy = ({abilities, submit}) => {
    const options = Object.keys(costValue).map((key, i) => ({
       value: Number.parseInt(key),
       cost: costValue[key],
-      label: `${key} | ${costValue[key]} pts`
+      label: `${key} (${costValue[key]} pts.)`
    }))
 
-   const isDisabled = (cost) => cost > pointsAvailable
+   const isDisabled = (option, select) => {
+      if (select.length) return option.cost > (pointsAvailable + select[0].cost)
+      else return option.cost > pointsAvailable
+   }
 
    const handleChange = (val, action) => {
-      console.log(val, action)
       if (val) {
-         const cost = val.cost
-         const prev = [...select]
-         const index = action.name;
-         prev[index] = val.value
-         setPointsAvailable(prev => prev - cost)
-         setSelect(prev)
+         const id = action.name
+         if (typeof select[id] === 'string') setPointsAvailable(current => current - val.cost)
+         else if (typeof select[id] === 'object'){
+            let updatePoints = pointsAvailable + select[id].cost - val.cost
+            setPointsAvailable(updatePoints)
+         }
+         let updateSelect = select.map((el, i) => i == id ? val : el)
+         setSelect(updateSelect)
       } else {
+         const initSelect = ['str','dex','con','int','wis','cha']
          const removedValue = action.removedValues[0]
-         const index = action.name;
-         const cost = removedValue.cost
-         const prev = [...select]
-         prev[index] = ''
-         setPointsAvailable(val => val + cost)
-         setSelect(prev)
+         const id = action.name
+
+         setPointsAvailable(current => current + removedValue.cost)
+         let updateSelect = select.map((el, i) => i == id ? initSelect[id] : el)
+         setSelect(updateSelect)
       }
    }
 
    const handleSubmit = (e) => {
       e.preventDefault()
-      if (select.every(el => typeof el == 'number')) submit(select)
+      let result = select.filter(el => typeof el == 'object').map(el => el.value)
+      if (result.length === 6) submit(result)
    }
-   
-   // useEffect(() => randomValues.current = getRandomValue(), [])
 
    return (
       <div className='flex flex-col gap-2'>
@@ -53,7 +57,7 @@ const PointBuy = ({abilities, submit}) => {
                { abilities.map((el, i) => (
                   <div key={`standard-select-${i}`}>
                      <div>{el}</div>
-                     <Select classNames={{option: () => 'font-size-sm'}} options={options} isClearable name={i} defaultValue={''} onChange={handleChange} isOptionDisabled={(option) => isDisabled(option.cost)} />
+                     <Select placeholder={'---'} styles={customStyles125} isSearchable={false} options={options} name={i} defaultValue={''} onChange={handleChange} isOptionDisabled={(o,s) => isDisabled(o,s)} />
                   </div>
                ))}
             </div>

@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { SimpleSelectForm, GroupSelectForm, IteratingGroupSelectForm } from '@/select/forms/selection-menu'
-import { classes } from '@/lib/init-data';
+import { classes, subClasses } from '@/lib/init-data';
 import { ToggleButton } from '@/ui/elements/button';
-import ASIMenu from './asi-selection';
+import ASISelect from '@/ui/create/select/forms/classes/asi-select'
+import { ClassSelection } from './class-select'
 
 const ClassForm = ({current, setClass, updateByPath, changeClass, addToList}) => {
    const [display, setDisplay] = useState(false)
@@ -13,10 +14,9 @@ const ClassForm = ({current, setClass, updateByPath, changeClass, addToList}) =>
    const initProficiencies = useRef(null);
    const inititems = useRef(null);
 
-   const handleSubmitClass = (val, _id) => {
-      const update = val[0]
-      if (hasClass) changeClass(update);
-      else setClass(update)
+   const handleSubmitClass = (className, subName = null) => {
+      if (hasClass) changeClass(className, subName);
+      else setClass(className, subName)
    }
 
    const handleSubmitProficiency = (val, id) => {
@@ -49,22 +49,31 @@ const ClassForm = ({current, setClass, updateByPath, changeClass, addToList}) =>
       }
    }, [current.class])
 
-   if (current.name) {
-      return (
-         <div className='bg-amber-100 p-2'>
-            <div className='flex flex-row justify-between'>
-               <div>Display Class Selection</div>
-               <ToggleButton value={display ? 'Close' : 'Open'}  handleClick={toggleDisplay}/>
-            </div>
-            { display && (<div>
-               { current.name && <SimpleSelectForm list={classes} title={'Select Character Class'} id={'class'} count={1} required submit={handleSubmitClass} /> }
-               { hasClass && <ProficiencySelect proficiencySelect={current.proficiencies.class.selectFromList} submit={handleSubmitProficiency} />}
-               { hasClass && <ItemSelect itemSelect={current.items.class.selectFromList} submit={handleSubmitItem} />}
-               { hasClass && <ASISelect asiSelect={current.class_ASI_levels} level={current.level} submit={handleSubmitASI} />}
-            </div>) }
-         </div>
-      )
-   }
+   // if (current.name) {
+      // return (
+      //    <div className='bg-amber-100 p-2'>
+      //       <div className='flex flex-row justify-between'>
+      //          <div>Display Class Selection</div>
+      //          <ToggleButton value={display ? 'Close' : 'Open'}  handleClick={toggleDisplay}/>
+      //       </div>
+      //       { display && (<div className='flex flex-col gap-3'>
+      //          { current.name && <ClassSelection submit={handleSubmitClass} level={current.level} /> }
+      //          {/* { current.name && <SimpleSelectForm list={classes} title={'Select Character Class'} id={'class'} count={1} required submit={handleSubmitClass} /> } */}
+      //          { hasClass && <ProficiencySelect proficiencySelect={current.proficiencies.class.selectFromList} submit={handleSubmitProficiency} />}
+      //          { hasClass && <ItemSelect itemSelect={current.items.class.selectFromList} submit={handleSubmitItem} />}
+      //          { hasClass && <ASISelect asiSelect={current.class_ASI_levels} level={current.level} submit={handleSubmitASI} />}
+      //       </div>) }
+      //    </div>
+      // )
+   // }
+   return (
+      <div className='flex flex-col gap-5'>
+         <ClassSelection submit={handleSubmitClass} level={current.level} />
+         { hasClass && <ProficiencySelect proficiencySelect={current.proficiencies.class.selectFromList} submit={handleSubmitProficiency} />}
+         { hasClass && <ItemSelect itemSelect={current.items.class.selectFromList} submit={handleSubmitItem} />}
+         { hasClass && <ASISelect asiSelect={current.class_ASI_levels} level={current.level} submit={handleSubmitASI} />}
+      </div>
+   )
 }
 
 const ProficiencySelect = ({proficiencySelect, submit}) => {
@@ -73,11 +82,12 @@ const ProficiencySelect = ({proficiencySelect, submit}) => {
    const isGroupList = !toolSelect ? false : toolSelect.list.every(el => typeof el == 'string') ? false : true
 
    return (
-      <>
+      <div className='flex flex-col gap-3'>
+         <div className='text-base font-medium'>Select Proficiencies</div>
          { skillSelect && <SimpleSelectForm list={skillSelect.list} title={skillSelect.title} id={'skills'} count={skillSelect.count} submit={submit} /> }
          { toolSelect && isGroupList && <GroupSelectForm list={toolSelect.list} title={toolSelect.title} id={'tools'} count={toolSelect.count} submit={submit} />}
          { toolSelect && !isGroupList && <SimpleSelectForm list={toolSelect.list} title={toolSelect.title} id={'tools'} count={toolSelect.count} submit={submit} />}
-      </>
+      </div>
    )
 }
 
@@ -98,35 +108,12 @@ const ItemSelect = ({itemSelect, submit}) => {
    }
 
    return (
-      <>
+      <div className='flex flex-col gap-3'>
+         <div className='text-base font-medium'>Select Items</div>
          { armourSelect && identifyItemSelect(armourSelect, 'armour') }
          { weaponsSelect && identifyItemSelect(weaponsSelect, 'weapons') }
          { equipmentSelect && identifyItemSelect(equipmentSelect, 'equipment') }
          { toolSelect && identifyItemSelect(toolSelect, 'tools') }
-      </>
-   )
-}
-
-const ASISelect = ({asiSelect, level, submit}) => {
-   
-   const abilities = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma']
-   const options = abilities.map((el,i) => ({value: i, label: el}))
-
-   return (
-      <div className='flex flex-col gap-4'>
-         <p>Ability Score Improvements</p>
-         {/* <div>Increase One Ability by Two, or Two Abilities by One - max 20:</div> */}
-         {asiSelect.map(el => el <= level ? (
-            <div key={`asi-selection-level-${el}`}>
-               {/* <div>Level {el} Improvement</div> */}
-               <ASIMenu options={options} id={el} submit={submit} />
-            </div>
-            ) : null)}
-         {/* <div className='flex flex-row justify-between'>
-            <label><input type='radio' name='ability' id='single' value='single' onChange={handleSelect} />Increase One Ability +2</label>
-            <label><input type='radio' name='ability' id='double' value='double' onChange={handleSelect} />Increase Two Abilities +1</label>
-         </div>
-         {option == 'single' && asiSelect.map(el => el <= level ? <SimpleSelectForm list={abilities} title={`Level ${el} Improvement`} id={el} count={2} submit={submit} /> : null)} */}
       </div>
    )
 }

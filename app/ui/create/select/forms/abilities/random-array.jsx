@@ -1,0 +1,80 @@
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+import {SubmitButton} from '@/ui/elements/button';
+import { customStyles125 } from '@/ui/elements/select-theme'
+import dynamic from 'next/dynamic';
+const Select = dynamic(() => import('react-select'), { ssr: false });
+
+const RandomArray = ({abilities, submit}) => {
+   const [selectedIndex, setSelectedIndex] = useState([])
+   const [select, setSelect] = useState(['str','dex','con','int','wis','cha']);
+   const initSelect = useRef(['str','dex','con','int','wis','cha'])
+   
+   const getRandomValue = () => {
+      let results = []
+      for (let i = 0; i < 6; i++) {
+         let values = []
+         for (let j = 0; j <4; j++) values.push(Math.ceil(Math.random() * 6))
+         values.sort()
+         let sum = values[3] + values[2] + values[1]
+         results.push(sum)
+      }
+      results.sort((a,b) => b - a)
+      return results;
+   }
+
+   const randomValues = useRef(getRandomValue())
+
+   const options = randomValues.current ? randomValues.current.map((el, i) => ({ value: el, label: el, index: i })) : []
+
+   const handleChange = (val, action) => {
+      if (val) {
+         const id = action.name
+         if (typeof select[id] === 'string') setSelectedIndex([...selectedIndex, val.index])
+         else if (typeof select[id] === 'object'){
+            let updateId = selectedIndex.map(el => el == select[id].index ? val.index : el)
+            setSelectedIndex(updateId)
+         }
+         let updateSelect = select.map((el, i) => i == id ? val : el)
+         setSelect(updateSelect)
+      } else {
+         const initSelect = ['str','dex','con','int','wis','cha']
+         const removedValue = action.removedValues[0]
+         const id = action.name
+         let updateId = selectedIndex.filter(el => el != removedValue.index)
+         setSelectedIndex(updateId)
+         let updateSelect = select.map((el, i) => i == id ? initSelect[id] : el)
+         setSelect(updateSelect)
+      }
+   }
+
+   const handleSubmit = (e) => {
+      e.preventDefault()
+      let result = select.filter(el => typeof el == 'object').map(el => el.value)
+      if (result.length === 6) submit(result)
+   }
+
+   const isSelected = (option, selected) => selected.some(el => el.index === option.index)
+   const isDisabled = (option) => selectedIndex.some(el => el === option.index)
+
+   return (
+      <div className='flex flex-col gap-2'>
+         <p>Select from Random Array</p>
+         <form className='flex flex-col items-start gap-3 p-2 border-2' onSubmit={handleSubmit}>
+            <div className='flex flex-row flex-wrap gap-3'> 
+               { abilities.map((el, i) => (
+                  <div key={`standard-select-${i}`}>
+                     <div>{el}</div>
+                     <Select isSearchable={false} placeholder={'---'} styles={customStyles125} options={options} isClearable name={i} defaultValue={''} onChange={handleChange} isOptionSelected={(o, s) => isSelected(o, s)} isOptionDisabled={(o, s) => isDisabled(o)} />
+                  </div>
+               ))}
+            </div>
+            <SubmitButton value={'Submit'} isDisabled={false} />
+         </form>
+      </div>
+   )
+   
+}
+
+export default RandomArray

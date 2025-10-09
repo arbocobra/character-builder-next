@@ -19,11 +19,11 @@ export const CharacterProvider = ({ children }) => {
    const updateByPath = (path, value) => {
       dispatch({type: 'UPDATE_BY_PATH', payload: {path, value}})
    }
-   const setClass = (className) => {
-      dispatch({type: 'SET_CLASS', payload: {className, level: state.level}});
+   const setClass = (className, subName) => {
+      dispatch({type: 'SET_CLASS', payload: {className, subName}});
    }
-   const changeClass = (className) => {
-      dispatch({type: 'CHANGE_CLASS', payload: className})
+   const changeClass = (className, subName) => {
+      dispatch({type: 'CHANGE_CLASS', payload: {className, subName}})
    }
    const setSpecies = (species, subspecies = null) => {
       dispatch({type: 'SET_SPECIES', payload: {species, subspecies}})

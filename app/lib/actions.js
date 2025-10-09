@@ -83,11 +83,11 @@ export const getLevelObject = (level, hasClass, state) => {
    }
 }
 
-export const getClassObject = (className, level, state) => {
-   const classObject = applyClass(className, level);
+export const getClassObject = (className, state) => {
+   const classObject = applyClass(className, state.level);
    const features = updateValueF(state.features, 'class', classObject.features)
    // const features = updateValueF(state.features, level, 'class', className)
-   const hitPoints = setBaseHP(classObject.hitDice, level, state.abilities.modifiers[2], state.hit_points)
+   const hitPoints = setBaseHP(classObject.hitDice, state.level, state.abilities.modifiers[2], state.hit_points)
    const proficiencies = updateValueP(classObject.proficiencies, state.proficiencies, 'class')
    const items = updateValueI(classObject.items, state.items, 'class')
    return {
