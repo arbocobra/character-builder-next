@@ -1,7 +1,15 @@
 import { Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin, Ranger, Rogue, Sorcerer, Warlock, Wizard } from '@/lib/base/classes/classes';
 import { Dwarf, Elf, Halfling, Human, Dragonborn, Gnome, HalfElf, HalfOrc, Tiefling } from '@/lib/base/species/species'
+import { Acolyte, Charlatan, Criminal, Entertainer, FolkHero, GuildArtisan, Hermit, Noble, Outlander, Sage, Sailor, Soldier, Urchin } from '@/lib/base/backgrounds/backgrounds'
+import { updateValue as updateValueP, addToList as addToListP } from '@/lib/base/proficiencies.ts';
+import { setBaseHP } from '@/lib/base/hit-points.ts'
+import { updateValue as updateValueA, addToList as addToListA } from '@/lib/base/abilities.ts';
+import { updateValue as updateValueI } from '@/lib/base/items.ts';
+import { setDexMod } from '@/lib/base/armour-class.ts'
+import { setBase } from '@/lib/base/speed.ts'
+import { updateValue as updateValueF, addToList as addToListF, removeFromList as removeFromListF } from '@/lib/base/features.ts'
 
-export const getClassObject = (val, level) => {
+const applyClass = (val, level) => {
    switch (val) {
       case 'barbarian':
          return new Barbarian(level);
@@ -32,7 +40,7 @@ export const getClassObject = (val, level) => {
    }
 }
 
-const getSpeciesObject = (val, sub, level) => {
+const applySpecies = (val, sub, level) => {
    switch (val) {
       case 'dwarf':
          return new Dwarf(level, sub);
@@ -57,52 +65,141 @@ const getSpeciesObject = (val, sub, level) => {
    }
 }
 
-export const applyClass = (className, level, state) => {
-   const classObject = getClassObject(className, level);
-   state.proficiencies.updateValue('class', classObject.proficiencies)
-   state.hit_points.calculateBaseHP(classObject.hitDice, level, state.abilities.modifiers[2])
-   state.features.applyClassFeature(className, level)
-   state.equipment.updateValue('class', classObject.items)
+const applyBackground = (val) => {
+   switch (val) {
+      case 'acolyte':
+         return new Acolyte();
+      case 'charlatan':
+         return new Charlatan();
+      case 'criminal':
+         return new Criminal();
+      case 'entertainer':
+         return new Entertainer();
+      case 'folk hero':
+         return new FolkHero();
+      case 'guild artisan':
+         return new GuildArtisan();
+      case 'hermit':
+         return new Hermit();
+      case 'noble':
+         return new Noble();
+      case 'outlander':
+         return new Outlander();
+      case 'sage':
+         return new Sage();
+      case 'sailor':
+         return new Sailor();
+      case 'soldier':
+         return new Soldier();
+      case 'urchin':
+         return new Urchin();
+      default:
+         throw new Error(`Background ${val} not implemented`);
+   }
+}
 
+export const getLevelObject = (level, hasClass, state) => {
+   let proficiencyBonus = Math.ceil(level / 4) + 1;
+   let hitPoints, features;
+   if (hasClass) {
+      const classObject = applyClass(state.class, level);
+      hitPoints = setBaseHP(state.hit_dice, level, state.abilities.modifiers[2], state.hit_points)
+      if (level > state.level) features = updateValueF(state.features, 'class', classObject.features)
+      else features = removeFromListF(level, state.features, 'class')
+   } else {
+      hitPoints = state.hit_points
+      features = state.features
+   }
    return {
-      hit_dice: classObject.hitDice,
+      proficiencyBonus,
+      hitPoints,
+      features
+   }
+}
+
+export const getClassObject = (className, state) => {
+   const classObject = applyClass(className, state.level);
+   const features = updateValueF(state.features, 'class', classObject.features)
+   // const features = updateValueF(state.features, level, 'class', className)
+   const hitPoints = setBaseHP(classObject.hitDice, state.level, state.abilities.modifiers[2], state.hit_points)
+   const proficiencies = updateValueP(classObject.proficiencies, state.proficiencies, 'class')
+   const items = updateValueI(classObject.items, state.items, 'class')
+   return {
+      hitDice: classObject.hitDice,
+      hitPoints,
       class_ASI_levels: classObject.asiLevels,
+      proficiencies,
+      items,
+      features
    }
 }
 
-export const changeClass = (className, state) => {
-   const classObject = getClassObject(className, state.level);
-   state.proficiencies.updateValue('class', classObject.proficiencies)
-   state.hit_points.calculateBaseHP(classObject.hitDice, state.level, state.abilities.modifiers[2])
-   state.features.applyClassFeature(className, state.level)
-   state.equipment.updateValue('class', classObject.items)
+export const getPathObject = (payload, state) => {
+   const value = payload.value;
+   let [category, group, prop, opt] = payload.path.split('.');
+   if (category === 'proficiencies') {
+      let proficiencies = updateValueP(value, state.proficiencies, [group, prop, opt])
+      return { update: proficiencies, name:'proficiencies' }
+   } else if (category === 'items') {
+      let items = updateValueI(value, state.items, [group, prop, opt])
+      return { update: items, name:'items' }
+   }
+     // else tbd
+   return {}
+}
 
-   return {
-      hit_dice: classObject.hitDice,
-      class_ASI_levels: classObject.asiLevels,
+export const getAbilitiesUpdateObject = (payload, state) => {
+   let abilities = updateValueA(payload, state.abilities, 'base')
+   let modifiers = abilities.modifiers
+   let updatedHP = setBaseHP(state.hit_dice ?? 6, state.level, modifiers[2], state.hit_points)
+   let updatedAC = setDexMod(modifiers[1], state.armour_class)
+   return { abilities: abilities, armour_class: updatedAC, hit_points: updatedHP }
+}
+
+export const getAddToListObject = (payload, state) => {
+   const value = payload.val;
+   let [category, group, prop, opt] = payload.cat
+   if (category === 'abilities') {
+      let abilities = addToListA(value, state.abilities, group)
+      let modifiers = abilities.modifiers
+      let updatedHP = setBaseHP(state.hit_dice ?? 6, state.level, modifiers[2], state.hit_points)
+      let updatedAC = setDexMod(modifiers[1], state.armour_class)
+      return { abilities: abilities, armour_class: updatedAC, hit_points: updatedHP }
    }
 }
 
-export const applySpecies = (species, subspecies, state) => {
-   const speciesObject = getSpeciesObject(species, subspecies, state.level);
-   state.proficiencies.updateValue('species', speciesObject.proficiencies);
-   state.abilities.updateValue('species', speciesObject.abilityImprovement)
-   state.features.species = speciesObject.features;
+export const getSpeciesObject = (payload, state) => {
+   const {species, subspecies} = payload;
+   const speciesObject = applySpecies(species, subspecies, state.level);
+   const proficiencies = updateValueP(speciesObject.proficiencies, state.proficiencies, 'species')
+   const speed = setBase(speciesObject.speed, state.speed)
+   const abilities = updateValueA(speciesObject.abilityImprovement, state.abilities, 'species')
+   // const features = updateValueF(state.features, state.level, 'species', species, subspecies)
+   const features = updateValueF(state.features, 'species', speciesObject.features)
+
    return {
-      // species: subspecies ? subspecies : species,
+      species: subspecies ? subspecies : species,
+      speed: speed,
       size: speciesObject.size,
-      speed: speciesObject.speed
+      proficiencies,
+      features,
+      abilities
    }
 }
 
-export const changeSpecies = (species, subspecies, state) => {
-   const speciesObject = getSpeciesObject(species, subspecies, state.level);
-   state.proficiencies.updateValue('species', speciesObject.proficiencies)
-   state.abilities.updateValue('species', speciesObject.abilityImprovement)
-   state.features.species = speciesObject.features
-
+export const getBackgroundObject = (payload, state) => {
+   const background = payload
+   const backgroundObject = applyBackground(background)
+   const proficiencies = updateValueP(backgroundObject.proficiencies, state.proficiencies, 'background')
+   const items = updateValueI(backgroundObject.items, state.items, 'background')
+   const features = updateValueF(state.features, 'background', backgroundObject.features)
    return {
-      size: speciesObject.size,
-      speed: speciesObject.speed
+      background,
+      proficiencies,
+      features,
+      items
    }
 }
+
+export const changeClass = (className, state) => {}
+export const changeSpecies = (species, subspecies, state) => {}

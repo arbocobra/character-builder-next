@@ -1,14 +1,17 @@
 import { useState, useEffect, useRef } from 'react'
-import { species, subSpecies } from '@/lib/init-data'
+import { species, subspecies } from '@/lib/init-data'
 import { ConditionalTwoPartSimpleSelection, SimpleSelectForm, GroupSelectForm, IteratingGroupSelectForm } from '@/select/forms/selection-menu'
-import { ToggleButton } from '@/ui/elements/button';
+import HideDisplay from '@/ui/elements/hide-display';
+import {SubmitButton} from '@/ui/elements/button';
+import { customStyles175 } from '@/ui/elements/select-theme'
+import dynamic from 'next/dynamic';
+const Select = dynamic(() => import('react-select'), { ssr: false });
 
 const SpeciesForm = ({current, setSpecies, updateByPath, changeSpecies}) => {
-   const [display, setDisplay] = useState(false)
    const initProficiencies = useRef(null);
-  const hasSpecies = current.species ? true : false;
+   const hasSpecies = current.species ? true : false;
    
-  const handleSubmitSpecies = (speciesVal, subspeciesVal) => {
+   const handleSubmitSpecies = (speciesVal, subspeciesVal) => {
       if (!hasSpecies) setSpecies(speciesVal, subspeciesVal);
       else changeSpecies(speciesVal, subspeciesVal)
    }
@@ -20,30 +23,80 @@ const SpeciesForm = ({current, setSpecies, updateByPath, changeSpecies}) => {
       // console.log(val,id)
    }
 
-   const toggleDisplay = () => setDisplay(!display)
-
    useEffect(() => {
          if (hasSpecies) {
             initProficiencies.current = JSON.parse(JSON.stringify(current.proficiencies.species))
          }
       }, [current.species])
 
-   if (current.name) {
-         return (
-            <div className='bg-sky-100 p-2'>
-               <div className='flex flex-row justify-between'>
-                  <div>Display Species Selection</div>
-                  <ToggleButton value={display ? 'Close' : 'Open'} handleClick={toggleDisplay}/>
-               </div>
-               { display && (<div>
-                  { current.name && <ConditionalTwoPartSimpleSelection listA={species} listB={subSpecies} title='Select Character Species' idA='species' idB='subspecies' submit={handleSubmitSpecies} /> }
-                  { hasSpecies && <ProficiencySelect proficiencySelect={current.proficiencies.species.selectFromList} submit={handleSubmitProficiency} />}
-               </div>) }
-            </div>
-         )
-      }
+   return (
+      <div className='flex flex-col gap-3'>
+         <SpeciesSelection submit={handleSubmitSpecies} />
+         { hasSpecies && <ProficiencySelect proficiencySelect={current.proficiencies.species.selectFromList} submit={handleSubmitProficiency} />}
+      </div>
+   )
 }
 export default SpeciesForm
+
+const SpeciesSelection = ({submit}) => {
+   const [selectSpecies, setSelectSpecies] = useState(null);
+   const [selectSubspecies, setSelectSubspecies] = useState(null);
+   const [subOptions, setSubOptions] = useState(null)
+   const [display, setDisplay] = useState(true)
+
+   const speciesOptions = species.map(el => ({ value: el.toLowerCase(), label: el }));
+
+   const subLookup = (val) => {
+      if (subspecies[val]) {
+         let sub = subspecies[val]
+         let ops = sub.map(el => ({ value: el.toLowerCase(), label: el }))
+         setSubOptions(ops)
+      } else {
+         setSubOptions(null)
+      }
+   }
+   
+   const handleSpeciesChange = (val) => {
+      if (val) {
+         setSelectSpecies(val)
+         subLookup(val.value)
+      } else {
+         setSelectSpecies(null)
+         setSelectSubspecies(null)
+         setSubOptions(null)
+      }
+   }
+   
+   const handleSubChange = (val) => setSelectSubspecies(val)
+
+   const handleSubmit = (e) => {
+      e.preventDefault();
+      setDisplay(false)
+      submit(selectSpecies.value, selectSubspecies ? selectSubspecies.value : null, 'species')
+   }
+
+   const resetDisplay = () => {
+      setSelectSpecies(null)
+      setSelectSubspecies(null)
+      setDisplay(true)
+   }
+
+   return (
+      <div className='flex flex-col gap-3'>
+         <div className='text-base font-medium'>Select Character Species</div>
+         {display ?
+         <>
+            <form className='flex flex-row gap-3' onSubmit={handleSubmit}>
+               <Select styles={customStyles175} options={speciesOptions} required name='species' value={selectSpecies} id='species' onChange={handleSpeciesChange} />
+               {subOptions && <Select styles={customStyles175} options={subOptions} required name='subspecies' value={selectSubspecies} id='subspecies' onChange={handleSubChange} />}
+               <SubmitButton value='Submit' isDisabled={false} />
+            </form> 
+         </>
+         : <HideDisplay select={selectSubspecies ? [selectSubspecies] : [selectSpecies]} resetDisplay={resetDisplay} /> }
+      </div>
+   )
+}
+
 
 const ProficiencySelect = ({proficiencySelect, submit}) => {
    
@@ -64,14 +117,17 @@ const ProficiencySelect = ({proficiencySelect, submit}) => {
       }
    }
 
-   return (
-      <>
-         { armourSelect && identifyItemSelect(armourSelect, 'armour') }
-         { weaponsSelect && identifyItemSelect(weaponsSelect, 'weapons') }
-         { toolSelect && identifyItemSelect(toolSelect, 'tools') }
-         { skillSelect && identifyItemSelect(skillSelect, 'skills') }
-         { languageSelect && identifyItemSelect(languageSelect, 'languages') }
-         { savingThrowSelect && identifyItemSelect(toolSelect, 'saving throws') }
-      </>
-   )
+   if ([armourSelect,weaponsSelect, toolSelect, skillSelect, languageSelect, savingThrowSelect].some(el => el)) {
+      return (
+         <>
+            <div className='text-base font-medium'>Select Proficiencies</div>
+            { armourSelect && identifyItemSelect(armourSelect, 'armour') }
+            { weaponsSelect && identifyItemSelect(weaponsSelect, 'weapons') }
+            { toolSelect && identifyItemSelect(toolSelect, 'tools') }
+            { skillSelect && identifyItemSelect(skillSelect, 'skills') }
+            { languageSelect && identifyItemSelect(languageSelect, 'languages') }
+            { savingThrowSelect && identifyItemSelect(savingThrowSelect, 'saving throws') }
+         </>
+      )
+   }
 }

@@ -19,17 +19,23 @@ export const CharacterProvider = ({ children }) => {
    const updateByPath = (path, value) => {
       dispatch({type: 'UPDATE_BY_PATH', payload: {path, value}})
    }
-   const setClass = (className) => {
-      dispatch({type: 'SET_CLASS', payload: {className, level: state.level}});
+   const setClass = (className, subName) => {
+      dispatch({type: 'SET_CLASS', payload: {className, subName}});
    }
-   const changeClass = (className) => {
-      dispatch({type: 'CHANGE_CLASS', payload: className})
+   const changeClass = (className, subName) => {
+      dispatch({type: 'CHANGE_CLASS', payload: {className, subName}})
    }
    const setSpecies = (species, subspecies = null) => {
       dispatch({type: 'SET_SPECIES', payload: {species, subspecies}})
    }
    const changeSpecies = (species, subspecies = null) => {
       dispatch({type: 'CHANGE_SPECIES', payload: {species, subspecies}})
+   }
+   const setBackground = (background) => {
+      dispatch({type: 'SET_BACKGROUND', payload: background})
+   }
+   const changeBackground = (background) => {
+      dispatch({type: 'CHANGE_BACKGROUND', payload: background})
    }
    const updateAbilities = (abilities) => {
       dispatch({type: 'UPDATE_ABILITIES', payload: abilities})
@@ -48,6 +54,8 @@ export const CharacterProvider = ({ children }) => {
       changeClass,
       setSpecies,
       changeSpecies,
+      setBackground,
+      changeBackground,
       updateAbilities,
       addToList
    };

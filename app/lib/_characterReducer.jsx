@@ -1,7 +1,8 @@
 import { applyClass, changeClass, applySpecies, changeSpecies } from './actions';
 import Abilities from './base/abilities';
 import Proficiencies from './base/proficiencies';
-import HitPoints from './base/hit-points';
+import HitPoints from './base/hit-points.js';
+// import { HitPoints, setBaseHP } from '@/lib/base/hit-points.ts'
 import ArmourClass from './base/armour-class';
 import Features from './base/features';
 import Items from './base/items';
@@ -19,7 +20,7 @@ const characterReducer = (state, action) => {
             hit_points: new HitPoints(),
             armour_class: new ArmourClass(),
             features: new Features(),
-            equipment: new Items(),
+            items: new Items(),
          };
       case 'UPDATE_LEVEL':
          let newProf = Math.ceil((action.payload) / 4) + 1;
@@ -109,7 +110,7 @@ export const initialState = {
    initiative_bonus: 0,
    armour_class: {},
    features: {},
-   equipment: {},
+   items: {},
 };
 
 export default characterReducer;

@@ -1,6 +1,6 @@
 import BaseProficiencies from '@/lib/base/base-proficiencies'
 // import BaseItems from '@/lib/base/base-items'
-import { featureList, features } from '@/lib/base/species/species-features';
+import { features } from '@/lib/base/species/species-features';
 
 class BaseSpecies {
    constructor(speciesName, level, subspecies = null) {
@@ -8,14 +8,15 @@ class BaseSpecies {
       this.subspecies = subspecies;
       this.size = 'medium';
       this.speed = 30
-      this.features = this.GrantFeatures(speciesName, subspecies);
+      this.features = this.getFeatures(speciesName, subspecies);
       this.proficiencies = new BaseProficiencies();
    }
 
-   GrantFeatures(speciesName, subspecies) {
-      let subspeciesList = subspecies ? featureList[subspecies] : []
-      let list = [...featureList[speciesName], ...subspeciesList]
-      return list.map(feature => features[speciesName].find(f => f.name === feature))
+   getFeatures(speciesName, subspecies) {
+      let feats = features[speciesName]
+      if (subspecies) {
+         return feats.filter(el => el.species === 'base' || el.species === subspecies)
+      } else return feats
    }
 }
 
