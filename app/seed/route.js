@@ -1,67 +1,42 @@
-// import postgres from 'postgres';
-// import { classes, species, backgrounds } from '@/lib/init-data'
+import bcrypt from 'bcrypt';
+import postgres from 'postgres';
+import { users } from '@/lib/placeholder-data'
 
-// const sql = postgres(process.env.POSTGRES_URL)
+const sql = postgres(process.env.POSTGRES_URL)
 
-// const seedClasses = async () => {
+async function seedUsers() {
+  await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+  await sql`
+    CREATE TABLE IF NOT EXISTS users (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      email TEXT NOT NULL UNIQUE,
+      password TEXT NOT NULL
+    );
+  `;
 
-// //   await sql`
-// //     CREATE TABLE IF NOT EXISTS invoices (
-// //       id INT PRIMARY KEY,
-// //       name 
-// //     );
-// //   `;
+  const insertedUsers = await Promise.all(
+    users.map(async (user) => {
+      const hashedPassword = await bcrypt.hash(user.password, 10);
+      return sql`
+        INSERT INTO users (id, name, email, password)
+        VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword})
+        ON CONFLICT (id) DO NOTHING;
+      `;
+    }),
+  );
 
-//    const insertedClasses = await Promise.all(
-//       classes.map(
-//          (el, i) => sql`
-//             INSERT INTO classes (id, name)
-//             VALUES (${i}, ${el.name})
-//          `
-//       )
-//    )
+  return insertedUsers;
+}
 
-//   return insertedClasses;
-// }
+export async function GET() {
+  try {
+    const _result = await sql.begin((sql) => [
+      seedUsers(),
+    ]);
 
-// const seedSpecies = async () => {
-
-//    const insertedSpecies = await Promise.all(
-//       species.map(
-//          (el, i) => sql`
-//             INSERT INTO species (id, name)
-//             VALUES (${i}, ${el.name})
-//          `
-//       )
-//    )
-
-//   return insertedSpecies;
-// }
-
-// const seedBackground = async () => {
-
-//    const insertedBackground = await Promise.all(
-//       backgrounds.map(
-//          (el, i) => sql`
-//             INSERT INTO backgrounds (id, name)
-//             VALUES (${i}, ${el.name})
-//          `
-//       )
-//    )
-
-//   return insertedBackground;
-// }
-
-// export async function GET() {
-//   try {
-//    //  const _result = await sql.begin((sql) => [
-//    //    seedClasses(),
-//    //    seedSpecies(),
-//    //    seedBackground(),
-//    //  ]);
-
-//     return Response.json({ message: 'Database seeded successfully' });
-//   } catch (error) {
-//     return Response.json({ error }, { status: 500 });
-//   }
-// }
+    return Response.json({ message: 'Database seeded successfully' });
+  } catch (error) {
+    return Response.json({ error }, { status: 500 });
+  }
+}
