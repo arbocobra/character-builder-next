@@ -5,7 +5,7 @@ export const users = [
 //     email: 'user@nextmail.com',
 //     password: '123456',
 //   },
-   {name: 'Natalie', email: 'natalie@email.com', password: '123123'},
+   {name: 'Zac', email: 'zac@email.com', password: '456456'},
 ];
 
 export const characters = [

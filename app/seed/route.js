@@ -151,11 +151,11 @@ async function addCharacter() {
 
 export async function GET() {
   try {
-    const _result = await sql.begin((sql) => [
+    const result = await sql.begin((sql) => [
       seedUsers()
     ]);
 
-    return Response.json({ message: 'Database seeded successfully' });
+    return Response.json({ message: 'Database seeded successfully', data: result });
   } catch (error) {
     return Response.json({ error }, { status: 500 });
   }
