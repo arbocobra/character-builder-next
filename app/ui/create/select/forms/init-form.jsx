@@ -55,7 +55,7 @@ const InitialForm = ({current, createCharacter, updateLevel, updateByName}) => {
             <input type='text' id='characterName' className={inputStyle} placeholder='Character Name' required value={name} onChange={handleNameChange} />
          </label>
          <div className='text-base font-medium text-gray-900 dark:text-white'>Level:</div>
-         <Select placeholder={'---'} styles={customStyles75} options={options} required name='level' defaultValue={''} onChange={handleLevelChange} />
+         <Select placeholder={1} styles={customStyles75} options={options} name='level' defaultValue={1} onChange={handleLevelChange} />
          <SubmitButton value={buttonText} isDisabled={isDisabled} />
       </form>
    )

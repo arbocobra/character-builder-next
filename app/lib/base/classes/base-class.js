@@ -1,6 +1,6 @@
 import BaseProficiencies from '@/lib/base/base-proficiencies'
 import BaseItems from '@/lib/base/base-items'
-import { features, featureList, descObject } from './class-features';
+import { features } from './class-features';
 
 class BaseClass {
    constructor(className, level) {
@@ -8,7 +8,6 @@ class BaseClass {
       this.proficiencies = new BaseProficiencies();
       this.items = new BaseItems()
       this.features = this.getFeatures(className, level)
-      // this.features = features[className]
    }
 
    getFeatures(className, level) {

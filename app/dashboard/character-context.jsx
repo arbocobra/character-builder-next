@@ -31,6 +31,12 @@ export const CharacterProvider = ({ children }) => {
    const changeSpecies = (species, subspecies = null) => {
       dispatch({type: 'CHANGE_SPECIES', payload: {species, subspecies}})
    }
+   const setBackground = (background) => {
+      dispatch({type: 'SET_BACKGROUND', payload: background})
+   }
+   const changeBackground = (background) => {
+      dispatch({type: 'CHANGE_BACKGROUND', payload: background})
+   }
    const updateAbilities = (abilities) => {
       dispatch({type: 'UPDATE_ABILITIES', payload: abilities})
    }
@@ -48,6 +54,8 @@ export const CharacterProvider = ({ children }) => {
       changeClass,
       setSpecies,
       changeSpecies,
+      setBackground,
+      changeBackground,
       updateAbilities,
       addToList
    };

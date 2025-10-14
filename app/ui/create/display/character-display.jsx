@@ -2,7 +2,8 @@
 
 import useCharacter from '@/dash/character-context';
 import DisplayContainer from './category-base'
-import { TextRow, BlockRow, ListRow, FeatureRow, AbilitiesRow, SavesRow } from '@/ui/elements/display-rows'
+import { SkillsAbilities } from '@/lib/init-data'
+import { TextRow, BlockRow, ListRow, FeatureRow, AbilitiesRow, SavesRow, SkillsRow } from '@/ui/elements/display-rows'
 
 const CharacterDisplay = () => {
 
@@ -25,6 +26,8 @@ const CharacterDisplay = () => {
          return <AbilitiesRow key={`${c}-${i}`} val={el} />
       } else if (el.type === 'saves-row') {
          return <SavesRow key={`${c}-${i}`} val={el} />
+      } else if (el.type === 'skills-row') {
+         return <SkillsRow key={`${c}-${i}`} val={el} />
       }
    }
 
@@ -49,6 +52,10 @@ const CharacterDisplay = () => {
          {abilityDisplay && 
             <DisplayContainer name='Abilities & Saving Throws' show={false}>
                <DisplayAbilities abilities={character.abilities} cat={'Abilities'} bonus={character.proficiency_bonus} saves={character.proficiencies.total.savingThrows} getRow={getRow} />
+            </DisplayContainer>}
+         {character.name && 
+            <DisplayContainer name='Skills' show={true}>
+               <DisplaySkills current={character} cat={'Skills'} getRow={getRow} />
             </DisplayContainer>}
       </div>
    );
@@ -172,4 +179,27 @@ const DisplayAbilities = ({abilities, cat, bonus, saves, getRow}) => {
    )
 }
 
+const DisplaySkills = ({current, cat, getRow}) => {
+   const skillProficiencies = current.proficiencies.total.skills.map(el => el.toLowerCase())
+   const expertise = []
+   const modifiers = current.abilities.modifiers
+   const profBonus = current.proficiency_bonus
+   
+   const SkillsObject = SkillsAbilities.map(el => {
+      let label = el.value;
+      let abilityIndex = el.ability
+      let value = label.toLowerCase()
+      let isProfic = skillProficiencies.includes(value)
+      let isExpert = expertise.includes(value)
+      let score = isProfic ? modifiers[abilityIndex] + profBonus : isExpert ? modifiers[abilityIndex] +  (profBonus * 2) : modifiers[abilityIndex]
+      return { label, value, isProfic, isExpert, score, type: 'skills-row' }
+   })
 
+   return (
+      <div className='flex flex-col gap-y-3'>
+         <div className='grid grid-cols-12 grid-rows-6 grid-flow-col gap-3'>
+            { SkillsObject.map((el,i) => getRow(el,i, cat))}
+         </div>
+      </div>
+   )
+}

@@ -1,14 +1,12 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { SimpleSelectForm, GroupSelectForm, IteratingGroupSelectForm } from '@/select/forms/selection-menu'
-import { classes, subClasses } from '@/lib/init-data';
-import { ToggleButton } from '@/ui/elements/button';
+import { SimpleSelectForm, GroupSelectForm, IteratingSimpleSelectForm, IteratingGroupSelectForm, GroupSelectFormUnknownCat } from '@/select/forms/selection-menu'
 import ASISelect from '@/ui/create/select/forms/classes/asi-select'
 import { ClassSelection } from './class-select'
 
 const ClassForm = ({current, setClass, updateByPath, changeClass, addToList}) => {
-   const [display, setDisplay] = useState(false)
+   // const [display, setDisplay] = useState(false)
    const hasClass = current.class ? true : false
    const isSubmitting = useRef(false)
    const initProficiencies = useRef(null);
@@ -40,32 +38,15 @@ const ClassForm = ({current, setClass, updateByPath, changeClass, addToList}) =>
       isSubmitting.current = false
    }
 
-   const toggleDisplay = () => setDisplay(!display)
+   // const toggleDisplay = () => setDisplay(!display)
 
    useEffect(() => {
       if (hasClass) {
          initProficiencies.current = JSON.parse(JSON.stringify(current.proficiencies.class))
          inititems.current = JSON.parse(JSON.stringify(current.items.class))
       }
-   }, [current.class])
+   }, [current])
 
-   // if (current.name) {
-      // return (
-      //    <div className='bg-amber-100 p-2'>
-      //       <div className='flex flex-row justify-between'>
-      //          <div>Display Class Selection</div>
-      //          <ToggleButton value={display ? 'Close' : 'Open'}  handleClick={toggleDisplay}/>
-      //       </div>
-      //       { display && (<div className='flex flex-col gap-3'>
-      //          { current.name && <ClassSelection submit={handleSubmitClass} level={current.level} /> }
-      //          {/* { current.name && <SimpleSelectForm list={classes} title={'Select Character Class'} id={'class'} count={1} required submit={handleSubmitClass} /> } */}
-      //          { hasClass && <ProficiencySelect proficiencySelect={current.proficiencies.class.selectFromList} submit={handleSubmitProficiency} />}
-      //          { hasClass && <ItemSelect itemSelect={current.items.class.selectFromList} submit={handleSubmitItem} />}
-      //          { hasClass && <ASISelect asiSelect={current.class_ASI_levels} level={current.level} submit={handleSubmitASI} />}
-      //       </div>) }
-      //    </div>
-      // )
-   // }
    return (
       <div className='flex flex-col gap-5'>
          <ClassSelection submit={handleSubmitClass} level={current.level} />
@@ -96,15 +77,27 @@ const ItemSelect = ({itemSelect, submit}) => {
    const weaponsSelect = itemSelect.weapons;
    const equipmentSelect = itemSelect.equipment;
    const toolSelect = itemSelect.tools;
+   const unnamedSelect = itemSelect.unnamed;
 
    const identifyItemSelect = (val, n) => {
       if (val.length > 1) {
-         if (val.every(inner => inner.list.every(el => typeof el == 'string'))) return
+         if (val.every(inner => inner.list.every(el => typeof el == 'string'))) return (<IteratingSimpleSelectForm list={val} id={n} submit={submit} />)
          else return (<IteratingGroupSelectForm list={val} id={n} submit={submit} />)
       } else {
-         if (val[0].list.every(op => typeof op == 'string')) return (<SimpleSelectForm list={val[0].list} title={val[0].title} id={n} count={val[0].count} submit={submit} />)
-         else return (<GroupSelectForm list={val[0].list} title={val[0].title} id={n} count={val[0].count} submit={submit} />)
+         let singleVal = val[0]
+         if (singleVal.list.every(op => typeof op == 'string')) return (<SimpleSelectForm list={singleVal.list} title={singleVal.title} id={n} count={singleVal.count} catArray={Object.hasOwn(singleVal, 'cat') ? singleVal.cat : null} submit={submit} />)
+         else return (<GroupSelectForm list={singleVal.list} title={singleVal.title} id={n} count={singleVal.count} catArray={Object.hasOwn(singleVal, 'cat') ? singleVal.cat : null} submit={submit} />)
       }
+   }
+
+   const identifyUnknownSelect = (val) => {
+      val.map(el => {
+         if (el.list.every(op => typeof op == 'string')) {
+            //  return (<SimpleSelectForm list={singleVal.list} title={singleVal.title} id={n} count={singleVal.count} catArray={Object.hasOwn(singleVal, 'cat') ? singleVal.cat : null} submit={submit} />)
+         } else {
+            return (<GroupSelectFormUnknownCat list={el.list} title={el.title} catArray={el.categories} submit={submit} />)
+         }
+      })
    }
 
    return (
@@ -112,6 +105,7 @@ const ItemSelect = ({itemSelect, submit}) => {
          <div className='text-base font-medium'>Select Items</div>
          { armourSelect && identifyItemSelect(armourSelect, 'armour') }
          { weaponsSelect && identifyItemSelect(weaponsSelect, 'weapons') }
+         { unnamedSelect && identifyUnknownSelect(unnamedSelect)}
          { equipmentSelect && identifyItemSelect(equipmentSelect, 'equipment') }
          { toolSelect && identifyItemSelect(toolSelect, 'tools') }
       </div>

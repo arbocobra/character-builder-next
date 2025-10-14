@@ -1,5 +1,6 @@
 import { Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin, Ranger, Rogue, Sorcerer, Warlock, Wizard } from '@/lib/base/classes/classes';
 import { Dwarf, Elf, Halfling, Human, Dragonborn, Gnome, HalfElf, HalfOrc, Tiefling } from '@/lib/base/species/species'
+import { Acolyte, Charlatan, Criminal, Entertainer, FolkHero, GuildArtisan, Hermit, Noble, Outlander, Sage, Sailor, Soldier, Urchin } from '@/lib/base/backgrounds/backgrounds'
 import { updateValue as updateValueP, addToList as addToListP } from '@/lib/base/proficiencies.ts';
 import { setBaseHP } from '@/lib/base/hit-points.ts'
 import { updateValue as updateValueA, addToList as addToListA } from '@/lib/base/abilities.ts';
@@ -61,6 +62,39 @@ const applySpecies = (val, sub, level) => {
          return new Tiefling(level, sub);
       default:
          throw new Error(`Species ${val} not implemented`);
+   }
+}
+
+const applyBackground = (val) => {
+   switch (val) {
+      case 'acolyte':
+         return new Acolyte();
+      case 'charlatan':
+         return new Charlatan();
+      case 'criminal':
+         return new Criminal();
+      case 'entertainer':
+         return new Entertainer();
+      case 'folk hero':
+         return new FolkHero();
+      case 'guild artisan':
+         return new GuildArtisan();
+      case 'hermit':
+         return new Hermit();
+      case 'noble':
+         return new Noble();
+      case 'outlander':
+         return new Outlander();
+      case 'sage':
+         return new Sage();
+      case 'sailor':
+         return new Sailor();
+      case 'soldier':
+         return new Soldier();
+      case 'urchin':
+         return new Urchin();
+      default:
+         throw new Error(`Background ${val} not implemented`);
    }
 }
 
@@ -150,6 +184,20 @@ export const getSpeciesObject = (payload, state) => {
       proficiencies,
       features,
       abilities
+   }
+}
+
+export const getBackgroundObject = (payload, state) => {
+   const background = payload
+   const backgroundObject = applyBackground(background)
+   const proficiencies = updateValueP(backgroundObject.proficiencies, state.proficiencies, 'background')
+   const items = updateValueI(backgroundObject.items, state.items, 'background')
+   const features = updateValueF(state.features, 'background', backgroundObject.features)
+   return {
+      background,
+      proficiencies,
+      features,
+      items
    }
 }
 

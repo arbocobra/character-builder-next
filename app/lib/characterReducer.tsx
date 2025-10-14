@@ -1,4 +1,4 @@
-import { getLevelObject, getClassObject, getPathObject, getAbilitiesUpdateObject, getAddToListObject, getSpeciesObject } from './actions';
+import { getLevelObject, getClassObject, getPathObject, getAbilitiesUpdateObject, getAddToListObject, getSpeciesObject, getBackgroundObject } from './actions';
 import Proficiencies from '@/lib/base/proficiencies.ts';
 import HitPoints from '@/lib/base/hit-points.ts'
 import ArmourClass from '@/lib/base/armour-class.ts'
@@ -111,6 +111,24 @@ const characterReducer = (state:characterState, action:characterActions) => {
             abilities: changeSpecies.abilities,
             features: changeSpecies.features
          }
+      case 'SET_BACKGROUND':
+         const setBackground = getBackgroundObject(action.payload, state)
+         return {
+            ...state,
+            background: action.payload,
+            proficiencies: setBackground.proficiencies,
+            items: setBackground.items,
+            features: setBackground.features
+         }
+      case 'CHANGE_BACKGROUND':
+         const changeBackground = getBackgroundObject(action.payload, state)
+         return {
+            ...state,
+            background: action.payload,
+            proficiencies: changeBackground.proficiencies,
+            items: changeBackground.items,
+            features: changeBackground.features
+         }
       case 'UPDATE_ABILITIES':
          const updateAbilities = getAbilitiesUpdateObject(action.payload, state)
          return {
@@ -182,18 +200,18 @@ export const initialState: characterState = {
    items: {
       class: {
          armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: { 
-            armour: [], weapons: [], equipment: [], tools: []
+            armour: [], weapons: [], equipment: [], tools: [], unnamed: []
          }
       }, 
       background: {
          armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: { 
-            armour: [], weapons: [], equipment: [], tools: []
+            armour: [], weapons: [], equipment: [], tools: [], unnamed: []
          }
       },
       purchased: { 
          list: [], total: { 
             armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: { 
-               armour: [], weapons: [], equipment: [], tools: []
+               armour: [], weapons: [], equipment: [], tools: [], unnamed: []
             } 
          }
       }, 

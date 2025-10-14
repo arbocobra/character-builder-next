@@ -22,7 +22,8 @@ type BaseItems = {
       armour:string[],
       weapons:string[],
       equipment:string[],
-      tools:string[]
+      tools:string[],
+      unnamed:string[],
    }
 }
 
@@ -89,7 +90,6 @@ const calculateTotal = (update:Items) => {
    
    Object.keys(categories).forEach(el => addModifiers(categories[el]))
    update.total = total as Items['total'];
-   console.log(update.total)
    return update;
 }
 

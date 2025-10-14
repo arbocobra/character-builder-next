@@ -23,8 +23,12 @@ export const subspecies = {
    dwarf: ['Hill Dwarf', 'Mountain Dwarf'], elf: ['Dark Elf', 'High Elf', 'Wood Elf'], halfling: ['Lightfoot Halfling', 'Stout Halfling'], gnome: ['Forest Gnome', 'Rock Gnome']
 }
 
-export const backgrounds = [
-   'Acolyte', 'Charlatan', 'Criminal', 'Spy', 'Entertainer', 'Gladiator', 'Folk Hero', 'Guild Artisan', 'Guild Merchant', 'Hermit', 'Noble', 'Knight', 'Outlander', 'Sage', 'Sailor', 'Pirate', 'Soldier', 'Urchin'
+// export const backgrounds = [
+//    'Acolyte', 'Charlatan', 'Criminal', 'Spy', 'Entertainer', 'Gladiator', 'Folk Hero', 'Guild Artisan', 'Guild Merchant', 'Hermit', 'Noble', 'Knight', 'Outlander', 'Sage', 'Sailor', 'Pirate', 'Soldier', 'Urchin'
+// ]
+
+export const backgrounds = [ //variants removed
+   'Acolyte', 'Charlatan', 'Criminal', 'Entertainer', 'Folk Hero', 'Guild Artisan', 'Hermit', 'Noble', 'Outlander', 'Sage', 'Sailor', 'Soldier', 'Urchin'
 ]
 
 export const Simple_Weapons = [
@@ -69,3 +73,5 @@ export const ArtisansTools = [
 export const Musical_Instruments = ['Bagpipes', 'Drums', 'Dulcimer', 'Flute', 'Lute', 'Lyre', 'Horn', 'Pan flute', 'Shawm', 'Viol'];
 
 export const Languages = ['Common', 'Dwarvish', 'Elvish', 'Giant', 'Gnomish', 'Goblin', 'Halfling', 'Orc', 'Abyssal', 'Celestial', 'Draconic', 'Deep Speech', 'Infernal', 'Primordial', 'Sylvan', 'Undercommon'];
+
+export const GamingSet = [ 'Dice Set', 'Dragonchess Set', 'Playing Cards', 'Three-Dragon Ante Set' ]
