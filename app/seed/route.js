@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import postgres from 'postgres';
-import { users, characters } from '@/lib/placeholder-data'
+import { users } from '@/lib/placeholder-data'
 
 const sql = postgres(process.env.POSTGRES_URL)
 
@@ -26,37 +26,38 @@ async function seedUsers() {
     }),
   );
 
+  console.log(insertedUsers)
   return insertedUsers;
 }
 
-async function seedCharacters() {
-  await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-  await sql`
-    CREATE TABLE IF NOT EXISTS characters (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      user_id UUID NOT NULL
-      name VARCHAR(255) NOT NULL,
-      level INT NOT NULL,
-      class VARCHAR(255) NOT NULL,
-      subclass VARCHAR(255),
-      species VARCHAR(255) NOT NULL,
-      background VARCHAR(255) NOT NULL,
-      proficiency_bonus INT NOT NULL
-    );
-  `;
+// async function seedCharacters() {
+//   await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+//   await sql`
+//     CREATE TABLE IF NOT EXISTS characters (
+//       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+//       user_id UUID NOT NULL
+//       name VARCHAR(255) NOT NULL,
+//       level INT NOT NULL,
+//       class VARCHAR(255) NOT NULL,
+//       subclass VARCHAR(255),
+//       species VARCHAR(255) NOT NULL,
+//       background VARCHAR(255) NOT NULL,
+//       proficiency_bonus INT NOT NULL
+//     );
+//   `;
 
-  const insertedCharacters = await Promise.all(
-    characters.map(async (char) => {
-      return sql`
-        INSERT INTO characters (user_id, name, level, class, subclass, species, background, proficiency_bonus)
-        VALUES (${char.user_id}, ${char.name}, ${char.level}, ${char.class}, ${char.subclass} | )
-        ON CONFLICT (id) DO NOTHING;
-      `;
-    }),
-  );
+//   const insertedCharacters = await Promise.all(
+//     characters.map(async (char) => {
+//       return sql`
+//         INSERT INTO characters (user_id, name, level, class, subclass, species, background, proficiency_bonus)
+//         VALUES (${char.user_id}, ${char.name}, ${char.level}, ${char.class}, ${char.subclass} | )
+//         ON CONFLICT (id) DO NOTHING;
+//       `;
+//     }),
+//   );
 
-  return insertedUsers;
-}
+//   return insertedUsers;
+// }
 
 const obj = {
    proficiencies: {
@@ -106,6 +107,22 @@ const obj = {
    armourClass: { base: 10, dexMod: 3, total: 13 },
    hitPoints: { base: 31, total: 31 }
 }
+
+
+// const insertedUsers = await Promise.all(
+//     users.map(async (user) => {
+//       const hashedPassword = await bcrypt.hash(user.password, 10);
+//       return sql`
+//         INSERT INTO users (id, name, email, password)
+//         VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword})
+//         ON CONFLICT (id) DO NOTHING;
+//       `;
+//     }),
+//   );
+
+//   return insertedUsers;
+// }
+
 async function addCharacter() {
    const { dataHP, errorHP } = await sql
       .from('hit points')
@@ -135,7 +152,7 @@ async function addCharacter() {
 export async function GET() {
   try {
     const _result = await sql.begin((sql) => [
-      addCharacter()
+      seedUsers()
     ]);
 
     return Response.json({ message: 'Database seeded successfully' });

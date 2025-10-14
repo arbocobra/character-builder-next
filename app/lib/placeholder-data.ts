@@ -1,17 +1,33 @@
 export const users = [
-  {
-    id: '410544b2-4001-4271-9855-fec4b6a6442a',
-    name: 'User',
-    email: 'user@nextmail.com',
-    password: '123456',
-  },
+//   {
+//     id: '410544b2-4001-4271-9855-fec4b6a6442a',
+//     name: 'User',
+//     email: 'user@nextmail.com',
+//     password: '123456',
+//   },
+   {name: 'Natalie', email: 'natalie@email.com', password: '123123'},
 ];
 
-// const characters = [
-//    {
-
-//    }
-// ]
+export const characters = [
+   {
+      // user_id: users[0].id,
+      name: 'Jeff',
+      level: 1,
+      class: 'barbarian',
+      species: 'wood elf',
+      background: 'soldier',
+      proficiency_bonus: 2,
+      // hit_dice:number;
+      // hit_points:undefined;
+      // proficiencies:undefined;
+      // abilities:undefined;
+      // speed:undefined;
+      // initiative_bonus:number;
+      // armour_class:undefined;
+      // features:undefined;
+      // items:undefined;
+   }
+]
 
 /*
 export const initialState: characterState = {
