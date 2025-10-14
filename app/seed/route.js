@@ -26,7 +26,6 @@ async function seedUsers() {
     }),
   );
 
-  console.log(insertedUsers)
   return insertedUsers;
 }
 
@@ -60,6 +59,14 @@ async function seedUsers() {
 // }
 
 const obj = {
+   user_id: '3499732b-7956-4038-aff2-c0760d0f91e9',
+   name: 'Jeff',
+   level: 4,
+   class: 'bard',
+   subclass: 'valour',
+   species: 'lightfoot halfling',
+   background: 'entertainer',
+   proficiency_bonus: 2, 
    proficiencies: {
       background: {
          skills: ['Acrobatics', 'Performance'],
@@ -123,39 +130,37 @@ const obj = {
 //   return insertedUsers;
 // }
 
-async function addCharacter() {
-   const { dataHP, errorHP } = await sql
-      .from('hit points')
-      .upsert({base: obj.hitPoints.base, total: obj.hitPoints.total})
-      .select()
-   let idHP;
-   if (errorHP) console.error('oops: ', errorHP)
-   else idHP = dataHP[0].id;
-   const { data, error } = await sql
-      .from('characters')
-      .upsert({
-         user_id: '410544b2-4001-4271-9855-fec4b6a6442a', 
-         name: 'Jeff',
-         level: 4,
-         class: 'bard',
-         subclass: 'valour',
-         species: 'lightfoot halfling',
-         background: 'entertainer',
-         proficiency_bonus: 2, 
-         hit_points: idHP
-      })
-      .select()
-   if (error) console.error('boop: ', error)
-   else console.log('character id: ', data[0].id)
+async function addHP() {
+   const hp = await sql `
+      insert into hit_points (base, total)
+      values (31,31)
+      returning id;
+   `
+   return hp
+}
+
+async function addCharacter(hp) {
+   const char = await sql `
+      insert into characters (user_id, name, level, class, subclass, species, background, proficiency_bonus, hit_points)
+      values (${obj.user_id}, ${obj.name}, ${obj.level}, ${obj.class}, ${obj.subclass}, ${obj.species}, ${obj.background}, ${obj.proficiency_bonus}, ${hp});
+   `
+   return char
 }
 
 export async function GET() {
   try {
-    const result = await sql.begin((sql) => [
-      seedUsers()
-    ]);
-
-    return Response.json({ message: 'Database seeded successfully', data: result });
+   const [hp, char] = await sql.begin(async sql => {
+      const [hp] = addHP()
+      const [char] = addCharacter(hp.id)
+  return [hp, char]
+})
+   //  const resultHP = await sql.begin((sql) => [
+   //    addHP(),
+   //  ]);
+   //  const result = await sql.begin((sql) => [
+   //    addCharacter(resultHP[0].id)
+   //  ]);
+    return Response.json({ message: 'Database seeded successfully'});
   } catch (error) {
     return Response.json({ error }, { status: 500 });
   }
