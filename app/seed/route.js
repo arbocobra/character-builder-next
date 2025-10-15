@@ -67,6 +67,11 @@ const obj = {
    species: 'lightfoot halfling',
    background: 'entertainer',
    proficiency_bonus: 2, 
+   armour_class: {
+      base: 10,
+      dex_mod: 2,
+      total: 12
+   },
    proficiencies: {
       background: {
          skills: ['Acrobatics', 'Performance'],
@@ -112,7 +117,8 @@ const obj = {
       }
    },
    armourClass: { base: 10, dexMod: 3, total: 13 },
-   hitPoints: { base: 31, total: 31 }
+   hitPoints: { base: 31, total: 31 },
+
 }
 
 
@@ -139,29 +145,64 @@ async function addHP() {
    return hp
 }
 
-async function addCharacter(hp) {
+async function addAC() {
+   const ac = await sql `
+      insert into armour_class (base, dex_mod, total)
+      values (10,2,12)
+      returning id;
+   `
+   return ac
+}
+
+async function addCharacter(ac) {
    const char = await sql `
-      insert into characters (user_id, name, level, class, subclass, species, background, proficiency_bonus, hit_points)
-      values (${obj.user_id}, ${obj.name}, ${obj.level}, ${obj.class}, ${obj.subclass}, ${obj.species}, ${obj.background}, ${obj.proficiency_bonus}, ${hp});
+      insert into characters (user_id, name, level, class, subclass, species, background, proficiency_bonus, armour_class)
+      values (${obj.user_id}, ${obj.name}, ${obj.level}, ${obj.class}, ${obj.subclass}, ${obj.species}, ${obj.background}, ${obj.proficiency_bonus}, ${ac});
    `
    return char
 }
 
 export async function GET() {
   try {
-   const [hp, char] = await sql.begin(async sql => {
-      const [hp] = addHP()
-      const [char] = addCharacter(hp.id)
-  return [hp, char]
-})
-   //  const resultHP = await sql.begin((sql) => [
-   //    addHP(),
-   //  ]);
-   //  const result = await sql.begin((sql) => [
-   //    addCharacter(resultHP[0].id)
-   //  ]);
+      const ac = await addAC()
+      const char = await addCharacter(ac[0].id)
+      // const [hp, char] = await sql.begin(async sql => {
+      //    const [hp] = addHP()
+      //    const [char] = addCharacter(hp[0].id)
+      //    return [hp, char]
+      // })
     return Response.json({ message: 'Database seeded successfully'});
   } catch (error) {
     return Response.json({ error }, { status: 500 });
   }
 }
+
+// sql.begin('read write', async sql => {
+//   const [user] = await sql`
+//     insert into users (
+//       name
+//     ) values (
+//       'Murray'
+//     )
+//   `
+
+//   const [account] = (await sql.savepoint(sql =>
+//     sql`
+//       insert into accounts (
+//         user_id
+//       ) values (
+//         ${ user.user_id }
+//       )
+//     `
+//   ).catch(err => {
+//     // Account could not be created. ROLLBACK SAVEPOINT is called because we caught the rejection.
+//   })) || []
+
+//   return [user, account]
+// })
+// .then(([user, account]) => {
+//   // great success - COMMIT succeeded
+// })
+// .catch(() => {
+//   // not so good - ROLLBACK was called
+// })
