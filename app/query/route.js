@@ -2,15 +2,15 @@ import postgres from 'postgres';
 
 const sql = postgres(process.env.POSTGRES_URL);
 
-// async function listClasses() {
-// 	const data = await sql`SELECT * FROM classes`;
-// 	return data;
-// }
+async function listCharacters() {
+	const data = await sql`SELECT * FROM characters`;
+	return data;
+}
 
-// export async function GET() {
-//   try {
-//   	return Response.json(await listClasses());
-//   } catch (error) {
-//   	return Response.json({ error }, { status: 500 });
-//   }
-// }
+export async function GET() {
+  try {
+  	return Response.json(await listCharacters());
+  } catch (error) {
+  	return Response.json({ error }, { status: 500 });
+  }
+}
