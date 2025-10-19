@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { signOut } from '@/app/auth';
+import { signOut } from '@/auth';
 
 const SideNav = () => {
    return (

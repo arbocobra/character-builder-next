@@ -1,6 +1,6 @@
 import CharacterList from '@/app/ui/dashboard/characters/character-list'
 import { fetchCharactersPreview } from '@/app/lib/data.ts'
-import { auth } from '@/app/auth'
+import { auth } from '@/auth'
 
 const Page = async () => {
    const session = await auth()

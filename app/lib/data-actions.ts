@@ -6,9 +6,21 @@ import { redirect } from 'next/navigation';
 import bcrypt from 'bcrypt';
 import postgres from 'postgres';
 import { AuthError } from 'next-auth';
-import { signIn } from '@/app/auth';
+import { signIn } from '@/auth';
+import type { User } from '@/app/lib/definitions';
+
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+
+export const getUser = async (email: string): Promise<User | undefined> => {
+  try {
+    const user = await sql<User[]>`SELECT * FROM users WHERE email=${email}`;
+    return user[0];
+  } catch (error) {
+    console.error('Failed to fetch user:', error);
+    throw new Error('Failed to fetch user.');
+  }
+}
 
 const UserFormSchema = z.object({
    name: z.string(),
