@@ -1,16 +1,6 @@
-import { Geist, Geist_Mono, Roboto, Playfair } from "next/font/google";
+import { Roboto, Playfair } from "next/font/google";
 import './globals.css'
 import 'react-tooltip/dist/react-tooltip.css'
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
 
 const roboto = Roboto({
   subsets: ["latin"],

@@ -1,66 +1,53 @@
 @import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  color-scheme: light;
-  /* --background: #ededed;
-  --foreground: #0a0a0a; */
+@theme {
+  --color-light-old: #f8f7e3;
+  --color-light: #eff0e0;
+  --color-dark: #353535;
+  --color-light-blue: #7E9AA6;
+  --color-dark-blue: #284b63;
+  --background-image-hero-img: url('../public/background-2250.jpg');
 }
 
-@theme inline {
-  /* --color-background: var(--background);
-  --color-foreground: var(--foreground);
+/* @theme inline {
   --font-sans: var(--font-roboto);
-  --font-mono: var(--font-geist-mono); */
-  --font-serif: var(--font-playfair)
-}
-
-/* @media (prefers-color-scheme: dark) {
-   :root {
-    --background: #ededed;
-    --foreground: #0a0a0a;
-  }
+  --font-serif: var(--font-playfair);
 } */
 
 body {
-  background: #ededed;
-  color: #0a0a0a;
-  /* background: var(--background);
-  color: var(--foreground); */
+  background-color: var(--color-light);
   font-family: var(--font-roboto);
-  font-size: 14px;
+  color: var(--color-dark);
+}
+
+h1 {
+  font-family: var(--font-playfair);
+}
+
+/* Utility Classes */
+
+@utility no-scrollbar {
+  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  /* border: 1px solid green; */
-  /* -webkit-text-fill-color: green; */
-  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+  -webkit-box-shadow: 0 0 0px 1000px #f6f3f4 inset;
   transition: background-color 5000s ease-in-out 0s;
 }
 
+.text-input input {
+  @apply bg-gray-100 p-1 flex-1;
+}
 
-
-
-/* .button_default {
-   @apply text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800;
- } */
-
- /* .button, input, select {
-  color: var(--color-gray-950);
-  background-color: #ededed;
-  border: 2px solid var(--color-gray-950);
-  padding: 0 8px;
-  font-size: 12px;
-  height: 25px;
- }
-
- .button:disabled {
-  color: var(--color-gray-400);
-  border: 2px solid var(--color-gray-400);
- } */
+/* 
+.home-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  scroll-snap-type: y mandatory;
+}
+.home-scroll > section {
+  scroll-snap-align: center;
+} */

@@ -1,7 +1,14 @@
+// export const SubmitButton = ({value, isDisabled}) => {
+//    const submit = 'text-white bg-sky-900 hover:bg-sky-950 focus:outline-none focus:ring-4 focus:ring-sky-800 font-medium rounded-md text-16/1 px-4 py-1.5 dark:bg-sky-900 dark:hover:bg-sky-950 dark:focus:ring-sky-800 dark:border-sky-800'
+//    return (
+//       <input className={submit} type='submit' value={value} disabled={isDisabled} />
+//    );
+// }
+
 export const SubmitButton = ({value, isDisabled}) => {
-   const submit = 'text-white bg-sky-900 hover:bg-sky-950 focus:outline-none focus:ring-4 focus:ring-sky-800 font-medium rounded-md text-16/1 px-4 py-1.5 dark:bg-sky-900 dark:hover:bg-sky-950 dark:focus:ring-sky-800 dark:border-sky-800'
+   const submit = 'text-white bg-dark-blue hover:bg-light-blue focus:outline-none focus:ring-4 focus:ring-dark-blue font-medium rounded-md text-16/1 px-4 py-1.5'
    return (
-      <input className={submit} type='submit' value={value} disabled={isDisabled} />
+      <input className={submit} aria-disabled={isDisabled} type='submit' value={value} />
    );
 }
 

@@ -1,25 +1,29 @@
-import Image from "next/image";
 import Link from 'next/link';
 
 export default function Home() {
 
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Link href='/login' ><span>Log in</span></Link>
-          </a>
+    <main className='relative w-full h-screen p-0 m-0'>
+      <section className='bg-hero-img h-screen w-full bg-cover relative bg-center z-2 shadow-lg flex flex-col p-5'>
+        <div className='w-full flex justify-end'>
+          <Link href='/login'>
+            <div className='text-lg font-medium bg-dark-blue px-4 py-1 rounded-md text-white hover:bg-light-blue'>Log In</div>
+          </Link>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        
-      </footer>
-    </div>
+        <div className='flex flex-1 justify-center items-center'>
+          <div className='border-3 p-5'>
+            <h1 className='text-[60px]/12 text-center font-medium'>Table-Top Game<br/>Character Builder</h1>
+          </div>
+        </div>
+      </section>
+      <section className='w-full h-150 z-1 sticky bottom-0 bg-light-blue flex flex-col gap-3 p-5 items-center'>
+        <div className='flex flex-col gap-3 justify-center w-2/3 flex-1'>
+          <p>Longer text description here - stuff about how fucking elaborate this is.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lacinia, mauris in lobortis pretium, tortor leo scelerisque diam, at mollis ipsum urna quis libero. Ut vitae luctus turpis, sit amet tincidunt nisl. Suspendisse posuere elementum blandit. Phasellus non viverra sem, at pharetra massa. Nam ut nunc et libero condimentum tincidunt et non nibh. Praesent dictum nisl quis risus molestie, et cursus erat faucibus. Sed malesuada porttitor mauris, ac rhoncus neque fermentum pellentesque. Aenean non aliquet enim, in lacinia metus. Etiam a nisl erat.</p>
+          <p>Proin at risus mauris. Nulla non massa sit amet risus rhoncus lobortis. Mauris quis augue a sapien venenatis lacinia quis sit amet libero. Praesent molestie euismod tellus, at euismod nunc tempus eget. Fusce at nibh arcu. Praesent eu risus augue. Nulla ac venenatis nunc, vitae porttitor dui. Donec vulputate feugiat diam in pretium. </p>
+          </div>
+        <div className='w-2/3'>Copyright Goes Here</div>
+      </section>
+    </main>
   );
 }
