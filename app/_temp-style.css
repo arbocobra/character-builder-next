@@ -1,0 +1,97 @@
+@import 'tailwindcss';
+@import 'tailwindcss/preflight';
+
+:root {
+  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-roboto);
+  --color-light: #f8f7e3;
+  --color-dark: #353535;
+  --color-light-blue: #7E9AA6;
+  --color-dark-blue: #284b63;
+}
+
+body {
+  background-color: var(--color-light);
+  font-family: var(--font-sans);
+  color: var(--color-dark);
+}
+
+.hero-image {
+  background-image: url('../public/background-2250.jpg');
+}
+
+
+/* :root {
+  color-scheme: light;
+  //--background: #ededed;
+  //--foreground: #0a0a0a;
+} */
+
+
+/* @theme inline {
+  //--color-background: var(--background);
+  //--color-foreground: var(--foreground);
+  //--font-sans: var(--font-roboto);
+  //--font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-playfair)
+} */
+
+/* @media (prefers-color-scheme: dark) {
+   :root {
+    --background: #ededed;
+    --foreground: #0a0a0a;
+  }
+} */
+
+/* body {
+  background: #ededed;
+  color: #0a0a0a;
+  //background: var(--background);
+  //color: var(--foreground);
+  font-family: var(--font-roboto);
+  font-size: 14px;
+} */
+
+/* input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+  transition: background-color 5000s ease-in-out 0s;
+} */
+
+
+
+
+
+/* .button_default {
+   @apply text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800;
+ } */
+
+ .button, input, select {
+  color: var(--color-gray-950);
+  background-color: #ededed;
+  border: 2px solid var(--color-gray-950);
+  padding: 0 8px;
+  font-size: 12px;
+  height: 25px;
+ }
+
+ .button:disabled {
+  color: var(--color-gray-400);
+  border: 2px solid var(--color-gray-400);
+ }
+
+ /* 
+ 
+--cadet-gray: #7e9aa6ff;
+--jet: #353535ff;
+--beige: #f8f7e3ff;
+--indigo-dye: #284b63ff;
+
+--cadet-gray: hsla(198, 18%, 57%, 1);
+--jet: hsla(0, 0%, 21%, 1);
+--beige: hsla(57, 60%, 93%, 1);
+--indigo-dye: hsla(204, 42%, 27%, 1);
+
+ */

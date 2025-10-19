@@ -29,7 +29,7 @@ const CharacterSelect = () => {
    let hasName = character.name ? true : false
    
    return (
-      <div className='items-start flex flex-col w-1/2 p-4 m-1 gap-4 items-stretch'>
+      <div className='items-stretch flex flex-col w-1/2 p-4 m-1 gap-4'>
          <SelectContainer show={true} name='Primary'>
             <InitialForm current={character} createCharacter={createCharacter} updateLevel={updateLevel} updateByName={updateByName} />
          </SelectContainer>
