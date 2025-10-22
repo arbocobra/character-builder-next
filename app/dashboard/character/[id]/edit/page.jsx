@@ -1,5 +1,5 @@
 import { fetchCharacter } from '@/lib/data.ts'
-import EditCharacterForm from '@/ui/dashboard/characters/edit-form'
+import EditCharacterForm from '@/ui/character/edit'
 import { notFound } from 'next/navigation';
 
 const Page = async ({ params }) => {
@@ -9,7 +9,7 @@ const Page = async ({ params }) => {
 
    return (
       <main>
-         <EditCharacterForm character={character[0]} />
+         <EditCharacterForm current={character} />
       </main>
    );
 }

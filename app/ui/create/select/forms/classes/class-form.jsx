@@ -45,7 +45,7 @@ const ClassForm = ({current, setClass, updateByPath, changeClass, addToList}) =>
          initProficiencies.current = JSON.parse(JSON.stringify(current.proficiencies.class))
          inititems.current = JSON.parse(JSON.stringify(current.items.class))
       }
-   }, [current])
+   }, [current.class])
 
    return (
       <div className='flex flex-col gap-5'>

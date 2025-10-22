@@ -33,8 +33,7 @@ type ItemsList = {
 }
 
 type Item = {
-   name:string,
-   level:number,
+   prop:string,
    value:string,
 }
 

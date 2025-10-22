@@ -10,6 +10,9 @@ export const CharacterProvider = ({ children }) => {
    const createCharacter = (name, level) => {
       dispatch({type: 'CREATE_CHARACTER', payload: {name, level}});
    }
+   const setSavedCharacter = (char) => {
+      dispatch({type: 'SET_SAVED_CHARACTER', payload: char});
+   }
    const updateLevel = (level) => {
       dispatch({type: 'UPDATE_LEVEL', payload: level});
    }
@@ -47,6 +50,7 @@ export const CharacterProvider = ({ children }) => {
    const value = {
       character: state,
       createCharacter,
+      setSavedCharacter,
       updateLevel,
       updateByName,
       updateByPath,

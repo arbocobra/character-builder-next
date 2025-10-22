@@ -16,7 +16,7 @@ export type Character = {
    proficiency_bonus:number;
    hit_dice?:number;
    hit_points?:undefined;
-   proficiencies?:undefined;
+   proficiencies?:any;
    abilities?:undefined;
    speed?:undefined;
    initiative_bonus?:number;

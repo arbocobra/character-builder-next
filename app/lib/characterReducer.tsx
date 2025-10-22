@@ -1,4 +1,4 @@
-import { getLevelObject, getClassObject, getPathObject, getAbilitiesUpdateObject, getAddToListObject, getSpeciesObject, getBackgroundObject } from './actions';
+import { getSavedCharacterObject, getLevelObject, getClassObject, getPathObject, getAbilitiesUpdateObject, getAddToListObject, getSpeciesObject, getBackgroundObject } from './actions';
 import Proficiencies from '@/lib/base/proficiencies.ts';
 import HitPoints from '@/lib/base/hit-points.ts'
 import ArmourClass from '@/lib/base/armour-class.ts'
@@ -24,6 +24,8 @@ type characterState = {
    armour_class: ArmourClass,
    features: Features,
    items: Items,
+   id:string | undefined,
+   user_id:string | undefined
 }
 
 type characterActions = 
@@ -44,6 +46,11 @@ const characterReducer = (state:characterState, action:characterActions) => {
             level: action.payload.level, 
             // features: new Features(),
          };
+      case 'SET_SAVED_CHARACTER':
+         let updatedState = getSavedCharacterObject(action.payload, state)
+         console.log(updatedState)
+         const mergedState = {...state, ...updatedState}
+         return mergedState
       case 'UPDATE_LEVEL':
          let updateLevel = getLevelObject(action.payload, state.class ? true : false, state)
          return {
@@ -217,6 +224,8 @@ export const initialState: characterState = {
       }, 
       total: { armour: [], weapons: [], equipment: [], tools: [],  currency: 0 }
    },
+   id: undefined,
+   user_id: undefined,
 };
 
 export default characterReducer;

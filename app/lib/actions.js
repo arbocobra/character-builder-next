@@ -98,6 +98,20 @@ const applyBackground = (val) => {
    }
 }
 
+export const getSavedCharacterObject = (char, state) => {
+   let keys = Object.keys(char)
+   let updateState = {}
+   keys.forEach(k => {
+      if (char[k]) {
+         if (typeof char[k] === 'string' && typeof state[k] === 'object') updateState[k] = state[k]
+         else updateState[k] = char[k]
+      } else {
+         updateState[k] = state[k]
+      }
+   })
+   return updateState;
+}
+
 export const getLevelObject = (level, hasClass, state) => {
    let proficiencyBonus = Math.ceil(level / 4) + 1;
    let hitPoints, features;

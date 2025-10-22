@@ -31,12 +31,12 @@ export type BaseProficiencies = {
    }
 }
 
-type ProficienciesList = {
+export type ProficienciesList = {
    list:ProficienciesItem[],
    total: BaseProficiencies,
 }
 
-type ProficienciesItem = {
+export type ProficienciesItem = {
    name:string,
    prop:string,
    level:number,

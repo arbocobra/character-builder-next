@@ -22,7 +22,7 @@ const CharacterList = ({characters}) => {
                         </div>
                      </div>
                      <div className='flex gap-2'>
-                        <Link href={`/dashboard/characters/${el.id}/edit`}>Edit</Link>
+                        <Link href={`/dashboard/character/${el.id}/edit`}>Edit</Link>
                         <span>Delete</span>
                      </div>
                   </div>
