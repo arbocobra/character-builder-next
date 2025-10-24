@@ -6,7 +6,6 @@ import ASISelect from '@/ui/create/select/forms/classes/asi-select'
 import { ClassSelection } from './class-select'
 
 const ClassForm = ({current, setClass, updateByPath, changeClass, addToList}) => {
-   // const [display, setDisplay] = useState(false)
    const hasClass = current.class ? true : false
    const isSubmitting = useRef(false)
    const initProficiencies = useRef(null);

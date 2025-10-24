@@ -7,14 +7,15 @@ const CharacterContext = createContext(initialState);
 
 export const CharacterProvider = ({ children }) => {
    const [state, dispatch] = useReducer(characterReducer, initialState);
+
    const createCharacter = (name, level) => {
       dispatch({type: 'CREATE_CHARACTER', payload: {name, level}});
    }
    const setSavedCharacter = (char) => {
       dispatch({type: 'SET_SAVED_CHARACTER', payload: char});
    }
-   const updateLevel = (level) => {
-      dispatch({type: 'UPDATE_LEVEL', payload: level});
+   const updateLevel = (name, level) => {
+      dispatch({type: 'UPDATE_LEVEL', payload: {name, level}});
    }
    const updateByName = (name, value) => {
       dispatch({type: 'UPDATE_STAT_BY_NAME', payload: {name, value}});
@@ -46,6 +47,9 @@ export const CharacterProvider = ({ children }) => {
    const addToList = (cat, val) => {
       dispatch({type: 'ADD_TO_LIST', payload: {cat, val}})
    }
+   const resetState = () => {
+      dispatch({type: 'RESET_STATE'})
+   }
 
    const value = {
       character: state,
@@ -61,7 +65,8 @@ export const CharacterProvider = ({ children }) => {
       setBackground,
       changeBackground,
       updateAbilities,
-      addToList
+      addToList,
+      resetState
    };
 
    return <CharacterContext.Provider value={value}>{children}</CharacterContext.Provider>;

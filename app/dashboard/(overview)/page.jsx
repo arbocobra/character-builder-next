@@ -1,4 +1,4 @@
-import CharacterList from '@/app/ui/dashboard/characters/character-list'
+import CharacterList from '@/app/ui/dashboard/character-list'
 import { fetchCharactersPreview } from '@/app/lib/data.ts'
 import { auth } from '@/auth'
 

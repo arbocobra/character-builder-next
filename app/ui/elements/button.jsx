@@ -5,6 +5,13 @@
 //    );
 // }
 
+export const SelectButton = ({value}) => {
+   const submit = 'text-white bg-dark-blue hover:bg-light-blue focus:outline-none focus:ring-4 focus:ring-dark-blue font-medium rounded-md text-16/1 px-4 py-1.5'
+   return (
+      <input className={submit} type='submit' value={value} />
+   );
+}
+
 export const SubmitButton = ({value, isDisabled}) => {
    const submit = 'text-white bg-dark-blue hover:bg-light-blue focus:outline-none focus:ring-4 focus:ring-dark-blue font-medium rounded-md text-16/1 px-4 py-1.5'
    return (

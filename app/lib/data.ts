@@ -6,6 +6,8 @@ const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 export const fetchCharactersPreview = async (id:string) => {
    try {
+      console.log(process.env.POSTGRES_URL)
+      console.log('trying...')
       const data = await sql<CharacterPreview[]>`
       SELECT id, name, level, class, species, background FROM characters
       WHERE user_id = ${id}

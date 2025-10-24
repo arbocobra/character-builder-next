@@ -48,14 +48,16 @@ const characterReducer = (state:characterState, action:characterActions) => {
          };
       case 'SET_SAVED_CHARACTER':
          let updatedState = getSavedCharacterObject(action.payload, state)
-         console.log(updatedState)
+         // console.log(updatedState)
          const mergedState = {...state, ...updatedState}
          return mergedState
       case 'UPDATE_LEVEL':
          let updateLevel = getLevelObject(action.payload, state.class ? true : false, state)
          return {
             ...state, 
-            level: action.payload, 
+            level: updateLevel.level, 
+            name: updateLevel.name,
+            subclass: updateLevel.subclass,
             proficiency_bonus: updateLevel.proficiencyBonus, 
             hit_points: updateLevel.hitPoints,
             features: updateLevel.features
@@ -149,6 +151,8 @@ const characterReducer = (state:characterState, action:characterActions) => {
          return addToList
             ? { ...state, abilities: addToList.abilities, armour_class: addToList.armour_class, hit_points: addToList.hit_points }
             : state;
+      case 'RESET_STATE':
+         return initialState;
       default:
          return state;
    }

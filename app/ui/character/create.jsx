@@ -1,22 +1,59 @@
 'use client'
 
-import { classes } from '@/lib/init-data';
-import ClassSelect from '@/ui/character/forms/class-select'
-import dynamic from 'next/dynamic';
-const Select = dynamic(() => import('react-select'), { ssr: false });
+import { useState, useEffect, Suspense } from 'react';
+import useCharacter from '@/dash/character-context';
+import FormContainer from '@/ui/character/forms/form-container';
+import ClassContainer from '@/ui/character/forms/select/class-select';
+import InitSelect from '@/ui/character/forms/select/init-select'
+import Loading from './loading';
 
-const CreateCharacterForm = () => {
-   const initialState = { message: null, errors: {} };
+const CreateCharacterForm = ({}) => {
+   /*
+   createCharacter, setSavedCharacter, updateLevel, updateByName, updateByPath, setClass, changeClass, setSpecies, changeSpecies, setBackground, changeBackground, updateAbilities, addToList, resetState 
+   */
 
-   const handleSubmitClass = (className, subName = null) => {
-      console.log(className, subName)
+   const { character, createCharacter, updateLevel, setClass, changeClass, resetState } = useCharacter();
+   const [isLoading, setIsLoading] = useState(true)
+
+   const initSelect = character.name ? true : false;
+
+   const getInitialValue = (list, init) => {
+      list.find((x) => x.value === init)
    }
 
-   return (
-      <div>
-         <ClassSelect submit={handleSubmitClass} level={1} defaultClass={null} defaultSubclass={null} />
+   const initSubmit = (n, l) => {
+      if (character.name) {
+         if (character.name !== n || character.level !== l) updateLevel(n, l);
+      }
+      else createCharacter(n, l);
+   }
+
+   const classSubmit = (id, val) => {
+      if (id === 'class') {
+         character.class ? changeClass(val.class, val.subclass || null) : setClass(val.class, val.subclass || null)
+      }
+   }
+
+   const resetOnLoad = () => {
+      resetState();
+      setIsLoading(false);
+   }
+
+   useEffect(() => {
+      resetOnLoad();
+   }, [])
+
+   if (isLoading) return <Loading />
+   else return (
+      <div className='items-stretch flex flex-col w-1/2 p-4 m-1 gap-4'>
+         <FormContainer name={'Default'} show={true}>
+            <InitSelect current={character} isEdit={false} submit={initSubmit} />
+         </FormContainer>
+         { initSelect && <FormContainer name={'Class'} show={true}>
+            <ClassContainer current={character} isEdit={false} getInitialValue={getInitialValue} submit={classSubmit} />
+         </FormContainer> }
       </div>
    )
 }
 
-export default CreateCharacterForm
+export default CreateCharacterForm;

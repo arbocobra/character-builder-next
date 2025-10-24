@@ -1,15 +1,17 @@
 import { fetchCharacter } from '@/lib/data.ts'
-import EditCharacterForm from '@/ui/character/edit'
+import EditFormParent from '@/ui/character/edit'
+import CharacterDisplay from '@/ui/create/display/character-display'
 import { notFound } from 'next/navigation';
 
 const Page = async ({ params }) => {
    const {id} = await params;
 
-   const character = await fetchCharacter(id)
+   const savedCharacter = await fetchCharacter(id)
 
    return (
-      <main>
-         <EditCharacterForm current={character} />
+      <main className='flex flex-row'>
+         <EditFormParent current={savedCharacter} />
+         <CharacterDisplay />
       </main>
    );
 }
