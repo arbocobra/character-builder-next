@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import useCharacter from '@/dash/character-context';
 import FormContainer from '@/ui/character/forms/form-container';
 import ClassContainer from '@/ui/character/forms/select/class-select';
@@ -30,7 +30,7 @@ const EditFormParent = ({current}) => {
 
 const EditCharacterForm = ({character}) => {
 
-   const { updateLevel, changeClass } = useCharacter()
+   const { updateLevel, changeClass, updateByPath } = useCharacter()
 
    const getInitialValue = (list, init) => list.find((x) => x.value === init)
 
@@ -39,7 +39,8 @@ const EditCharacterForm = ({character}) => {
    }
 
    const classSubmit = (id, val) => {
-      if (id === 'class') changeClass(val.class, val.subclass || null)
+      if (id === 'class') changeClass(val.class, val.subclass || null);
+      else if (id === 'proficiencies') updateByPath(val.path, val.value);
    }
 
    return (

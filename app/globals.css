@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 @theme {
   --color-light-old: #f8f7e3;
   --color-light: #eff0e0;
@@ -9,10 +10,10 @@
   --background-image-hero-img: url('../public/background-2250.jpg');
 }
 
-/* @theme inline {
-  --font-sans: var(--font-roboto);
+@theme inline {
+  /* --font-sans: var(--font-roboto); */
   --font-serif: var(--font-playfair);
-} */
+}
 
 body {
   background-color: var(--color-light);

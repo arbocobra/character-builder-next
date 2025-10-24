@@ -12,7 +12,7 @@ const CreateCharacterForm = ({}) => {
    createCharacter, setSavedCharacter, updateLevel, updateByName, updateByPath, setClass, changeClass, setSpecies, changeSpecies, setBackground, changeBackground, updateAbilities, addToList, resetState 
    */
 
-   const { character, createCharacter, updateLevel, setClass, changeClass, resetState } = useCharacter();
+   const { character, createCharacter, updateLevel, updateByPath, setClass, changeClass, resetState } = useCharacter();
    const [isLoading, setIsLoading] = useState(true)
 
    const initSelect = character.name ? true : false;
@@ -29,9 +29,8 @@ const CreateCharacterForm = ({}) => {
    }
 
    const classSubmit = (id, val) => {
-      if (id === 'class') {
-         character.class ? changeClass(val.class, val.subclass || null) : setClass(val.class, val.subclass || null)
-      }
+      if (id === 'class') character.class ? changeClass(val.class, val.subclass || null) : setClass(val.class, val.subclass || null)
+      else if (id === 'proficiencies') updateByPath(val.path, val.value);
    }
 
    const resetOnLoad = () => {

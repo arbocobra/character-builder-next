@@ -222,5 +222,17 @@ export const getBackgroundObject = (payload, state) => {
    }
 }
 
+export const getInitialProficiencyList = (cat, id) => {
+   let result;
+   if (cat === 'class') result = applyClass(id, 1)
+   else if (cat === 'background') result = applyBackground(id)
+   else if (cat === 'species') {
+      let species = id.split(' ')[1]
+      let subspecies = id
+      result = applySpecies(species, subspecies)
+   }
+   return result.proficiencies;
+}
+
 export const changeClass = (className, state) => {}
 export const changeSpecies = (species, subspecies, state) => {}

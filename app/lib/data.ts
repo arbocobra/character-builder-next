@@ -1,13 +1,12 @@
 import postgres from 'postgres';
 import { Character, CharacterPreview } from '@/lib/definitions'
+import { SelectProficiencies } from '@/lib/query-types'
 import Proficiencies, {BaseProficiencies, ProficienciesItem, ProficienciesList} from '@/lib/base/proficiencies.ts';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 export const fetchCharactersPreview = async (id:string) => {
    try {
-      console.log(process.env.POSTGRES_URL)
-      console.log('trying...')
       const data = await sql<CharacterPreview[]>`
       SELECT id, name, level, class, species, background FROM characters
       WHERE user_id = ${id}
@@ -34,21 +33,33 @@ export const fetchCharacter = async (id:string) => {
    }
 }
 
-type ProficiencyRow<T> = { [Property in keyof T as Exclude<Property, 'category'>]: T[Property] }
+type ProficiencyRow = { [key:string]: any }
 
 const fetchCharacterCategories = async(id:string) => {
-   const baseData = await sql`SELECT * FROM get_proficiencies(${id})`
+   const baseData = await sql<ProficiencyRow[]>`SELECT * FROM get_proficiencies(${id})`
    let result:{[key:string]:any} = {}
    let list:{[key:string]:any} = {}
    for (let row of baseData) {
-      let id:string = row.category;
-      let val:ProficiencyRow<typeof row> = row;
-      if (id === 'feat') list.total = val
-      else result[id] = val as BaseProficiencies;
+      const { category, saving_throws, select_from_list, ...val } = row;
+      if (category === 'total') {
+         const finalVal = {savingThrows: saving_throws, ...val}
+         result.total = finalVal as BaseProficiencies;
+      } else {
+         const finalVal = {savingThrows: saving_throws, selectFromList: select_from_list, ...val}
+         if (category === 'feats') { list.total = finalVal as BaseProficiencies; }
+         else { result[category] = finalVal as BaseProficiencies; }
+      }
+      // const {category, ...val} = row;
+      // if (category === 'total') {
+      //    const {select_from_list, ...finalVal} = val;
+      //    result.total = finalVal as BaseProficiencies;
+      // }
+      // else if (category === 'feats') { list.total = val as BaseProficiencies; }
+      // else { result[category] = val as BaseProficiencies; }
    }
    const listData = await sql`SELECT * FROM get_proficiency_list(${id})`
    list.list = listData.map((row:any) => row as ProficienciesItem)
-   result.feat = list as ProficienciesList;
+   result.feats = list as ProficienciesList;
 
    return result as Proficiencies;
 }

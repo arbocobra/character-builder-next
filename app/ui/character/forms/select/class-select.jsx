@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react';
 import { subclasses as classes } from '@/lib/init-data';
+import ProficiencySelect from '@/ui/character/forms/select/proficiency-select'
 import HideDisplay from '@/ui/elements/hide-display';
 import {SelectButton} from '@/ui/elements/button';
 import { customStyles175 } from '@/ui/elements/select-theme'
 import dynamic from 'next/dynamic';
 const Select = dynamic(() => import('react-select'), { ssr: false });
 
-const ClassContainer = ({current, isEdit, getInitialValue, submit}) => {
+const ClassContainer = (props) => {
+
+   const hasClass = props.current.class ? true : false;
 
    return (
       <div className='flex flex-col gap-5'>
-         <ClassSelect current={current} isEdit={isEdit} getInitialValue={getInitialValue} submit={submit} />
+         <ClassSelect {...props} />
+         { hasClass && <ProficiencySelect {...props} id={'class'} />}
       </div>
    )
 }
@@ -21,6 +25,8 @@ const ClassSelect = ({current, isEdit, getInitialValue, submit}) => {
    const [selectClass, setSelectClass] = useState(isEdit ? getInitialValue(classOptions, current.class) : '')
    const [subOptions, setSubOptions] = useState(null)
    const [display, setDisplay] = useState(true)
+
+   const buttonText = isEdit ? 'Update' : 'Select';
 
    const displaySubclass = () => {
       if (selectClass) {
@@ -76,7 +82,7 @@ const ClassSelect = ({current, isEdit, getInitialValue, submit}) => {
          <><form className='flex flex-row gap-3' action={handleSubmit}>
             <Select styles={customStyles175} options={classOptions} name='class' value={selectClass} id='class' onChange={handleClassChange} required />
             {subOptions && <SubclassSelect subOptions={subOptions} isEdit={isEdit} getInitialValue={getInitialValue} currentSub={current.subclass} /> }
-            <SelectButton value='Submit' isDisabled={false} />
+            <SelectButton value={buttonText} />
          </form>
          { selectClass && !subOptions && <div className=''>{selectClass.label} selects their subclass at level {selectClass.info.level}</div> }</> 
          : <HideDisplay select={[selectClass]} resetDisplay={resetDisplay} /> }

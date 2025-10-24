@@ -64,7 +64,7 @@ const ProficiencySelect = ({proficiencySelect, submit}) => {
    return (
       <div className='flex flex-col gap-3'>
          <div className='text-base font-medium'>Select Proficiencies</div>
-         { skillSelect && <SimpleSelectForm list={skillSelect.list} title={skillSelect.title} id={'skills'} count={skillSelect.count} submit={submit} /> }
+         { skillSelect && <SimpleSelectForm list={skillSelect[0].list} title={skillSelect[0].title} id={'skills'} count={skillSelect[0].count} submit={submit} /> }
          { toolSelect && isGroupList && <GroupSelectForm list={toolSelect.list} title={toolSelect.title} id={'tools'} count={toolSelect.count} submit={submit} />}
          { toolSelect && !isGroupList && <SimpleSelectForm list={toolSelect.list} title={toolSelect.title} id={'tools'} count={toolSelect.count} submit={submit} />}
       </div>

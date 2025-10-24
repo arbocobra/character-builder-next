@@ -21,7 +21,7 @@ export type BaseProficiencies = {
    savingThrows:string[],
    skills:string[],
    languages:string[],
-   selectFromList: {
+   selectFromList?: {
       armour:string[],
       weapons:string[],
       tools:string[],
