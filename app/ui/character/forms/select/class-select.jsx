@@ -15,6 +15,7 @@ const ClassContainer = (props) => {
       <div className='flex flex-col gap-5'>
          <ClassSelect {...props} />
          { hasClass && <ProficiencySelect {...props} id={'class'} />}
+         
       </div>
    )
 }

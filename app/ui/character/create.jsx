@@ -7,7 +7,7 @@ import ClassContainer from '@/ui/character/forms/select/class-select';
 import InitSelect from '@/ui/character/forms/select/init-select'
 import Loading from './loading';
 
-const CreateCharacterForm = ({}) => {
+const CreateCharacterForm = ({user}) => {
    /*
    createCharacter, setSavedCharacter, updateLevel, updateByName, updateByPath, setClass, changeClass, setSpecies, changeSpecies, setBackground, changeBackground, updateAbilities, addToList, resetState 
    */

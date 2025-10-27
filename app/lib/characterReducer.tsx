@@ -170,28 +170,17 @@ export const initialState: characterState = {
    hit_points: { base: 0, modifierList: { list: [], total: 0 }, total: 0 },
    proficiencies: {
       class: {
-         armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[], 
-         selectFromList: { 
-            armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[]
-         }
+         armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[], selectFromList: undefined
       }, 
       species: {
-         armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[], 
-         selectFromList: {
-            armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[]
-         }
+         armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[], selectFromList: undefined
       }, 
       background: {
-         armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[], 
-         selectFromList: {
-            armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[]
-         }
+         armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[], selectFromList: undefined
       },
       feats: { 
          list: [], total: { 
-            armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[], selectFromList: {
-               armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[]
-            } 
+            armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[], selectFromList: undefined
          } 
       }, 
       total: {armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[] }
@@ -210,20 +199,14 @@ export const initialState: characterState = {
    features: { class: [], species:[], background: [], feats:[] },
    items: {
       class: {
-         armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: { 
-            armour: [], weapons: [], equipment: [], tools: [], unnamed: []
-         }
+         armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: undefined
       }, 
       background: {
-         armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: { 
-            armour: [], weapons: [], equipment: [], tools: [], unnamed: []
-         }
+         armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: undefined
       },
       purchased: { 
          list: [], total: { 
-            armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: { 
-               armour: [], weapons: [], equipment: [], tools: [], unnamed: []
-            } 
+            armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: undefined
          }
       }, 
       total: { armour: [], weapons: [], equipment: [], tools: [],  currency: 0 }
