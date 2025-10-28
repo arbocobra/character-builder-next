@@ -27,12 +27,12 @@ const ProficiencySelect = ({current, isEdit, getInitialValue, submit, id}) => {
       }
    }
 
-   const testSubmit = async (e) => {
-      // let val = 'bip'
-      // console.log(current)
-      e.preventDefault();
-      await createCharacter(current)
-   }
+   // const testSubmit = async (e) => {
+   //    // let val = 'bip'
+   //    // console.log(current)
+   //    e.preventDefault();
+   //    await createCharacter(current)
+   // }
 
    useEffect(() => {
       if (isEdit) {
@@ -41,13 +41,11 @@ const ProficiencySelect = ({current, isEdit, getInitialValue, submit, id}) => {
       } else initProficiencies.current = JSON.parse(JSON.stringify(current.proficiencies[id]))
    }, [current[id]])
 
-   
-
    return (
       <div className='flex flex-col gap-3'>
          <div className='text-base font-medium'>Select Proficiencies</div>
          { ['armour', 'languages', 'saving throws', 'skills', 'tools', 'weapons'].map((el,i) => getSelectForm(el,i)) }
-         <button onClick={testSubmit}>Click</button>
+         {/* <button onClick={testSubmit}>Click</button> */}
       </div>
    )
 }

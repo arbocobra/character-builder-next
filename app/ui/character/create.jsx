@@ -5,6 +5,8 @@ import useCharacter from '@/dash/character-context';
 import FormContainer from '@/ui/character/forms/form-container';
 import ClassContainer from '@/ui/character/forms/select/class-select';
 import InitSelect from '@/ui/character/forms/select/init-select'
+import SaveButton from '@/ui/character/save-container';
+// import SaveButton from '@/ui/elements/save';
 import Loading from './loading';
 
 const CreateCharacterForm = ({user}) => {
@@ -16,6 +18,7 @@ const CreateCharacterForm = ({user}) => {
    const [isLoading, setIsLoading] = useState(true)
 
    const initSelect = character.name ? true : false;
+   const canSave = initSelect && character.class ? true : false;
 
    const getInitialValue = (list, init) => {
       list.find((x) => x.value === init)
@@ -51,6 +54,7 @@ const CreateCharacterForm = ({user}) => {
          { initSelect && <FormContainer name={'Class'} show={true}>
             <ClassContainer current={character} isEdit={false} getInitialValue={getInitialValue} submit={classSubmit} />
          </FormContainer> }
+         { canSave && <SaveButton current={character} id={user} />}
       </div>
    )
 }

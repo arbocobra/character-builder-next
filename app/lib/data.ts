@@ -65,37 +65,19 @@ const fetchCharacterCategories = async(id:string) => {
    return result as Proficiencies;
 }
 
-export const createCharacter = async (char:any) => {
-   
+export const createCharacter = async (char:any, id:string) => {
    Promise.all([
       insertSingleCat(char.proficiencies.class),
       insertSingleCat(s),
       insertSingleCat(b),
       insertSingleCat(t),
    ]).then((arr) => insertCharacterCategories(arr), (e) => console.error(e, 'insertCharacterCategories')
-   ).then((id) => insertCharacter(char, id), (e) => console.error(e, 'insertCharacter')
+   ).then((profId) => insertCharacter(char, profId, id), (e) => console.error(e, 'insertCharacter')
    ).then(() => console.log('I worked?'))
-
-
-   // const proficiencies = await insertCharacterCategories(char.proficiencies)
-
-   // let user = "2db54255-9fe7-4055-86e0-c577f1254faf";
-   // try {
-   //    const id = await sql`
-   //       INSERT into characters (user_id, name, level, class, subclass, species, background, proficiency_bonus, hit_dice, initiative_bonus, class_asi_levels)
-   //       VALUES (${user}, ${char.name}, ${char.level}, ${char.class}, ${char.subclass}, 'hill dwarf', 'outlander', ${char.proficiency_bonus}, ${char.hit_dice}, ${char.initiative_bonus}, ${char.class_ASI_levels})
-   //       RETURNING id;
-   //    `
-   //    return id[0].id
-   // } catch (e) {
-
-   // }
-   // // first insert categories, return each id
-   // // char.profic -> name, level, class, (bg), (sp), class_ASI_levels, hit_dice, initiative_bonus, subclass, 
 }
 
-const insertCharacter = async (char:any, profId:any) => {
-   let userId = "2db54255-9fe7-4055-86e0-c577f1254faf";
+const insertCharacter = async (char:any, profId:any, userId:string) => {
+
       try {
       const id = await sql`
          INSERT into characters (user_id, name, level, class, subclass, species, background, proficiency_bonus, hit_dice, initiative_bonus, class_asi_levels, proficiencies)
@@ -109,8 +91,6 @@ const insertCharacter = async (char:any, profId:any) => {
 }
 
 const insertCharacterCategories = async (profIds:any) => {
-
-   // c = fighter/ skills: Intimidation Perception
    const [classId, speciesId, backgroundId, totalId] = profIds; 
 
    try {
@@ -154,35 +134,5 @@ const insertSingleCat = async (prof:any) => {
    } catch (e) {
       console.error('Database Error:', e);
       throw new Error(`Failed to insert base proficiency.`); 
-   }
-}
-
-const insertTotalCat = async (prof:any) => {
-   let {armour, languages, savingThrows, skills, tools, weapons} = prof
-   const validatedProficiencies = BaseProficienciesSchema.safeParse({
-      armour, languages, savingThrows, skills, tools, weapons
-   })
-
-   if (!validatedProficiencies.success) {
-      return {
-         errors: validatedProficiencies.error.flatten().fieldErrors,
-         message: 'Something is wrong. NCR',
-      };
-   } 
-
-   const {armour: Armour, languages: Languages, savingThrows: SavingThrows, skills: Skills, tools: Tools, weapons: Weapons} = validatedProficiencies.data
-
-   console.log(Armour, Languages, SavingThrows, Skills, Tools, Weapons)
-
-   try {
-      const result = await sql`
-         INSERT into base_proficiencies (armour, languages, saving_throws, skills, tools, weapons)
-         VALUES (${Armour}, ${Languages}, ${SavingThrows}, ${Skills}, ${Tools}, ${Weapons})
-         RETURNING id;
-      `
-      return result[0].id;
-   } catch (e) {
-      console.error('Database Error:', e);
-      throw new Error(`Failed to insert base proficiency. - total`); 
    }
 }
