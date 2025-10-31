@@ -2,18 +2,30 @@ export const classes = [
    'Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard'
 ]
 export const subclasses = {
-   barbarian: { id: 'Path of the', level: 3, name: ['Berserker', 'Totem Warrior'], title: function(a,b) { return `${a} ${b}`} }, 
-   bard: { id: 'College of', level: 3, name:['Lore', 'Valour'], title: function(a,b) { return `${a} ${b}`} }, 
-   cleric: { id: 'Domain', level: 1, name:['Knowledge', 'Life', 'Light', 'Trickery', 'Nature', 'Tempest', 'War'], title: function(a,b) { return `${b} ${a}`} }, 
-   druid: { id: 'Circle of the', level: 2, name:['Land', 'Moon'], title: function(a,b) { return `${a} ${b}`} }, 
-   fighter: { id: 'Archetype', level: 3, name:['Battle Master', 'Champion', 'Eldrich Knight'], title: function(a,b) { return `${b} ${a}`} }, 
-   monk: {id: 'Way of the', level: 3, name:['Four Elements', 'Open Hand', 'Shadow'], title: function(a,b) { return `${a} ${b}`} }, 
-   paladin: { id: 'Oath of', level: 3, name:['Ancients', 'Devotion', 'Vengeance'], title: function(a,b) { return `${a} ${b}`} },
-   ranger: { id: 'Archetype', level: 3, name:['Beast Master', 'Hunter'], title: function(a,b) { return `${b} ${a}`} }, 
-   rogue: { id: 'Archetype', level: 3, name:['Arcane Trickster', 'Assassin', 'Thief'], title: function(a,b) { return `${b} ${a}`} }, 
-   sorcerer: { id: 'Origin', level: 1, name:['Draconic Bloodline', 'Wild Magic'], title: function(a,b) { return `${b} ${a}`} }, 
-   warlock: { id: 'Patron', level: 1, name:['Archfey', 'Fiend', 'Great Old One'], title: function(a,b) { return `${b} ${a}`} }, 
-   wizard: {id: 'School of', level: 2, name:['Abjuration', 'Transmutation', 'Conjuration', 'Divination', 'Enchantment', 'Evocation', 'Illusion', 'Necromany'], title: function(a,b) { return `${a} ${b}`} },
+   Barbarian: { id: 'Path of the', level: 3, name: ['Berserker', 'Totem Warrior'], title: function(a,b) { return `${a} ${b}`} }, 
+   Bard: { id: 'College of', level: 3, name:['Lore', 'Valour'], title: function(a,b) { return `${a} ${b}`} }, 
+   Cleric: { id: 'Domain', level: 1, name:['Knowledge', 'Life', 'Light', 'Trickery', 'Nature', 'Tempest', 'War'], title: function(a,b) { return `${b} ${a}`} }, 
+   Druid: { id: 'Circle of the', level: 2, name:['Land', 'Moon'], title: function(a,b) { return `${a} ${b}`} }, 
+   Fighter: { id: 'Archetype', level: 3, name:['Battle Master', 'Champion', 'Eldrich Knight'], title: function(a,b) { return `${b} ${a}`} }, 
+   Monk: {id: 'Way of the', level: 3, name:['Four Elements', 'Open Hand', 'Shadow'], title: function(a,b) { return `${a} ${b}`} }, 
+   Paladin: { id: 'Oath of', level: 3, name:['Ancients', 'Devotion', 'Vengeance'], title: function(a,b) { return `${a} ${b}`} },
+   Ranger: { id: 'Archetype', level: 3, name:['Beast Master', 'Hunter'], title: function(a,b) { return `${b} ${a}`} }, 
+   Rogue: { id: 'Archetype', level: 3, name:['Arcane Trickster', 'Assassin', 'Thief'], title: function(a,b) { return `${b} ${a}`} }, 
+   Sorcerer: { id: 'Origin', level: 1, name:['Draconic Bloodline', 'Wild Magic'], title: function(a,b) { return `${b} ${a}`} }, 
+   Warlock: { id: 'Patron', level: 1, name:['Archfey', 'Fiend', 'Great Old One'], title: function(a,b) { return `${b} ${a}`} }, 
+   Wizard: {id: 'School of', level: 2, name:['Abjuration', 'Transmutation', 'Conjuration', 'Divination', 'Enchantment', 'Evocation', 'Illusion', 'Necromany'], title: function(a,b) { return `${a} ${b}`} },
+}
+
+export const altSpecies = {
+   Dwarf: { sub: ['Hill Dwarf', 'Mountain Dwarf'] }, 
+   Elf: { sub: ['Dark Elf', 'High Elf', 'Wood Elf'] }, 
+   Halfling: { sub: ['Lightfoot Halfling', 'Stout Halfling'] }, 
+   Human: { sub: null },
+   Dragonborn: { sub: null },
+   Gnome: { sub: ['Forest Gnome', 'Rock Gnome'] },
+   'Half-Elf': { sub: null }, 
+   'Half-Orc': { sub: null }, 
+   Tiefling: { sub: null }
 }
 
 export const species = [

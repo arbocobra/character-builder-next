@@ -18,12 +18,11 @@ type BaseItems = {
    equipment:string[],
    tools:string[],
    currency: number,
-   selectFromList: {
-      armour:string[],
-      weapons:string[],
-      equipment:string[],
-      tools:string[],
-      unnamed:string[],
+   selectFromList?: {
+      armour?:string[],
+      weapons?:string[],
+      equipment?:string[],
+      tools?:string[],
    }
 }
 

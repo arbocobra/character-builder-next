@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ToggleButton } from '@/ui/elements/button';
 
-const SelectContainer = ({ name, show, children }) => {
+const FormContainer = ({ name, show, children }) => {
    const [display, setDisplay] = useState(show)
    const toggleDisplay = () => setDisplay(!display)
 
@@ -16,4 +16,4 @@ const SelectContainer = ({ name, show, children }) => {
    )
 }
 
-export default SelectContainer;
+export default FormContainer;

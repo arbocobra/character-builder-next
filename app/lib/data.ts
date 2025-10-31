@@ -1,8 +1,17 @@
+'use server'
 import postgres from 'postgres';
+import {z} from 'zod';
 import { Character, CharacterPreview } from '@/lib/definitions'
+import { SelectProficiencies, BaseProficienciesSchema } from '@/lib/query-types'
 import Proficiencies, {BaseProficiencies, ProficienciesItem, ProficienciesList} from '@/lib/base/proficiencies.ts';
 
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+const sql = postgres<any>(process.env.POSTGRES_URL!, { ssl: 'require' });
+
+let s = {armour: [], languages: ["Common", "Dwarvish"], savingThrows: [], selectFromList: undefined, skills: [], tools: ["mason's tools"], weapons: ["Battleaxe", "Handaxe", "Light Hammer", "Warhammer"]}
+
+let b = {armour: [], languages: ["abyssal"], savingThrows: [], selectFromList: undefined, skills: ["Athletics", "Survival"], tools: ["bagpipes"], weapons: []}
+
+let t = {armour: ["All Armour", "Shields" ], languages: ["Common", "Dwarvish", "abyssal"], savingThrows: ["strength","constitution"], selectFromList: {}, skills: ["Athletics", "Survival", "intimidation","perception"], tools: ["mason's tools", "bagpipes"], weapons: [ "Simple Weapons", "Martial Weapons", "Battleaxe", "Handaxe", "Light Hammer", "Warhammer"]}
 
 export const fetchCharactersPreview = async (id:string) => {
    try {
@@ -32,21 +41,108 @@ export const fetchCharacter = async (id:string) => {
    }
 }
 
-type ProficiencyRow<T> = { [Property in keyof T as Exclude<Property, 'category'>]: T[Property] }
+type ProficiencyRow = { [key:string]: any }
 
 const fetchCharacterCategories = async(id:string) => {
-   const baseData = await sql`SELECT * FROM get_proficiencies(${id})`
+   const baseData = await sql<ProficiencyRow[]>`SELECT * FROM get_proficiencies(${id})`
    let result:{[key:string]:any} = {}
    let list:{[key:string]:any} = {}
    for (let row of baseData) {
-      let id:string = row.category;
-      let val:ProficiencyRow<typeof row> = row;
-      if (id === 'feat') list.total = val
-      else result[id] = val as BaseProficiencies;
+      const { category, saving_throws, select_from_list, ...val } = row;
+      if (category === 'total') {
+         const finalVal = {savingThrows: saving_throws, ...val}
+         result.total = finalVal as BaseProficiencies;
+      } else {
+         const finalVal = {savingThrows: saving_throws, selectFromList: select_from_list, ...val}
+         if (category === 'feats') { list.total = finalVal as BaseProficiencies; }
+         else { result[category] = finalVal as BaseProficiencies; }
+      }
    }
    const listData = await sql`SELECT * FROM get_proficiency_list(${id})`
    list.list = listData.map((row:any) => row as ProficienciesItem)
-   result.feat = list as ProficienciesList;
+   result.feats = list as ProficienciesList;
 
    return result as Proficiencies;
+}
+
+export const createCharacter = async (char:any, id:string) => {
+   Promise.all([
+      insertSingleCat(char.proficiencies.class),
+      insertSingleCat(s),
+      insertSingleCat(b),
+      insertSingleCat(t),
+   ]).then((arr) => insertCharacterCategories(arr), (e) => console.error(e, 'insertCharacterCategories')
+   ).then((profId) => insertCharacter(char, profId, id), (e) => console.error(e, 'insertCharacter')
+   ).then(() => console.log('I worked?'))
+}
+
+const insertCharacter = async (char:any, profId:any, userId:string) => {
+
+      try {
+      const id = await sql`
+         INSERT into characters (user_id, name, level, class, subclass, species, background, proficiency_bonus, hit_dice, initiative_bonus, class_asi_levels, proficiencies)
+         VALUES (${userId}, ${char.name}, ${char.level}, ${char.class}, ${char.subclass}, 'hill dwarf', 'outlander', ${char.proficiency_bonus}, ${char.hit_dice}, ${char.initiative_bonus}, ${char.class_ASI_levels}, ${profId})
+         RETURNING id;
+      `
+      return id[0].id
+   } catch (e) {
+
+   }
+}
+
+const insertCharacterCategories = async (profIds:any) => {
+   const [classId, speciesId, backgroundId, totalId] = profIds; 
+
+   try {
+      const profic = await sql`
+         INSERT into proficiencies (class, species, background, total)
+         VALUES (${classId}, ${speciesId}, ${backgroundId}, ${totalId})
+         RETURNING id;
+      `
+      return profic[0].id
+   } catch (e) {
+      console.error('Database Error:', e);
+      throw new Error('Failed to insert proficiencies.'); 
+   }
+}
+
+const insertSingleCat = async (prof:any) => {
+
+   let {armour, languages, savingThrows, selectFromList, skills, tools, weapons} = prof
+   const validatedProficiencies = BaseProficienciesSchema.safeParse({
+      armour, languages, savingThrows, selectFromList, skills, tools, weapons
+   })
+
+   if (!validatedProficiencies.success) {
+      return {
+         errors: validatedProficiencies.error.flatten().fieldErrors,
+         message: 'Something is wrong. NCR',
+      };
+   } 
+
+   const {armour: Armour, languages: Languages, savingThrows: SavingThrows, selectFromList: SelectFromList, skills: Skills, tools: Tools, weapons: Weapons} = validatedProficiencies.data
+
+   // console.log(Armour, Languages, SavingThrows, SelectFromList, Skills, Tools, Weapons)
+
+   // try {
+   //    const result = await sql`
+   //       INSERT into base_proficiencies (armour, languages, saving_throws, select_from_list, skills, tools, weapons)
+   //       VALUES (${Armour}, ${Languages}, ${SavingThrows}, ${SelectFromList as any}, ${Skills}, ${Tools}, ${Weapons})
+   //       RETURNING id;
+   //    `
+   //    return result[0].id;
+   // } catch (e) {
+   //    console.error('Database Error:', e);
+   //    throw new Error(`Failed to insert base proficiency.`); 
+   // }
+
+   try {
+      const result = await sql`
+         SELECT * FROM set_base_prof(${Armour}, ${Languages}, ${SavingThrows}, ${SelectFromList as any}, ${Skills}, ${Tools}, ${Weapons})
+      `
+      return result[0].id;
+   } catch (e) {
+      console.error('Database Error:', e);
+      throw new Error(`Failed to insert base proficiency.`); 
+   }
 }

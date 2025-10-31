@@ -40,22 +40,26 @@ const characterReducer = (state:characterState, action:characterActions) => {
    let className, subName;
    switch (action.type) {
       case 'CREATE_CHARACTER':
+         let createLevel = getLevelObject(action.payload, false, state)
          return {
             ...state, 
             name: action.payload.name, 
             level: action.payload.level, 
+            proficiency_bonus: createLevel.proficiencyBonus, 
             // features: new Features(),
          };
       case 'SET_SAVED_CHARACTER':
          let updatedState = getSavedCharacterObject(action.payload, state)
-         console.log(updatedState)
+         // console.log(updatedState)
          const mergedState = {...state, ...updatedState}
          return mergedState
       case 'UPDATE_LEVEL':
          let updateLevel = getLevelObject(action.payload, state.class ? true : false, state)
          return {
             ...state, 
-            level: action.payload, 
+            level: updateLevel.level, 
+            name: updateLevel.name,
+            subclass: updateLevel.subclass,
             proficiency_bonus: updateLevel.proficiencyBonus, 
             hit_points: updateLevel.hitPoints,
             features: updateLevel.features
@@ -149,6 +153,8 @@ const characterReducer = (state:characterState, action:characterActions) => {
          return addToList
             ? { ...state, abilities: addToList.abilities, armour_class: addToList.armour_class, hit_points: addToList.hit_points }
             : state;
+      case 'RESET_STATE':
+         return initialState;
       default:
          return state;
    }
@@ -166,28 +172,17 @@ export const initialState: characterState = {
    hit_points: { base: 0, modifierList: { list: [], total: 0 }, total: 0 },
    proficiencies: {
       class: {
-         armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[], 
-         selectFromList: { 
-            armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[]
-         }
+         armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[], selectFromList: undefined
       }, 
       species: {
-         armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[], 
-         selectFromList: {
-            armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[]
-         }
+         armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[], selectFromList: undefined
       }, 
       background: {
-         armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[], 
-         selectFromList: {
-            armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[]
-         }
+         armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[], selectFromList: undefined
       },
       feats: { 
          list: [], total: { 
-            armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[], selectFromList: {
-               armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[]
-            } 
+            armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[], selectFromList: undefined
          } 
       }, 
       total: {armour: [], weapons:[], tools:[], savingThrows:[], skills:[], languages:[] }
@@ -206,20 +201,14 @@ export const initialState: characterState = {
    features: { class: [], species:[], background: [], feats:[] },
    items: {
       class: {
-         armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: { 
-            armour: [], weapons: [], equipment: [], tools: [], unnamed: []
-         }
+         armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: undefined
       }, 
       background: {
-         armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: { 
-            armour: [], weapons: [], equipment: [], tools: [], unnamed: []
-         }
+         armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: undefined
       },
       purchased: { 
          list: [], total: { 
-            armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: { 
-               armour: [], weapons: [], equipment: [], tools: [], unnamed: []
-            } 
+            armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: undefined
          }
       }, 
       total: { armour: [], weapons: [], equipment: [], tools: [],  currency: 0 }

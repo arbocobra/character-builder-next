@@ -21,13 +21,13 @@ export type BaseProficiencies = {
    savingThrows:string[],
    skills:string[],
    languages:string[],
-   selectFromList: {
-      armour:string[],
-      weapons:string[],
-      tools:string[],
-      savingThrows:string[],
-      skills:string[],
-      languages:string[],
+   selectFromList?: {
+      armour?:string[],
+      weapons?:string[],
+      tools?:string[],
+      savingThrows?:string[],
+      skills?:string[],
+      languages?:string[],
    }
 }
 
@@ -45,7 +45,7 @@ export type ProficienciesItem = {
 
 export const updateValue = (val:object, current:Proficiencies, keys:string|string[]):Proficiencies => {
   let copy:{[key:string]:any} = {...current}
-  if (typeof keys === 'string') copy[keys] = val
+  if (typeof keys === 'string') copy[keys] = {...val}
   else {
     let category:{[key:string]:any} = copy[keys[0]]
     if (Array.isArray(category[keys[1]])) category[keys[1]] = val
@@ -80,9 +80,7 @@ export const removeFromList = (id:string | number, current:Proficiencies):Profic
 
 export const clearCategory = (key:string, current:Proficiencies) => {
    let emptyBase:BaseProficiencies = {
-      armour: [], weapons: [], tools: [], savingThrows: [], skills: [], languages: [], selectFromList: {
-         armour: [], weapons: [], tools: [], savingThrows: [], skills: [], languages: []
-      }
+      armour: [], weapons: [], tools: [], savingThrows: [], skills: [], languages: [], selectFromList: undefined
    }
    let copy:{[key:string]:any} = {...current}
    if (key === 'feats') copy[key] = {list: [], total: emptyBase} as ProficienciesList
@@ -127,9 +125,7 @@ const isNew = (current: object[], update: object):boolean => (current as Profici
 
 const getListTotal = (feats: object[]):object => {
   let total:{[key:string]:any} = {
-    armour: [], weapons: [], tools: [], savingThrows: [], skills: [], languages: [], selectFromList: {
-      armour: [], weapons: [], tools: [], savingThrows: [], skills: [], languages: []
-    }
+    armour: [], weapons: [], tools: [], savingThrows: [], skills: [], languages: []
   }
   
   const addToTotal = (feat:ProficienciesItem) => {

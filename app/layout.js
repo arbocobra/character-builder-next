@@ -5,12 +5,14 @@ import 'react-tooltip/dist/react-tooltip.css'
 const roboto = Roboto({
   subsets: ["latin"],
   display: 'swap',
+  preload: true,
   variable: '--font-roboto'
 })
 
 const playfair = Playfair({
   subsets: ["latin"],
   display: 'swap',
+  preload: true,
   variable: '--font-playfair'
 })
 

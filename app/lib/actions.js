@@ -112,19 +112,25 @@ export const getSavedCharacterObject = (char, state) => {
    return updateState;
 }
 
-export const getLevelObject = (level, hasClass, state) => {
+export const getLevelObject = (payload, hasClass, state) => {
+   let {name, level} = payload;
    let proficiencyBonus = Math.ceil(level / 4) + 1;
-   let hitPoints, features;
+   let hitPoints, features, subclass;
    if (hasClass) {
       const classObject = applyClass(state.class, level);
       hitPoints = setBaseHP(state.hit_dice, level, state.abilities.modifiers[2], state.hit_points)
-      if (level > state.level) features = updateValueF(state.features, 'class', classObject.features)
-      else features = removeFromListF(level, state.features, 'class')
+      if (level > state.level) {features = updateValueF(state.features, 'class', classObject.features)}
+      else {
+         features = removeFromListF(level, state.features, 'class')
+         subclass = level < classObject.subLevel ? undefined : state.subclass;
+      }
    } else {
-      hitPoints = state.hit_points
       features = state.features
    }
    return {
+      name,
+      level,
+      subclass,
       proficiencyBonus,
       hitPoints,
       features
@@ -213,6 +219,18 @@ export const getBackgroundObject = (payload, state) => {
       features,
       items
    }
+}
+
+export const getInitialProficiencyList = (cat, id) => {
+   let result;
+   if (cat === 'class') result = applyClass(id, 1)
+   else if (cat === 'background') result = applyBackground(id)
+   else if (cat === 'species') {
+      let species = id.split(' ')[1]
+      let subspecies = id
+      result = applySpecies(species, subspecies)
+   }
+   return result.proficiencies;
 }
 
 export const changeClass = (className, state) => {}

@@ -29,7 +29,6 @@ const CharacterList = ({characters}) => {
                )
             })}
          </div>
-         {/* <FaceSmileIcon/> */}
       </div>
    )
 }

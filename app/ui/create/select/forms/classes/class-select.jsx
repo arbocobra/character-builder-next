@@ -27,7 +27,7 @@ export const ClassSelection = ({submit, level}) => {
    const handleClassChange = (val) => {
       if (val) {
          setSelectClass(val)
-         subclassLookup(subclasses[val.value])
+         subclassLookup(subclasses[val.label])
       } else {
          setSelectClass(null)
          setSelectSubclass(null)
@@ -60,7 +60,7 @@ export const ClassSelection = ({submit, level}) => {
                {subOptions && <Select styles={customStyles175} options={subOptions} required name='subclass' value={selectSubclass} id='subclass' onChange={handleSubChange} />}
                <SubmitButton value='Submit' isDisabled={false} />
             </form> 
-            {selectClass && <div className=''>{selectClass.label} selects their subclass at level {subclasses[selectClass.value].level}</div>}
+            {selectClass && <div className=''>{selectClass.label} selects their subclass at level {subclasses[selectClass.label].level}</div>}
          </>
          : <HideDisplay select={selectSubclass ? [selectSubclass] : [selectClass]} resetDisplay={resetDisplay} /> }
       </div>
