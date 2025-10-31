@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { getInitialProficiencyList } from '@/lib/actions'
 import { IteratingSimpleSelectForm, IteratingGroupSelectForm, GroupSelectFormUnknownCat } from '@/select/forms/selection-menu'
 import { SimpleSelectForm, GroupSelectForm } from '@/ui/character/forms/menus'
-import {createCharacter} from '@/lib/data.ts';
+
 const ProficiencySelect = ({current, isEdit, getInitialValue, submit, id}) => {
 
    const initProficiencies = useRef()
@@ -27,13 +27,6 @@ const ProficiencySelect = ({current, isEdit, getInitialValue, submit, id}) => {
       }
    }
 
-   // const testSubmit = async (e) => {
-   //    // let val = 'bip'
-   //    // console.log(current)
-   //    e.preventDefault();
-   //    await createCharacter(current)
-   // }
-
    useEffect(() => {
       if (isEdit) {
          const p = getInitialProficiencyList(id, current[id])
@@ -45,7 +38,6 @@ const ProficiencySelect = ({current, isEdit, getInitialValue, submit, id}) => {
       <div className='flex flex-col gap-3'>
          <div className='text-base font-medium'>Select Proficiencies</div>
          { ['armour', 'languages', 'saving throws', 'skills', 'tools', 'weapons'].map((el,i) => getSelectForm(el,i)) }
-         {/* <button onClick={testSubmit}>Click</button> */}
       </div>
    )
 }

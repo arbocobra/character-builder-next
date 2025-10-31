@@ -4,8 +4,9 @@ import { useState, useEffect, Suspense } from 'react';
 import useCharacter from '@/dash/character-context';
 import FormContainer from '@/ui/character/forms/form-container';
 import ClassContainer from '@/ui/character/forms/select/class-select';
+import SpeciesContainer from '@/ui/character/forms/select/species-select';
 import InitSelect from '@/ui/character/forms/select/init-select'
-import SaveButton from '@/ui/character/save-container';
+import { SaveButton } from '@/app/ui/character/save';
 // import SaveButton from '@/ui/elements/save';
 import Loading from './loading';
 
@@ -14,11 +15,11 @@ const CreateCharacterForm = ({user}) => {
    createCharacter, setSavedCharacter, updateLevel, updateByName, updateByPath, setClass, changeClass, setSpecies, changeSpecies, setBackground, changeBackground, updateAbilities, addToList, resetState 
    */
 
-   const { character, createCharacter, updateLevel, updateByPath, setClass, changeClass, resetState } = useCharacter();
+   const { character, createCharacter, updateLevel, updateByPath, setClass, changeClass, setSpecies, changeSpecies, resetState } = useCharacter();
    const [isLoading, setIsLoading] = useState(true)
 
    const initSelect = character.name ? true : false;
-   const canSave = initSelect && character.class ? true : false;
+   const canSave = initSelect && character.class && character.species ? true : false;
 
    const getInitialValue = (list, init) => {
       list.find((x) => x.value === init)
@@ -33,6 +34,11 @@ const CreateCharacterForm = ({user}) => {
 
    const classSubmit = (id, val) => {
       if (id === 'class') character.class ? changeClass(val.class, val.subclass || null) : setClass(val.class, val.subclass || null)
+      else if (id === 'proficiencies') updateByPath(val.path, val.value);
+   }
+
+   const speciesSubmit = (id, val) => {
+      if (id === 'species') character.species ? changeSpecies(val.species, val.subspecies || null) : setSpecies(val.species, val.subspecies || null)
       else if (id === 'proficiencies') updateByPath(val.path, val.value);
    }
 
@@ -53,6 +59,9 @@ const CreateCharacterForm = ({user}) => {
          </FormContainer>
          { initSelect && <FormContainer name={'Class'} show={true}>
             <ClassContainer current={character} isEdit={false} getInitialValue={getInitialValue} submit={classSubmit} />
+         </FormContainer> }
+         { initSelect && <FormContainer name={'Species'} show={true}>
+            <SpeciesContainer current={character} isEdit={false} getInitialValue={getInitialValue} submit={speciesSubmit} />
          </FormContainer> }
          { canSave && <SaveButton current={character} id={user} />}
       </div>

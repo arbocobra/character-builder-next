@@ -40,10 +40,12 @@ const characterReducer = (state:characterState, action:characterActions) => {
    let className, subName;
    switch (action.type) {
       case 'CREATE_CHARACTER':
+         let createLevel = getLevelObject(action.payload, false, state)
          return {
             ...state, 
             name: action.payload.name, 
             level: action.payload.level, 
+            proficiency_bonus: createLevel.proficiencyBonus, 
             // features: new Features(),
          };
       case 'SET_SAVED_CHARACTER':

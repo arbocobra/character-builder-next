@@ -10,7 +10,7 @@ export class Dwarf extends BaseSpecies {
       this.proficiencies.weapons = ['Battleaxe','Handaxe', 'Light Hammer', 'Warhammer'];
       this.abilityImprovement = sub === 'hill dwarf' ? [0,0,2,0,1,0] : [2,0,2,0,0,0];
       this.proficiencies.armour = sub === 'mountain dwarf' ? ['Light Armour', 'Medium Armour'] : [];
-      this.proficiencies.selectFromList.tools = [{list: ['Smith\'s Tools', 'Brewer\'s Supplies', 'Mason\'s Tools'], count: 1, title: 'Select Tool Proficiency'}]
+      this.proficiencies.selectFromList.tools = [{list: ['Smith\'s Tools', 'Brewer\'s Supplies', 'Mason\'s Tools'], count: 1, title: 'Select Tool Proficiency', type: 'simple_select'}]
    }
 }
 
@@ -23,7 +23,7 @@ export class Elf extends BaseSpecies {
       this.proficiencies.languages = ['Common', 'Elvish'];
       this.proficiencies.weapons = sub === 'dark elf' ? ['Rapier', 'Shortsword', 'Hand Crossbow'] : ['Longsword', 'Shortsword', 'Shortbow', 'Longbow'];
       this.proficiencies.skills = ['perception'];
-      this.proficiencies.selectFromList.languages = sub === 'high elf'? [{list: Languages, count: 1, title: 'Select Extra Language'}] : null;
+      this.proficiencies.selectFromList.languages = sub === 'high elf'? [{list: Languages, count: 1, title: 'Select Extra Language', type: 'simple_select'}] : null;
    }
 }
 
@@ -44,7 +44,7 @@ export class Human extends BaseSpecies {
       this.subspecies = sub;
       this.abilityImprovement = [1,1,1,1,1,1];
       this.proficiencies.languages = ['Common'];
-      this.proficiencies.selectFromList.languages = [{list: Languages, count: 1, title: 'Select Extra Language'}];
+      this.proficiencies.selectFromList.languages = [{list: Languages, count: 1, title: 'Select Extra Language', type: 'simple_select'}];
    }
 }
 
@@ -74,8 +74,8 @@ export class HalfElf extends BaseSpecies {
       this.subspecies = sub;
       this.abilityImprovement = [0,0,0,0,0,2];
       this.proficiencies.languages = ['Common', 'Elvish'];
-      this.proficiencies.selectFromList.languages = [{list: Languages, count: 1, title: 'Select Extra Language'}];
-      this.proficiencies.selectFromList.skills = [{list: Skills, count: 2, title: 'Select Two Skill Proficiencies'}];
+      this.proficiencies.selectFromList.languages = [{list: Languages, count: 1, title: 'Select Extra Language', type: 'simple_select'}];
+      this.proficiencies.selectFromList.skills = [{list: Skills, count: 2, title: 'Select Two Skill Proficiencies', type: 'simple_select'}];
    }
 } // need to include select ability increase
 

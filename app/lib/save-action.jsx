@@ -1,10 +1,17 @@
 'use server'
+import {updateCharacter} from '@/lib/data-update.ts';
+import {createCharacter} from '@/lib/data-create.ts';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
-import {createCharacter} from '@/lib/data.ts';
-
-const saveData = async (formData, id) => {
-   createCharacter(formData, id)
-   return { success: true };
+export const saveData = async (formData, id) => {
+   await createCharacter(formData, id)
+   revalidatePath('/dashboard');
+   redirect('/dashboard');
 }
 
-export default saveData;
+export const updateData = async (formData, charId) => {
+   await updateCharacter(formData, charId)
+   // revalidatePath('/dashboard');
+   // redirect('/dashboard');
+}

@@ -122,13 +122,23 @@ const insertSingleCat = async (prof:any) => {
 
    const {armour: Armour, languages: Languages, savingThrows: SavingThrows, selectFromList: SelectFromList, skills: Skills, tools: Tools, weapons: Weapons} = validatedProficiencies.data
 
-   console.log(Armour, Languages, SavingThrows, SelectFromList, Skills, Tools, Weapons)
+   // console.log(Armour, Languages, SavingThrows, SelectFromList, Skills, Tools, Weapons)
+
+   // try {
+   //    const result = await sql`
+   //       INSERT into base_proficiencies (armour, languages, saving_throws, select_from_list, skills, tools, weapons)
+   //       VALUES (${Armour}, ${Languages}, ${SavingThrows}, ${SelectFromList as any}, ${Skills}, ${Tools}, ${Weapons})
+   //       RETURNING id;
+   //    `
+   //    return result[0].id;
+   // } catch (e) {
+   //    console.error('Database Error:', e);
+   //    throw new Error(`Failed to insert base proficiency.`); 
+   // }
 
    try {
       const result = await sql`
-         INSERT into base_proficiencies (armour, languages, saving_throws, select_from_list, skills, tools, weapons)
-         VALUES (${Armour}, ${Languages}, ${SavingThrows}, ${SelectFromList as any}, ${Skills}, ${Tools}, ${Weapons})
-         RETURNING id;
+         SELECT * FROM set_base_prof(${Armour}, ${Languages}, ${SavingThrows}, ${SelectFromList as any}, ${Skills}, ${Tools}, ${Weapons})
       `
       return result[0].id;
    } catch (e) {

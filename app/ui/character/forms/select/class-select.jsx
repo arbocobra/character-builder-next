@@ -15,7 +15,6 @@ const ClassContainer = (props) => {
       <div className='flex flex-col gap-5'>
          <ClassSelect {...props} />
          { hasClass && <ProficiencySelect {...props} id={'class'} />}
-         
       </div>
    )
 }
@@ -34,7 +33,6 @@ const ClassSelect = ({current, isEdit, getInitialValue, submit}) => {
          if (selectClass.info.level > current.level) return false;
          else return true;
       } else return false
-
    }
 
    const subOptionsLookup = () => {

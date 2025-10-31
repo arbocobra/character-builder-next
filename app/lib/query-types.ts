@@ -11,7 +11,14 @@ export type SelectProficiencies = {
    languages?:string[],
 }
 
-let selectType = z.array(z.looseObject({})).nullable().default(null)
+const lowercaseSort = (arr:string[]):string[] => {
+   if (!Array.isArray(arr) || arr === undefined || arr === null) return [];
+   const transformedArr = arr.map((i:string) => i.toLowerCase()).sort();
+   return transformedArr;
+}
+
+let selectType = z.array(z.looseObject({})).nullable().default(null);
+let arrayType = z.array(z.string()).transform(lowercaseSort);
 
 const SelectSchema = z.object({
    armour: selectType,
@@ -21,34 +28,15 @@ const SelectSchema = z.object({
    tools: selectType,
    weapons: selectType,
 })
-
 z.toJSONSchema(SelectSchema)
 
-const BaseProficienciesNullableSelectSchema = z.object({
-   armour: selectType,
-   languages: selectType,
-   savingThrows: selectType,
-   skills: selectType,
-   tools: selectType,
-   weapons: selectType,
-})
-
 const BaseProficienciesDefaultArraySchema = z.object({
-   armour: z.array(z.string().toLowerCase()).default([]),
-   languages: z.array(z.string().toLowerCase()).default([]),
-   savingThrows: z.array(z.string().toLowerCase()).default([]),
-   skills: z.array(z.string().toLowerCase()).default([]),
-   tools: z.array(z.string().toLowerCase()).default([]),
-   weapons: z.array(z.string().toLowerCase()).default([]),
-})
-
-const PartialBaseProficienciesSchema = z.object({
-   armour: z.array(z.string().toLowerCase()),
-   languages: z.array(z.string().toLowerCase()),
-   savingThrows: z.array(z.string().toLowerCase()),
-   skills: z.array(z.string().toLowerCase()),
-   tools: z.array(z.string().toLowerCase()),
-   weapons: z.array(z.string().toLowerCase())
+   armour: arrayType,
+   languages: arrayType,
+   savingThrows: arrayType,
+   skills: arrayType,
+   tools: arrayType,
+   weapons: arrayType
 })
 
 export const BaseProficienciesSchema = z.object({
@@ -59,30 +47,48 @@ export const BaseProficienciesSchema = z.object({
    }, SelectSchema)
 });
 
-export const BaseProficienciesTotalSchema = z.object({
-   ...BaseProficienciesDefaultArraySchema.shape,
+export const ProficiencyItemSchema = z.object({
+   name: z.string(),
+   prop: z.string(),
+   level: z.int(),
+   value: arrayType,
+   listId: z.string()
 });
 
-// const selectToJson = (arg) => {
-//    if (arg === undefined) return {};
-//    return arg;
-// }
+export const DefaultModifiedSchema = z.object({
+   charId: z.string(),
+   base: z.int(),
+   total: z.int(),
+   modifierTotal: z.int(),
+})
 
-    //selectList = key === 'total' ? null : selectFromList === undefined ? emptyList : selectFromList;
+export const DefaultModifiedListItemSchema = z.object({
+   name: z.string(),
+   level: z.int(),
+   value: z.int(),
+   listId: z.string()
+})
 
-// const BaseProficienciesSchema = z.object({
-//    //let {armour, languages, savingThrows, selectFromList, skills, tools, weapons} = prof
+
+
+// export const BaseProficienciesTotalSchema = z.object({
+//    ...BaseProficienciesDefaultArraySchema.shape,
+// });
+//
+// const PartialBaseProficienciesSchema = z.object({
 //    armour: z.array(z.string().toLowerCase()),
 //    languages: z.array(z.string().toLowerCase()),
 //    savingThrows: z.array(z.string().toLowerCase()),
-//    selectFromList: z.nullable(z.object()),
 //    skills: z.array(z.string().toLowerCase()),
 //    tools: z.array(z.string().toLowerCase()),
-//    weapons: z.array(z.string().toLowerCase()),
-//    // customerId: z.string({ invalid_type_error: 'Please select a customer.' }),
-//    // amount: z.coerce.number().gt(0, { message: 'Please enter an amount greater than $0.' }),
-//    // status: z.enum(['pending', 'paid'], {
-//    //    invalid_type_error: 'Please select an invoice status.'
-//    // }),
-//    // date: z.string(),
-// });
+//    weapons: z.array(z.string().toLowerCase())
+// })
+//
+// const BaseProficienciesNullableSelectSchema = z.object({
+//    armour: selectType,
+//    languages: selectType,
+//    savingThrows: selectType,
+//    skills: selectType,
+//    tools: selectType,
+//    weapons: selectType,
+// })

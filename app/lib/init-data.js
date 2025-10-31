@@ -16,6 +16,18 @@ export const subclasses = {
    Wizard: {id: 'School of', level: 2, name:['Abjuration', 'Transmutation', 'Conjuration', 'Divination', 'Enchantment', 'Evocation', 'Illusion', 'Necromany'], title: function(a,b) { return `${a} ${b}`} },
 }
 
+export const altSpecies = {
+   Dwarf: { sub: ['Hill Dwarf', 'Mountain Dwarf'] }, 
+   Elf: { sub: ['Dark Elf', 'High Elf', 'Wood Elf'] }, 
+   Halfling: { sub: ['Lightfoot Halfling', 'Stout Halfling'] }, 
+   Human: { sub: null },
+   Dragonborn: { sub: null },
+   Gnome: { sub: ['Forest Gnome', 'Rock Gnome'] },
+   'Half-Elf': { sub: null }, 
+   'Half-Orc': { sub: null }, 
+   Tiefling: { sub: null }
+}
+
 export const species = [
    'Dwarf', 'Elf', 'Halfling', 'Human', 'Dragonborn', 'Gnome', 'Half-Elf', 'Half-Orc', 'Tiefling'
 ]

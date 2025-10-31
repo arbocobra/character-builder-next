@@ -125,7 +125,6 @@ export const getLevelObject = (payload, hasClass, state) => {
          subclass = level < classObject.subLevel ? undefined : state.subclass;
       }
    } else {
-      hitPoints = state.hit_points
       features = state.features
    }
    return {
