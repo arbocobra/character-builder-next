@@ -11,6 +11,8 @@ class BaseItems {
       weapons: null,
       equipment: null,
       tools: null,
+      multiCategory: null,
+      special: null
    }
 }
 

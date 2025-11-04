@@ -5,7 +5,7 @@ export class Acolyte extends BaseBackground {
    constructor() {
       super('acolyte');
       this.proficiencies.skills = ['Insight', 'Religion'];
-      this.proficiencies.selectFromList.languages = [{ list: Languages, count: 2, title: 'Select 2 Languages' }];
+      this.proficiencies.selectFromList.languages = [{ list: Languages, count: 2, title: 'Select 2 Languages', type: 'simple_select' }];
       this.items.equipment = ['holy symbol', 'prayer book or prayer wheel', '5 sticks of incense', 'vestments', 'set of common clothes'];
       this.items.currency = 15;
       this.features = [
@@ -37,7 +37,7 @@ export class Criminal extends BaseBackground {
       super('criminal');
       this.proficiencies.skills = ['Deception', 'Stealth'];
       this.proficiencies.tools = ['Thieves\' Tools'];
-      this.proficiencies.selectFromList.tools = [{ list: GamingSet, count: 1, title: 'Select Gaming Set' }];
+      this.proficiencies.selectFromList.tools = [{ list: GamingSet, count: 1, title: 'Select Gaming Set', type: 'simple_select' }];
       this.items.equipment = ['crowbar', 'set of dark common clothes', 'dark hood']
       this.items.currency = 15;
       this.features = [
@@ -61,9 +61,9 @@ export class Entertainer extends BaseBackground {
       super('entertainer');
       this.proficiencies.skills = ['Acrobatics', 'Performance'];
       this.proficiencies.tools = [' Disguise kit'];
-      this.proficiencies.selectFromList.tools = [{ list: Musical_Instruments, count: 1, title: 'Select Musical Instrument' }];
+      this.proficiencies.selectFromList.tools = [{ list: Musical_Instruments, count: 1, title: 'Select Musical Instrument', type: 'simple_select' }];
       this.items.equipment = ['the favor of an admirer', 'costume']
-      this.items.selectFromList.tools = [{list: Musical_Instruments, count: 1, title: 'Select Musical Instrument' }];
+      this.items.selectFromList.tools = [{list: Musical_Instruments, count: 1, title: 'Select Musical Instrument', type: 'simple_select' }];
       this.items.currency = 15;
       this.features = [
          { name: 'Entertainer Routines',
@@ -86,8 +86,8 @@ export class FolkHero extends BaseBackground {
       super('folk hero');
       this.proficiencies.skills = ['Animal Handling', 'Survival'];
       this.proficiencies.tools = ['Land Vehicles'];
-      this.proficiencies.selectFromList.tools = [{ list: ArtisansTools, count: 1, title: 'Select Artisan\s Tools' }];
-      this.items.selectFromList.tools = [{ list: ArtisansTools, count: 1, title: 'Select Artisan\s Tools' }];
+      this.proficiencies.selectFromList.tools = [{ list: ArtisansTools, count: 1, title: 'Select Artisan\s Tools', type: 'simple_select' }];
+      this.items.selectFromList.tools = [{ list: ArtisansTools, count: 1, title: 'Select Artisan\s Tools', type: 'simple_select' }];
       this.items.equipment = ['shovel', 'iron pot', 'set of common clothes']
       this.items.currency = 10;
       this.features = [
@@ -103,9 +103,9 @@ export class GuildArtisan extends BaseBackground {
    constructor() {
       super('guild artisan');
       this.proficiencies.skills = ['Insight', 'Persuasion'];
-      this.proficiencies.selectFromList.tools = [{ list: ArtisansTools, count: 1, title: 'Select Artisan\s Tools' }];
-      this.proficiencies.selectFromList.languages = [{ list: Languages, count: 1, title: 'Select Language' }];
-      this.items.selectFromList.tools = [{ list: ArtisansTools, count: 1, title: 'Select Artisan\s Tools' }];
+      this.proficiencies.selectFromList.tools = [{ list: ArtisansTools, count: 1, title: 'Select Artisan\s Tools', type: 'simple_select' }];
+      this.proficiencies.selectFromList.languages = [{ list: Languages, count: 1, title: 'Select Language', type: 'simple_select' }];
+      this.items.selectFromList.tools = [{ list: ArtisansTools, count: 1, title: 'Select Artisan\s Tools', type: 'simple_select' }];
       this.items.equipment = ['letter of introduction from your guild', 'set of traveler\'s clothes']
       this.items.currency = 15;
       this.features = [
@@ -129,7 +129,7 @@ export class Hermit extends BaseBackground {
       super('hermit');
       this.proficiencies.skills = ['Medicine', 'Religion'];
       this.proficiencies.tools = ['Herbalism kit'];
-      this.proficiencies.selectFromList.languages = [{ list: Languages, count: 1, title: 'Select Language' }];
+      this.proficiencies.selectFromList.languages = [{ list: Languages, count: 1, title: 'Select Language', type: 'simple_select' }];
       this.items.tools = ['Herbalism kit'];
       this.items.equipment = ['scroll case full your notes', 'winter blanket', 'set of common clothes']
       this.items.currency = 5;
@@ -146,8 +146,8 @@ export class Noble extends BaseBackground {
    constructor() {
       super('noble');
       this.proficiencies.skills = ['History', 'Persuasion'];
-      this.proficiencies.selectFromList.tools = [{ list: GamingSet, count: 1, title: 'Select Gaming Set' }];
-      this.proficiencies.selectFromList.languages = [{ list: Languages, count: 1, title: 'Select Language' }];
+      this.proficiencies.selectFromList.tools = [{ list: GamingSet, count: 1, title: 'Select Gaming Set', type: 'simple_select' }];
+      this.proficiencies.selectFromList.languages = [{ list: Languages, count: 1, title: 'Select Language', type: 'simple_select' }];
       this.items.equipment = ['signet ring', 'scroll of pedigree', 'set of fine clothes']
       this.items.currency = 25;
       this.features = [
@@ -168,8 +168,8 @@ export class Outlander extends BaseBackground {
    constructor() {
       super('outlander');
       this.proficiencies.skills = [ 'Athletics', 'Survival'];
-      this.proficiencies.selectFromList.tools = [{ list: Musical_Instruments, count: 1, title: 'Select Musical Instrument' }];
-      this.proficiencies.selectFromList.languages = [{ list: Languages, count: 1, title: 'Select Language' }];
+      this.proficiencies.selectFromList.tools = [{ list: Musical_Instruments, count: 1, title: 'Select Musical Instrument', type: 'simple_select' }];
+      this.proficiencies.selectFromList.languages = [{ list: Languages, count: 1, title: 'Select Language', type: 'simple_select' }];
       this.items.equipment = ['staff', 'hunting trap', 'trophy from an animal you killed', 'set of traveler\'s clothes']
       this.items.currency = 10;
       this.features = [
@@ -185,7 +185,7 @@ export class Sage extends BaseBackground {
    constructor() {
       super('sage');
       this.proficiencies.skills = ['Arcana', 'History'];
-      this.proficiencies.selectFromList.languages = [{ list: Languages, count: 2, title: 'Select 2 Languages' }];
+      this.proficiencies.selectFromList.languages = [{ list: Languages, count: 2, title: 'Select 2 Languages', type: 'simple_select' }];
       this.items.equipment = ['bottle of ink', 'quill', 'small knife', 'letter from a dead colleague posing a question you have not yet been able to answer', 'set of common clothes']
       this.items.currency = 10;
 
@@ -224,9 +224,9 @@ export class Soldier extends BaseBackground {
       super('soldier');
       this.proficiencies.skills = ['Athletics', 'Perception'];
       this.proficiencies.tools = ['Land Vehicles'];
-      this.proficiencies.selectFromList.tools = [{ list: GamingSet, count: 1, title: 'Select Gaming Set' }];
+      this.proficiencies.selectFromList.tools = [{ list: GamingSet, count: 1, title: 'Select Gaming Set', type: 'simple_select' }];
       this.items.equipment = ['insignia of rank', 'trophy taken from a fallen enemy', 'lucky charm', 'set of common clothes'],
-      this.items.selectFromList.equipment = [{list: ['Set of Dice', 'Deck of Cards'], count: 1, title: 'Set of Dice OR Deck of Cards' }];
+      this.items.selectFromList.equipment = [{list: ['Set of Dice', 'Deck of Cards'], count: 1, title: 'Set of Dice OR Deck of Cards', type: 'simple_select' }];
       this.items.currency = 10;
       this.features = [
          {name: 'Speciality',

@@ -1,5 +1,5 @@
 import BaseClass from '@/lib/base/classes/base-class';
-import { Simple_Weapons, Martial_Melee_Weapons, Skills, Musical_Instruments, Simple_Melee_Weapons, ArtisansTools } from '@/lib/init-data'
+import { Simple_Weapons, Martial_Melee_Weapons, Skills, Musical_Instruments, Simple_Melee_Weapons, ArtisansTools, Martial_Weapons } from '@/lib/init-data'
 
 export class Barbarian extends BaseClass {
    constructor(level) {
@@ -12,7 +12,9 @@ export class Barbarian extends BaseClass {
       this.proficiencies.selectFromList.skills = [{ list: ['Animal Handling', 'Athletics', 'Intimidation', 'Survival'], count: 2, title: 'Select 2 skills', type: 'simple_select' }];
       this.items.weapons = ['4 javelins'];
       this.items.equipment = ['explorer\'s pack']
-      this.items.selectFromList.weapons = [{list: ['Greataxe', Martial_Melee_Weapons], count: 1, title: 'Greataxe OR Any martial melee weapon' }, {list: ['2 Handaxes', Simple_Weapons], count: 1, title: 'Two handaxes OR Any simple weapon'}]
+      this.items.selectFromList.weapons = [
+         {list: ['Greataxe', Martial_Melee_Weapons], count: 1, title: 'Greataxe OR Any martial melee weapon', type: 'iterating_group_select' }, 
+         {list: ['2 Handaxes', Simple_Weapons], count: 1, title: 'Two handaxes OR Any simple weapon', type: 'iterating_group_select'}]
       this.special = this.getSpecial();
       this.subName = 'Primal Path';
       this.subLevel = 3;
@@ -44,9 +46,9 @@ export class Bard extends BaseClass {
       this.items.weapons = ['dagger'];
       this.items.armour = ['leather armour']
       this.items.equipment = ['explorer\'s pack']
-      this.items.selectFromList.weapons = [{list: ['Rapier', 'Longsword', Simple_Weapons], count: 1, title: 'Rapier OR Longsword OR Any simple weapon' }]
-      this.items.selectFromList.tools = [{list: Musical_Instruments, count: 1, title: 'Lute OR Any other instrument' }]
-      this.items.selectFromList.equipment = [{list: ['Diplomat\'s Pack', 'Entertainer\'s Pack'], count: 1, title: 'Diplomat\'s Pack OR Entertainer\'s Pack'}]
+      this.items.selectFromList.weapons = [{list: ['Rapier', 'Longsword', Simple_Weapons], count: 1, title: 'Rapier OR Longsword OR Any simple weapon', type: 'group_select' }]
+      this.items.selectFromList.tools = [{list: Musical_Instruments, count: 1, title: 'Lute OR Any other instrument', type: 'simple_select' }]
+      this.items.selectFromList.equipment = [{list: ['Diplomat\'s Pack', 'Entertainer\'s Pack'], count: 1, title: 'Diplomat\'s Pack OR Entertainer\'s Pack', type: 'simple_select' }]
       this.special = this.getSpecial();
       this.subName = 'Bard College',
       this.subLevel = 3;
@@ -78,9 +80,11 @@ export class Cleric extends BaseClass {
       this.proficiencies.selectFromList.skills = [{ list: ['History', 'Insight', 'Medicine', 'Persuasion', 'Religion'], count: 2, title: 'Select 2 skills', type: 'simple_select' }];
       this.items.armour = ['shield']
       this.items.equipment = ['holy symbol']
-      this.items.selectFromList.armour = [{list: ['Scale Mail', 'Leather Armour', 'Chain Main'], count: 1, title: 'Scale mail OR Leather armour OR Chain mail (if proficient)' }]
-      this.items.selectFromList.weapons = [{list: ['Mace', 'Warhammer'], count: 1, title: 'Mace OR Warhammer (if proficient)' }, {list: ['Light Crossbow + 20 bolts', Simple_Weapons], count: 1, title: 'Light crossbow and 20 bolts OR Any simple weapon'}];
-      this.items.selectFromList.equipment = [{list: ['Priest\'s Pack', 'Explorer\'s Pack'], count: 1, title: 'Priest\'s Pack OR Explorer\'s Pack'}]
+      this.items.selectFromList.armour = [{list: ['Scale Mail', 'Leather Armour', 'Chain Main'], count: 1, title: 'Scale mail OR Leather armour OR Chain mail (if proficient)', type: 'simple_select' }]
+      this.items.selectFromList.weapons = [
+         {list: ['Mace', 'Warhammer'], count: 1, title: 'Mace OR Warhammer (if proficient)', type: 'iterating_simple_select' }, 
+         {list: ['Light Crossbow + 20 bolts', Simple_Weapons], count: 1, title: 'Light crossbow and 20 bolts OR Any simple weapon', type: 'iterating_group_select'}];
+      this.items.selectFromList.equipment = [{list: ['Priest\'s Pack', 'Explorer\'s Pack'], count: 1, title: 'Priest\'s Pack OR Explorer\'s Pack', type: 'simple_select'}]
       this.special = this.getSpecial();
       this.subName = 'Bard College',
       this.subLevel = 3;
@@ -109,9 +113,9 @@ export class Druid extends BaseClass {
       this.proficiencies.selectFromList.skills = [{ list: ['Arcana', 'Animal Handling', 'Insight', 'Medicine', 'Nature', 'Perception', 'Religion', 'Survival'], count: 2, title: 'Select 2 skills', type: 'simple_select' }];
       this.items.armour = ['leather armour']
       this.items.equipment = ['explorer\'s pack', 'druidic focus']
-      this.items.selectFromList.weapons = [{list: ['Scimitar', Simple_Melee_Weapons], count: 1, title: 'Scimitar OR Any simple melee weapon' }]
-      // this.items.selectFromList.armour = [{list: ['Wooden Shield', Simple_Weapons], count: 1, title: 'Wooden Shield OR Any simple weapon', categories:['armour', 'weapons'] }]
-      this.items.selectFromList.unnamed = [{list: ['Wooden Shield', Simple_Weapons], count: 1, title: 'Wooden Shield OR Any simple weapon', categories: ['armour', ['armour', 'weapons']]}]
+      // this.items.selectFromList.weapons = [{list: ['Wooden Shield', Simple_Weapons], count: 1, title: 'Wooden Shield OR Any simple weapon', categories: ['armour', 'weapons'], type: 'iterating_group_multicat_select', selected: []}, {list: ['Scimitar', Simple_Melee_Weapons], count: 1, title: 'Scimitar OR Any simple melee weapon', type: 'iterating_group_select'}]
+      this.items.selectFromList.weapons = [{list: ['Scimitar', Simple_Melee_Weapons], count: 1, title: 'Scimitar OR Any simple melee weapon', type: 'group_select'}]
+      this.items.selectFromList.special = [{list: ['Wooden Shield', Simple_Weapons], count: 1, title: 'Wooden Shield OR Any simple weapon', categories: ['armour', 'weapons'], type: 'special_select_1', special: {val: 'wooden shield', index: 0}, selected: []}]
       this.special = this.getSpecial();
       this.subName = 'Druid Circle',
       this.subLevel = 2;
@@ -135,10 +139,13 @@ export class Fighter extends BaseClass {
       this.proficiencies.armour = ['All Armour', 'Shields'];
       this.proficiencies.weapons = ['Simple Weapons', 'Martial Weapons'];
       this.proficiencies.selectFromList.skills = [{ list: ['Acrobatics', 'Animal Handling', 'Athletics', 'History', 'Insight', 'Intimidation', 'Perception', 'Survival'], count: 2, title: 'Select 2 skills', type: 'simple_select' }];
-      this.items.selectFromList.weapons = [{list: ['Light Crossbow + 20 bolts', '2 Handaxes'], count: 1, title: 'Light crossbow and 20 bolts OR Two handaxes'}];
-      this.items.selectFromList.equipment = [{list: ['Dungeoneer\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Explorer\'s Pack' }];
-      this.items.selectFromList.unnamed = [{list: ['Chain Mail', 'Leather armor AND Longbow + 20 arrows'], count: 1, title: 'Chain Mail OR Leather armor AND Longbow + 20 arrows', categories: ['armour', ['armour', 'weapons']]}]
-      // need to figure out how to make shield OR weapon option
+      // this.items.selectFromList.weapons = [{list: ['Light Crossbow + 20 bolts', '2 Handaxes'], count: 1, title: 'Light crossbow and 20 bolts OR Two handaxes', type: 'iterating_simple_select'}, {list: [['Martial weapon and a shield', '2 Martial weapons'], Martial_Weapons], count: [1,2], title: 'Martial weapon and a shield OR 2 Martial weapons', categories: ['weapons', ['weapons', 'armour']], type: 'step_group_select', selected: []}];
+      this.items.selectFromList.weapons = [{list: ['Light Crossbow + 20 bolts', '2 Handaxes'], count: 1, title: 'Light crossbow and 20 bolts OR Two handaxes', type: 'simple_select'}];
+      this.items.selectFromList.equipment = [{list: ['Dungeoneer\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Explorer\'s Pack', type: 'simple_select' }];
+      this.items.selectFromList.special = [
+         {list: ['Chain Mail', 'Leather armor AND Longbow + 20 arrows'], count: 1, title: 'Chain Mail OR Leather armor AND Longbow + 20 arrows', categories: ['armour', ['armour', 'weapons']], type: 'special_select_2', special: {val: 'longbow + 20 arrows', index: 1}, selected: []}, 
+         {list: [['Martial weapon and a shield', '2 Martial weapons'], Martial_Weapons], count: [1,2], title: 'Martial weapon and a shield OR 2 Martial weapons', categories: [['armour', 'weapons'], 'weapons'], type: 'special_select_3', special: {val: 'shield', index: 0},selected: []}]
+      // this.items.selectFromList.weapons = [{list: [['Martial weapon and a shield', '2 Martial weapons'], Martial_Weapons], count: [1,2], title: 'Martial weapon and a shield OR 2 Martial weapons', categories: ['weapons', ['weapons', 'armour']], type: 'step_group_select', selected: []}]
       this.special = this.getSpecial();
       this.subName = 'Martial Archetype',
       this.subLevel = 3;
@@ -170,8 +177,8 @@ export class Monk extends BaseClass {
       this.proficiencies.selectFromList.skills = [{ list: ['Acrobatics', 'Athletics', 'History', 'Insight', 'Religion', 'Stealth'], count: 2, title: 'Select 2 skills', type: 'simple_select' }];
       this.proficiencies.selectFromList.tools = [{ list: [ArtisansTools, Musical_Instruments], count: 1, title: 'Any artisan\'s tools OR Any musical instrument', type: 'group_select' }];
       this.items.weapons = ['10 darts'];
-      this.items.selectFromList.weapons = [{list: ['Shortword', Simple_Weapons], count: 1, title: 'Shortword OR Any simple weapon' }]
-      this.items.selectFromList.equipment = [{list: ['Dungeoneer\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Explorer\'s Pack' }];
+      this.items.selectFromList.weapons = [{list: ['Shortword', Simple_Weapons], count: 1, title: 'Shortword OR Any simple weapon', type: 'group_select' }]
+      this.items.selectFromList.equipment = [{list: ['Dungeoneer\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Explorer\'s Pack', type: 'simple_select' }];
       this.spellcasting = false;
       this.special = this.getSpecial();
       this.subName = 'Martial Archetype',
@@ -205,8 +212,9 @@ export class Paladin extends BaseClass {
       this.items.armour = ['chainmail'];
       this.items.equipment = ['holy symbol']
       this.items.weapons = ['10 darts'];
-      this.items.selectFromList.weapons = [{list: ['5 Javelins', Simple_Melee_Weapons], count: 1, title: 'Five javelins OR Any simple selee weapon' }]
-      this.items.selectFromList.equipment = [{list: ['Priest\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Priest\'s Pack OR Explorer\'s Pack' }];
+      this.items.selectFromList.weapons = [{list: ['5 Javelins', Simple_Melee_Weapons], count: 1, title: 'Five javelins OR Any simple selee weapon', type: 'group_select' }];
+      this.items.selectFromList.equipment = [{list: ['Priest\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Priest\'s Pack OR Explorer\'s Pack', type: 'simple_select' }];
+      this.items.selectFromList.special = [{list: [['Martial weapon and a shield', '2 Martial weapons'], Martial_Weapons], count: [1,2], title: 'Martial weapon and a shield OR 2 Martial weapons', categories: [['armour', 'weapons'], 'weapons'], type: 'special_select_4', special: {val: 'shield', index: 0}, selected: []}]
       this.spellcasting = true;
       // need to figure out how to make shield OR weapon option
    }
@@ -222,9 +230,9 @@ export class Ranger extends BaseClass {
       this.proficiencies.weapons = ['Simple Weapons', 'Martial Weapons'];
       this.proficiencies.selectFromList.skills = [{ list: ['Animal Handling', 'Athletics', 'Insight', 'Investigation', 'Nature', 'Perception', 'Stealth', 'Survival'], count: 3, title: 'Select 3 skills', type: 'simple_select' }];
       this.items.weapons = ['longbow', '20 arrows'];
-      this.items.selectFromList.armour = [{list: ['Scale Mail', 'Leather Armour'], count: 1, title: 'Scale mail OR Leather armour' }]
-      // this.items.selectFromList.weapons = [{list: ['2 Shortwords', Simple_Melee_Weapons], count: 1, title: 'Shortword OR Any simple weapon' }]
-      this.items.selectFromList.equipment = [{list: ['Dungeoneer\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Explorer\'s Pack' }];
+      this.items.selectFromList.armour = [{list: ['Scale Mail', 'Leather Armour'], count: 1, title: 'Scale mail OR Leather armour', type: 'simple_select' }]
+      this.items.selectFromList.special = [{list: [['2 Shortwords', '2 Simple melee weapons'], Simple_Melee_Weapons], count: 2, title: '2 Shortwords OR 2 Simple melee weapons', categories: 'weapons', type: 'special_select_5', special: {val: '2 shortwords', index: 0}, selected: []}]
+      this.items.selectFromList.equipment = [{list: ['Dungeoneer\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Explorer\'s Pack', type: 'simple_select' }];
       this.spellcasting = false;
       // need to figure out 2 shortwords OR 2 simple melee weapon option
    }
@@ -243,8 +251,10 @@ export class Rogue extends BaseClass {
       this.items.weapons = ['2 Daggers'];
       this.items.tools = ['Thieve\'s Tools'];
       this.items.armour = ['Light Armour'];
-      this.items.selectFromList.weapons = [{ list: ['Rapier', 'Shortsword'], count: 1, title: 'Rapier OR Shortsword'}, { list: ['Shortbow + 20 Arrows', 'Shortsword'], count: 1, title: 'Shortbow with 20 Arrows OR Shortsword'}];
-      this.items.selectFromList.equipment = [{list: ['Burglar\'s Pack', 'Dungeoneer\'s Pack', 'Explorer\'s Pack'], count: 1, title: 'Burglar\'s Pack OR Dungeoneer\'s Pack OR Explorer\'s Pack' }];
+      this.items.selectFromList.weapons = [
+         { list: ['Rapier', 'Shortsword'], count: 1, title: 'Rapier OR Shortsword', type: 'iterating_simple_select'}, 
+         { list: ['Shortbow + 20 Arrows', 'Shortsword'], count: 1, title: 'Shortbow with 20 Arrows OR Shortsword', type: 'iterating_simple_select'}];
+      this.items.selectFromList.equipment = [{list: ['Burglar\'s Pack', 'Dungeoneer\'s Pack', 'Explorer\'s Pack'], count: 1, title: 'Burglar\'s Pack OR Dungeoneer\'s Pack OR Explorer\'s Pack', type: 'simple_select' }];
       this.spellcasting = false;
    }
 }
@@ -258,8 +268,10 @@ export class Sorcerer extends BaseClass {
       this.proficiencies.weapons = ['Dagger', 'Dart', 'Sling', 'Quarterstaff', 'Light Crossbow'];
       this.proficiencies.selectFromList.skills = [{ list: ['Arcana', 'Deception', 'Insight', 'Intimidation', 'Persuasion', 'Religion'], count: 2, title: 'Select 2 skills', type: 'simple_select' }];
       this.items.weapons = ['2 Daggers'];
-      this.items.selectFromList.weapons = [{list: ['Light Crossbow + 20 bolts', Simple_Weapons], count: 1, title: 'Light crossbow and 20 bolts OR Any simple weapon'}];
-      this.items.selectFromList.equipment = [{list: ['Component Pouch', 'Arcane Focus'], count: 1, title: 'Component Pouch OR Arcane focus' }, {list: ['Dungeoneer\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Explorer\'s Pack' }];
+      this.items.selectFromList.weapons = [{list: ['Light Crossbow + 20 bolts', Simple_Weapons], count: 1, title: 'Light crossbow and 20 bolts OR Any simple weapon', type: 'group_select'}];
+      this.items.selectFromList.equipment = [
+         {list: ['Component Pouch', 'Arcane Focus'], count: 1, title: 'Component Pouch OR Arcane focus', type: 'iterating_simple_select' }, 
+         {list: ['Dungeoneer\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Explorer\'s Pack', type: 'iterating_simple_select' }];
       this.spellcasting = true;
    }
 }
@@ -275,8 +287,12 @@ export class Warlock extends BaseClass {
       this.proficiencies.selectFromList.skills = [{ list: ['Arcana', 'Deception', 'History', 'Intimidation', 'Investigation', 'Nature', 'Religion'], count: 2, title: 'Select 2 skills', type: 'simple_select' }];
       this.items.weapons = ['2 Daggers'];
       this.items.armour = ['Light Armour'];
-      this.items.selectFromList.weapons = [{list: ['Light Crossbow + 20 bolts', Simple_Weapons], count: 1, title: 'Light crossbow and 20 bolts OR Any simple weapon'}, {list: [Simple_Weapons], count: 1, title: 'Any simple weapon'}];
-      this.items.selectFromList.equipment = [{list: ['Component Pouch', 'Arcane Focus'], count: 1, title: 'Component Pouch OR Arcane focus' }, {list: ['Dungeoneer\'s pack', 'Scholar\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Scholar\'s Pack' }];
+      this.items.selectFromList.weapons = [
+         {list: ['Light Crossbow + 20 bolts', Simple_Weapons], count: 1, title: 'Light crossbow and 20 bolts OR Any simple weapon', type: 'iterating_group_select'}, 
+         {list: Simple_Weapons, count: 1, title: 'Any simple weapon', type: 'iterating_simple_select'}];
+      this.items.selectFromList.equipment = [
+         {list: ['Component Pouch', 'Arcane Focus'], count: 1, title: 'Component Pouch OR Arcane focus', type: 'iterating_simple_select' }, 
+         {list: ['Dungeoneer\'s pack', 'Scholar\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Scholar\'s Pack', type: 'iterating_simple_select' }];
       this.spellcasting = true;
    }
 }
@@ -290,8 +306,10 @@ export class Wizard extends BaseClass {
       this.proficiencies.weapons = ['Dagger, Dart, Sling, Quarterstaff, Light Crossbow'];
       this.proficiencies.selectFromList.skills = [{ list: ['Arcana', 'History', 'Insight', 'Investigation', 'Medicine', 'Religion'], count: 2, title: 'Select 2 skills', type: 'simple_select' }];
       this.items.equipment = ['Spellbook'];
-      this.items.selectFromList.weapons = [{ list: ['Quarterstaff', 'Rapier'], count: 1, title: 'Quarterstaff OR Rapier'}];
-      this.items.selectFromList.equipment = [{list: ['Component Pouch', 'Arcane Focus'], count: 1, title: 'Component Pouch OR Arcane focus' }, {list: ['Scholar\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Scholar\'s Pack OR Explorer\'s Pack' }];
+      this.items.selectFromList.weapons = [{ list: ['Quarterstaff', 'Rapier'], count: 1, title: 'Quarterstaff OR Rapier', type: 'simple_select'}];
+      this.items.selectFromList.equipment = [
+         {list: ['Component Pouch', 'Arcane Focus'], count: 1, title: 'Component Pouch OR Arcane focus', type: 'iterating_simple_select' }, 
+         {list: ['Scholar\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Scholar\'s Pack OR Explorer\'s Pack', type: 'iterating_simple_select' }];
       this.spellcasting = true;
    }
 }

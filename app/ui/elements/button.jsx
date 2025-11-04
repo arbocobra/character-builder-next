@@ -12,6 +12,13 @@ export const SelectButton = ({value}) => {
    );
 }
 
+export const InnerSelectButton = ({value, submit}) => {
+   const submitStyle = 'text-white bg-dark-blue hover:bg-light-blue focus:outline-none focus:ring-4 focus:ring-dark-blue font-medium rounded-md text-16/1 px-4 py-1.5'
+   return (
+      <input className={submitStyle} onClick={(e) => submit(e)} type='button' value={value} />
+   );
+}
+
 export const SubmitButton = ({value, isDisabled}) => {
    const submit = 'text-white bg-dark-blue hover:bg-light-blue focus:outline-none focus:ring-4 focus:ring-dark-blue font-medium rounded-md text-16/1 px-4 py-1.5'
    return (

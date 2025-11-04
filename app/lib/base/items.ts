@@ -38,7 +38,7 @@ type Item = {
 
 export const updateValue = (val:object, current:Items, keys:string|string[]):Items => {
   let copy:{[key:string]:any} = {...current}
-  if (typeof keys === 'string') copy[keys] = val
+  if (typeof keys === 'string') copy[keys] = {...val}
   else {
     let category:{[key:string]:any} = copy[keys[0]]
     if (Array.isArray(category[keys[1]])) category[keys[1]] = val
@@ -61,21 +61,18 @@ const calculateTotal = (update:Items) => {
    const addModifiers = (category:BaseItems) => {
       let cat:{[key:string]:any} = {...category}
       for (let prop of Object.keys(cat)) {
-         if (prop !== 'selectFromList') {
-            let val = cat[prop]
-            if (typeof val === 'number') {
-               let temp = 0;
-               if (val > 0) temp =+ val
-               total[prop] = temp;
-            } else {
-               let tempList = [...total[prop]] as string[]
-               if (val.length) {
-                  val.forEach((item:string) => {
-                  if (!tempList.includes(item)) tempList.push(item)
-                  })
-               }
-               total[prop] = tempList;
+         let val = cat[prop];
+         if (prop === 'selectFromList') continue;
+         else if (prop === 'currency') {
+            if (val > 0) total[prop] =+ val;
+         } else {
+            let tempList = [...total[prop]] as string[]
+            if (val.length) {
+               val.forEach((item:string) => {
+               if (!tempList.includes(item)) tempList.push(item)
+               })
             }
+            total[prop] = tempList;
          }
       }
    }

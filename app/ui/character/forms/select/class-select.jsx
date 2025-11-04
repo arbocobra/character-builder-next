@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { subclasses as classes } from '@/lib/init-data';
-import ProficiencySelect from '@/ui/character/forms/select/proficiency-select'
+import ProficiencySelect from '@/ui/character/forms/select/proficiency-select';
+import ItemSelect from '@/ui/character/forms/select/item-select';
 import HideDisplay from '@/ui/elements/hide-display';
 import {SelectButton} from '@/ui/elements/button';
 import { customStyles175 } from '@/ui/elements/select-theme'
@@ -15,6 +16,7 @@ const ClassContainer = (props) => {
       <div className='flex flex-col gap-5'>
          <ClassSelect {...props} />
          { hasClass && <ProficiencySelect {...props} id={'class'} />}
+         { hasClass && !props.isEdit && <ItemSelect {...props} id={'class'} />}
       </div>
    )
 }
@@ -64,7 +66,6 @@ const ClassSelect = ({current, isEdit, getInitialValue, submit}) => {
    }
 
    useEffect(() => {
-      // if (selectClass) getSubclassOptions()
       getSubclassOptions()
    }, [current, selectClass])
 
