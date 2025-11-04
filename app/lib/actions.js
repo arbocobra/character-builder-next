@@ -161,7 +161,9 @@ export const getPathObject = (payload, state) => {
       let proficiencies = updateValueP(value, state.proficiencies, [group, prop, opt])
       return { update: proficiencies, name:'proficiencies' }
    } else if (category === 'items') {
-      let items = updateValueI(value, state.items, [group, prop, opt])
+      let items;
+      if (prop) items = updateValueI(value, state.items, [group, prop, opt])
+      else items = updateValueI(value, state.items, group)
       return { update: items, name:'items' }
    }
      // else tbd
@@ -231,6 +233,18 @@ export const getInitialProficiencyList = (cat, id) => {
       result = applySpecies(species, subspecies)
    }
    return result.proficiencies;
+}
+
+export const getInitialItemList = (cat, id) => {
+   let result;
+   if (cat === 'class') result = applyClass(id, 1)
+   else if (cat === 'background') result = applyBackground(id)
+   else if (cat === 'species') {
+      let species = id.split(' ')[1]
+      let subspecies = id
+      result = applySpecies(species, subspecies)
+   }
+   return result.items;
 }
 
 export const changeClass = (className, state) => {}

@@ -5,6 +5,7 @@ import useCharacter from '@/dash/character-context';
 import FormContainer from '@/ui/character/forms/form-container';
 import ClassContainer from '@/ui/character/forms/select/class-select';
 import SpeciesContainer from '@/ui/character/forms/select/species-select';
+import BackgroundContainer from '@/ui/character/forms/select/background-select';
 import InitSelect from '@/ui/character/forms/select/init-select'
 import { SaveButton } from '@/app/ui/character/save';
 // import SaveButton from '@/ui/elements/save';
@@ -15,7 +16,7 @@ const CreateCharacterForm = ({user}) => {
    createCharacter, setSavedCharacter, updateLevel, updateByName, updateByPath, setClass, changeClass, setSpecies, changeSpecies, setBackground, changeBackground, updateAbilities, addToList, resetState 
    */
 
-   const { character, createCharacter, updateLevel, updateByPath, setClass, changeClass, setSpecies, changeSpecies, resetState } = useCharacter();
+   const { character, createCharacter, updateLevel, updateByPath, setClass, changeClass, setSpecies, changeSpecies, setBackground, changeBackground, resetState } = useCharacter();
    const [isLoading, setIsLoading] = useState(true)
 
    const initSelect = character.name ? true : false;
@@ -35,10 +36,16 @@ const CreateCharacterForm = ({user}) => {
    const classSubmit = (id, val) => {
       if (id === 'class') character.class ? changeClass(val.class, val.subclass || null) : setClass(val.class, val.subclass || null)
       else if (id === 'proficiencies') updateByPath(val.path, val.value);
+      else if (id === 'items') updateByPath(val.path, val.value);
    }
 
    const speciesSubmit = (id, val) => {
       if (id === 'species') character.species ? changeSpecies(val.species, val.subspecies || null) : setSpecies(val.species, val.subspecies || null)
+      else if (id === 'proficiencies') updateByPath(val.path, val.value);
+   }
+
+   const backgroundSubmit = (id, val) => {
+      if (id === 'background') character.background ? changeBackground(val.background) : setBackground(val.background)
       else if (id === 'proficiencies') updateByPath(val.path, val.value);
    }
 
@@ -62,6 +69,9 @@ const CreateCharacterForm = ({user}) => {
          </FormContainer> }
          { initSelect && <FormContainer name={'Species'} show={true}>
             <SpeciesContainer current={character} isEdit={false} getInitialValue={getInitialValue} submit={speciesSubmit} />
+         </FormContainer> }
+         { initSelect && <FormContainer name={'Background'} show={true}>
+            <BackgroundContainer current={character} isEdit={false} getInitialValue={getInitialValue} submit={backgroundSubmit} />
          </FormContainer> }
          { canSave && <SaveButton current={character} id={user} />}
       </div>

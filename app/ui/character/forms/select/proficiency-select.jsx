@@ -15,14 +15,18 @@ const ProficiencySelect = ({current, isEdit, getInitialValue, submit, id}) => {
 
    const getSelectForm = (n,i) => {
       const key = n === 'saving throws' ? 'savingThrows' : n;
-      const select = current.proficiencies[id].selectFromList[key] || null;
+      let select = current.proficiencies[id].selectFromList[key] || null;
+      // if (current.proficiencies[id].selectFromList === undefined) {
+      //    let p = getInitialProficiencyList(id, current[id])
+      //    select = p.selectFromList[key] || null;
+      // } else select = current.proficiencies[id].selectFromList[key] || null;
       if (!select) return;
 
       switch (select[0].type){
          case 'simple_select':
-            return <SimpleSelectForm key={`proficiency-select-form-${i}`} data={select[0]} id={id} cat={key} submit={handleSubmit} current={current} isEdit={isEdit} />
+            return <SimpleSelectForm key={`proficiency-select-form-${i}`} base='proficiencies' data={select[0]} id={id} cat={key} submit={handleSubmit} current={current} isEdit={isEdit} />
          case 'group_select':
-            return <GroupSelectForm key={`proficiency-select-form-${i}`} data={select[0]} id={id} cat={key} submit={handleSubmit} current={current} isEdit={isEdit} />
+            return <GroupSelectForm key={`proficiency-select-form-${i}`} base='proficiencies' data={select[0]} id={id} cat={key} submit={handleSubmit} current={current} isEdit={isEdit} />
          default: return;
       }
    }

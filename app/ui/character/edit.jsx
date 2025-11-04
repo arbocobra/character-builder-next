@@ -3,9 +3,10 @@
 import { useState, useEffect, useRef } from 'react';
 import useCharacter from '@/dash/character-context';
 import FormContainer from '@/ui/character/forms/form-container';
+import InitSelect from '@/ui/character/forms/select/init-select'
 import ClassContainer from '@/ui/character/forms/select/class-select';
 import SpeciesContainer from '@/ui/character/forms/select/species-select';
-import InitSelect from '@/ui/character/forms/select/init-select'
+import BackgroundContainer from '@/ui/character/forms/select/background-select';
 import { UpdateButton } from '@/ui/character/save';
 import Loading from './loading';
 
@@ -32,7 +33,7 @@ const EditFormParent = ({current}) => {
 
 const EditCharacterForm = ({character}) => {
 
-   const { updateLevel, changeClass, updateByPath } = useCharacter()
+   const { updateLevel, changeClass, changeSpecies, changeBackground, updateByPath } = useCharacter()
 
    const getInitialValue = (list, init) => list.find((x) => x.value === init)
 
@@ -50,9 +51,14 @@ const EditCharacterForm = ({character}) => {
       else if (id === 'proficiencies') updateByPath(val.path, val.value);
    }
 
+   const backgroundSubmit = (id, val) => {
+      if (id === 'background') changeBackground(val.background);
+      else if (id === 'proficiencies') updateByPath(val.path, val.value);
+   }
+
    return (
       <div className='items-stretch flex flex-col w-1/2 p-4 m-1 gap-4'>
-         <FormContainer name={'Default'} show={false}>
+         <FormContainer name={'Default'} show={true}>
             <InitSelect current={character} isEdit={true} submit={initSubmit} />
          </FormContainer>
          <FormContainer name={'Class'} show={true}>
@@ -60,6 +66,9 @@ const EditCharacterForm = ({character}) => {
          </FormContainer>
          <FormContainer name={'Species'} show={true}>
             <SpeciesContainer current={character} isEdit={true} getInitialValue={getInitialValue} submit={speciesSubmit} />
+         </FormContainer>
+         <FormContainer name={'Background'} show={true}>
+            <BackgroundContainer current={character} isEdit={true} getInitialValue={getInitialValue} submit={backgroundSubmit} />
          </FormContainer>
          <UpdateButton current={character} />
       </div>

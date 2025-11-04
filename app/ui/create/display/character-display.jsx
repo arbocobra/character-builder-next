@@ -134,8 +134,8 @@ const DisplayItems = ({current, cat, getRow}) => {
       {label: 'Armour', value: current.armour, type: 'list-row'}, 
       {label: 'Weapons', value: current.weapons, type: 'list-row'}, 
       {label: 'Equipment', value: current.equipment, type: 'list-row'}, 
-      {label: 'Currency', value: current.currency, type: 'block-row'}, 
-      {label: 'Tools', value: current.tools, type: 'list-row'}
+      {label: 'Tools', value: current.tools, type: 'list-row'},
+      {label: 'Currency', value: current.currency, type: 'block-row'}
    ]
 
    return (
