@@ -1,134 +1,128 @@
 'use server'
 import postgres from 'postgres';
-import { SelectProficiencies, BaseProficienciesSchema } from '@/lib/query-types'
+import { BaseProficienciesSchema, ProficiencyItemSchema, BaseItemSchema, ItemSchema, DefaultModifiedSchema, DefaultModifiedListItemSchema, AbilitiesSchema, AbilityItemSchema } from '@/lib/query-types';
 
 const sql = postgres<any>(process.env.POSTGRES_URL!, { ssl: 'require' });
 
-const sampleData = {
-   s: {armour: [], languages: ["Common", "Dwarvish"], savingThrows: [], selectFromList: undefined, skills: [], tools: ["mason's tools"], weapons: ["Battleaxe", "Handaxe", "Light Hammer", "Warhammer"]},
-   b: {armour: [], languages: ["abyssal"], savingThrows: [], selectFromList: undefined, skills: ["Athletics", "Survival"], tools: ["bagpipes"], weapons: []},
-   f: {armour: [], languages: [], savingThrows: [], selectFromList: undefined, skills: ["acrobatics", "stealth"], tools: ["thieve's tools"], weapons: []},
-   t: {armour: ["All Armour", "Shields" ], languages: ["Common", "Dwarvish", "abyssal"], savingThrows: ["strength","constitution"], selectFromList: {}, skills: ["acrobatics", "stealth", "Athletics", "Survival", "intimidation","perception"], tools: ["mason's tools", "thieve's tools", "bagpipes"], weapons: [ "Simple Weapons", "Martial Weapons", "Battleaxe", "Handaxe", "Light Hammer", "Warhammer"]}
-}
-
+type Row = { [key:string]: any }
 
 export const updateCharacter = async (char:any, id:string) => {
-
-   // get Profic ID from character user Character Id //
-   // get BaseProfic IDs from Proficiencies using Profic ID
-   // update each BP row using BaseProfic Ids
-   // (update all nested categories like this)
-   // update character
-
-   getCharacterIds(id).then((r) => updateCategories(r, char))
-
-   // Promise.all([
-   //    updateSingleCat(char.proficiencies.class),
-   //    insertSingleCat(s),
-   //    insertSingleCat(b),
-   //    insertSingleCat(t),
-   // ]).then((arr) => insertCharacterCategories(arr), (e) => console.error(e, 'insertCharacterCategories')
-   // ).then((profId) => insertCharacter(char, profId, id), (e) => console.error(e, 'insertCharacter')
-   // ).then(() => console.log('I worked?'))
+   getCharacterIds(char, id).then((r) => updateCategories(r, char))
 }
 
-const getCharacterIds = async (id:string) => {
+const getCharacterIds = async (char:any, id:string) => {
    const catArray = ['hit_points', 'proficiencies', 'abilities', 'speed', 'armour_class', 'items', 'features']
    try {
-      const idList:any = await sql`
-         SELECT hit_points, proficiencies, abilities, speed, armour_class, items, features
-         FROM characters WHERE id = ${id};
-      `
-      let result = idList[0]
-      let resultObject:{[key:string]: string} = {}
-      Object.keys(result).forEach(el => {
-         if (typeof result[el] === 'string') resultObject[el] = result[el]
-      })
-      return resultObject;
+      const idList:any = await sql<Row[]>`SELECT * FROM update_character(${id}, ${char.name}, ${char.level}, ${char.class}, ${char.subclass}, ${char.species}, ${char.background}, ${char.proficiency_bonus}, ${char.hit_dice}, ${char.initiative_bonus}, ${char.class_asi_levels}, ${char.size})`
+      return idList[0]
    } catch (e) {}
 }
 
 const updateCategories = async (idObject:any, char:any) => {
    // const nestedCategories = ['proficiencies', 'abilities', 'items', 'features']
    // const currentCategories = ['hit_points', 'speed', 'armour_class']
-   
-   const currentCategories = Object.keys(idObject)
+   const {p_id, i_id, hp_id, a_id, sp_id, ac_id, f_id} = idObject
+   const proficiencies = await updateProficiencies(p_id, char.proficiencies);
+   const items = await updateItems(i_id, char.items);
+   // const hit_points = await updateHP(hp_id, char.hit_points);
+   // const abilities = await updateAbilities(a_id, char.abilities);
+   // const speed = await updateSpeed(sp_id, char.speed);
+   // const armour_class = await updateAC(ac_id, char.armour_class);
+   // const features = await updateFeatures(f_id, char.features);
+}
 
-   // const result = [];
+const updateProficiencies = async (id:string, profs:any) => {
+   const data = await sql<Row[]>`SELECT * FROM update_proficiencies(${id})`
+   Promise.all([
+      updateBaseProficiencies(data[0].class, profs.class),
+      updateBaseProficiencies(data[0].species, profs.species),
+      updateBaseProficiencies(data[0].background, profs.background),
+      updateBaseProficiencies(data[0].feats, profs.feats.total),
+      updateBaseProficiencies(data[0].total, profs.total)
+   ]).then(() => updateProficienciesList(data[0].list, profs.feats.list))
+}
 
-   if (currentCategories.includes('hit_points')) {
-      // const hp = await sql`UPDATE hit_points SET WHERE id = ${idObject.hit_points};`
-      const hp = await sql`SELECT * FROM update_hp(${idObject.hit_points}, 14, 20)`
-      // const list = await sql`SELECT * FROM hi`
-      console.log(hp)
-      // console.log(char.hit_points)
+const updateItems = async (id:string, items:any) => {
+   const data = await sql<Row[]>`SELECT * FROM update_items(${id})`
+   Promise.all([
+      updateBaseItems(data[0].class, items.class),
+      updateBaseItems(data[0].background, items.background),
+      updateBaseItems(data[0].purchased, items.purchased.total),
+      updateBaseItems(data[0].total, items.total)
+   ]).then(() => updateItemsList(data[0].list, items.purchased.list))
+}
+const updateHP = async (id:string, profs:any) => {}
+const updateAbilities = async (id:string, profs:any) => {}
+const updateSpeed = async (id:string, profs:any) => {}
+const updateAC = async (id:string, profs:any) => {}
+const updateFeatures = async (id:string, profs:any) => {}
+
+const updateBaseProficiencies = async (id:string, prof:any) => {
+   const validatedProficiencies = BaseProficienciesSchema.safeParse({
+      armour: prof.armour, languages: prof.languages, savingThrows: prof.savingThrows, selectFromList: prof.selectFromList, skills: prof.skills, tools: prof.tools, weapons: prof.weapons
+   })
+   if (!validatedProficiencies.success) {
+      return { message: 'Something is wrong. NCR', prof };
+   } 
+   const {armour, languages, savingThrows, selectFromList, skills, tools, weapons} = validatedProficiencies.data;
+   try {
+      await sql`SELECT * FROM update_base_prof(${id}, ${armour}, ${languages}, ${savingThrows}, ${selectFromList as any}, ${skills}, ${tools}, ${weapons})`
+   } catch (e) {
+      console.error('Database Error:', e);
+      throw new Error(`Failed to insert base proficiency.`); 
    }
+}
+const updateBaseItems = async (id:string, item:any) => {
 
+   const validatedItems = BaseItemSchema.safeParse({
+      armour:item.armour, weapons:item.weapons, equipment:item.equipment, tools:item.tools, currency:item.currency, selectFromList:item.selectFromList
+   })
+   
+   if (!validatedItems.success) return { message: 'Something is wrong. NCR', item };
+
+   const {armour, weapons, tools, equipment, currency, selectFromList} = validatedItems.data;
+   try {
+      await sql`SELECT * FROM update_base_items(${id}, ${armour}, ${weapons}, ${equipment}, ${tools}, ${currency}, ${selectFromList as any})`
+   } catch (e) {
+      console.error('Database Error:', e);
+      throw new Error(`Failed to insert base items.`); 
+   }
 }
 
-const getSimple = async (id:string, cat:string) => {
-   let data = await sql`
-      SELECT * FROM hit_points WHERE id = ${id};
-   `
-   return data[0]
-   // console.log(data[0])
+const updateProficienciesList = async (id:string, list:any[]) => {
+   if (list.length < 1) return
+   for (let i = 0; i < list.length; i++) {
+      const validatedProfs = ProficiencyItemSchema.safeParse({name: list[i].name, prop:list[i].prop, level:list[i].level, value:list[i].value, listId: id})
+      
+      if (!validatedProfs.success) return { message: 'Something is wrong. NCR', list };
+      const { name, prop, level, value, listId } = validatedProfs.data;
+
+      try {
+         await sql`SELECT * FROM update_prof_list(${listId}, ${name}, ${prop}, ${level}, ${value})`
+      } catch (e) {
+         console.error('Database Error:', e);
+         throw new Error(`Failed to insert proficiency list item.`); 
+      }
+   }
 }
+const updateItemsList = async (id:string, list:any[]) => {
+   if (list.length < 1) return
+   for (let i = 0; i < list.length; i++) {
+      const validatedItems = ItemSchema.safeParse({prop:list[i].prop, value:list[i].value, listId: id})
+      
+      if (!validatedItems.success) return { message: 'Something is wrong. NCR', list };
+      const { prop, value, listId } = validatedItems.data;
 
-// const insertCharacter = async (char:any, profId:any, userId:string) => {
-
-//       try {
-//       const id = await sql`
-//          INSERT into characters (user_id, name, level, class, subclass, species, background, proficiency_bonus, hit_dice, initiative_bonus, class_asi_levels, proficiencies)
-//          VALUES (${userId}, ${char.name}, ${char.level}, ${char.class}, ${char.subclass}, 'hill dwarf', 'outlander', ${char.proficiency_bonus}, ${char.hit_dice}, ${char.initiative_bonus}, ${char.class_ASI_levels}, ${profId})
-//          RETURNING id;
-//       `
-//       return id[0].id
-//    } catch (e) {
-
-//    }
-// }
-
-// const updateCharacterCategories = async (profIds:any) => {
-//    const [classId, speciesId, backgroundId, totalId] = profIds; 
-
-//    try {
-//       const profic = await sql`
-//          INSERT into proficiencies (class, species, background, total)
-//          VALUES (${classId}, ${speciesId}, ${backgroundId}, ${totalId})
-//          RETURNING id;
-//       `
-//       return profic[0].id
-//    } catch (e) {
-//       console.error('Database Error:', e);
-//       throw new Error('Failed to insert proficiencies.'); 
-//    }
-// }
-
-const updateSingleCat = async (prof:any) => {
-
-   // let {armour, languages, savingThrows, selectFromList, skills, tools, weapons} = prof
-   // const validatedProficiencies = BaseProficienciesSchema.safeParse({
-   //    armour, languages, savingThrows, selectFromList, skills, tools, weapons
-   // })
-
-   // if (!validatedProficiencies.success) {
-   //    return {
-   //       errors: validatedProficiencies.error.flatten().fieldErrors,
-   //       message: 'Something is wrong. NCR',
-   //    };
-   // } 
-
-   // const {armour: Armour, languages: Languages, savingThrows: SavingThrows, selectFromList: SelectFromList, skills: Skills, tools: Tools, weapons: Weapons} = validatedProficiencies.data
-
-   // try {
-   //    const result = await sql`
-   //       INSERT into base_proficiencies (armour, languages, saving_throws, select_from_list, skills, tools, weapons)
-   //       VALUES (${Armour}, ${Languages}, ${SavingThrows}, ${SelectFromList as any}, ${Skills}, ${Tools}, ${Weapons})
-   //       RETURNING id;
-   //    `
-   //    return result[0].id;
-   // } catch (e) {
-   //    console.error('Database Error:', e);
-   //    throw new Error(`Failed to insert base proficiency.`); 
-   // }
+      try {
+         await sql`SELECT * FROM update_prof_list(${listId}, ${prop}, ${value})`
+      } catch (e) {
+         console.error('Database Error:', e);
+         throw new Error(`Failed to insert item list item.`); 
+      }
+   }
 }
+const updateHPList = async (id:string, list:any[]) => {}
+const updateAbilitiesList = async (id:string, list:any[]) => {}
+const updateSpeedList = async (id:string, list:any[]) => {}
+const updateACList = async (id:string, list:any[]) => {}
+const updateFeaturesList = async (id:string, list:any[]) => {}
