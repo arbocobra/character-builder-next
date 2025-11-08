@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { getInitialItemList } from '@/lib/actions'
 import { matchSpecial, updateSubmitState, getSubmitVals, getMergedVals } from '@/lib/display-actions'
-import { SimpleSelectForm, GroupSelectForm, IteratingSelectForm } from '@/ui/character/forms/menus'
-import { SpecialSelectForm1, SpecialSelectForm2, SpecialSelectForm3, SpecialSelectForm4, SpecialSelectForm5 } from '@/ui/character/forms/special-select-menus'
+import { SimpleSelectForm, GroupSelectForm, IteratingSelectForm } from '@/app/ui/character/forms/menus/main-menus'
+import { SpecialSelectForm1, SpecialSelectForm2, SpecialSelectForm3, SpecialSelectForm4, SpecialSelectForm5 } from '@/app/ui/character/forms/menus/special-select-menus'
 
 const ItemSelect = ({current, isEdit, getInitialValue, submit, id}) => {
    const initSubmitState = () => {
@@ -12,7 +12,7 @@ const ItemSelect = ({current, isEdit, getInitialValue, submit, id}) => {
    const [submitted, setSubmitted] = useState(initSubmitState)
    const initItems = useRef()
 
-   const getSubmitState = (value, category, index, i = null) => {
+   const getSubmitState = (value, category, index, i = 0) => {
       const isSubmitted = submitted.some(s => s.index === index)
       const update = updateSubmitState(value, category, index, submitted, isSubmitted)
       setSubmitted(update)
@@ -21,7 +21,8 @@ const ItemSelect = ({current, isEdit, getInitialValue, submit, id}) => {
          if (key === 'currency') submitVals[key] = initItems.current.currency;
          else if (key === 'selectFromList') {
             submitVals[key] = initItems.current.selectFromList;
-            if (i != null){} // option here to add 'selected' val in item object
+            if (index.slice(0,2) === 'sp') submitVals[key].special[i].selected = [value].flat()
+            else submitVals[key][category][i].selected = [value].flat()
          } else {
             let vals = getSubmitVals(update, key)
             submitVals[key] = [...initItems.current[key], ...vals]

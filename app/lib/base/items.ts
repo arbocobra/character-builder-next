@@ -12,26 +12,26 @@ type Items = {
    }
 }
 
-type BaseItems = {
+export type BaseItems = {
    armour:string[],
    weapons:string[],
    equipment:string[],
    tools:string[],
    currency: number,
    selectFromList?: {
-      armour?:string[],
-      weapons?:string[],
-      equipment?:string[],
-      tools?:string[],
+      armour?:string[] | null,
+      weapons?:string[] | null,
+      equipment?:string[] | null,
+      tools?:string[] | null
    }
 }
 
-type ItemsList = {
+export type ItemsList = {
    list:Item[],
    total: BaseItems,
 }
 
-type Item = {
+export type Item = {
    prop:string,
    value:string,
 }

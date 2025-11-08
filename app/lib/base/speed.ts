@@ -5,12 +5,12 @@ type Speed = {
    total: number
 }
 
-type SpeedList = {
+export type SpeedList = {
    list: SpeedItem[],
    total: number
 }
 
-type SpeedItem = {
+export type SpeedItem = {
    name: string,
    level: number,
    value: number

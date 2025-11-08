@@ -5,11 +5,11 @@ const CharacterList = ({characters}) => {
 
    return (
       <div>
-         <div>Character List Here</div>
+         <h3 className='text-xl py-5'>My Saved Characters</h3>
          <div className='flex flex-col gap-3'>
             {characters.map((el,i) => {
                return (
-                  <div key={`char-list-${i}`} className='flex border-1 p-2 justify-between'>
+                  <div key={`char-list-${i}`} className='flex bg-medium p-2 justify-between'>
                      <div className='flex gap-6 '>
                         <FaceSmileIcon width={32} height={32} className='' />
                         <div className='flex flex-col'>

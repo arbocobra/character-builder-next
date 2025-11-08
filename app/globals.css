@@ -3,6 +3,7 @@
 
 @theme {
   --color-light-old: #f8f7e3;
+  --color-medium: #d1d8d0;
   --color-light: #eff0e0;
   --color-dark: #353535;
   --color-light-blue: #7E9AA6;
@@ -21,7 +22,11 @@ body {
   color: var(--color-dark);
 }
 
-h1 {
+#body-container {
+  scrollbar-gutter: stable;
+}
+
+h1, h3 {
   font-family: var(--font-playfair);
 }
 

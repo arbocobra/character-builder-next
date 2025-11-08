@@ -7,6 +7,7 @@ import InitSelect from '@/ui/character/forms/select/init-select'
 import ClassContainer from '@/ui/character/forms/select/class-select';
 import SpeciesContainer from '@/ui/character/forms/select/species-select';
 import BackgroundContainer from '@/ui/character/forms/select/background-select';
+import AbilitiesContainer from '@/ui/character/forms/select/abilities-select'
 import { UpdateButton } from '@/ui/character/save';
 import Loading from './loading';
 
@@ -33,7 +34,7 @@ const EditFormParent = ({current}) => {
 
 const EditCharacterForm = ({character}) => {
 
-   const { updateLevel, changeClass, changeSpecies, changeBackground, updateByPath } = useCharacter()
+   const { updateLevel, changeClass, changeSpecies, changeBackground, updateByPath, updateAbilities } = useCharacter()
 
    const getInitialValue = (list, init) => list.find((x) => x.value === init)
 
@@ -44,6 +45,7 @@ const EditCharacterForm = ({character}) => {
    const classSubmit = (id, val) => {
       if (id === 'class') changeClass(val.class, val.subclass || null);
       else if (id === 'proficiencies') updateByPath(val.path, val.value);
+      else if (id === 'items') updateByPath(val.path, val.value);
    }
 
    const speciesSubmit = (id, val) => {
@@ -54,7 +56,10 @@ const EditCharacterForm = ({character}) => {
    const backgroundSubmit = (id, val) => {
       if (id === 'background') changeBackground(val.background);
       else if (id === 'proficiencies') updateByPath(val.path, val.value);
+      else if (id === 'items') updateByPath(val.path, val.value);
    }
+
+   const abilititiesSubmit = (val) => updateAbilities(val)
 
    return (
       <div className='items-stretch flex flex-col w-1/2 p-4 m-1 gap-4'>
@@ -69,6 +74,9 @@ const EditCharacterForm = ({character}) => {
          </FormContainer>
          <FormContainer name={'Background'} show={true}>
             <BackgroundContainer current={character} isEdit={true} getInitialValue={getInitialValue} submit={backgroundSubmit} />
+         </FormContainer>
+         <FormContainer name={'Abilities'} show={true}>
+            <AbilitiesContainer current={character} isEdit={true} getInitialValue={getInitialValue} submit={abilititiesSubmit} />
          </FormContainer>
          <UpdateButton current={character} />
       </div>

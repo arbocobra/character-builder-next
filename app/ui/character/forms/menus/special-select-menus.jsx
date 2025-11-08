@@ -15,8 +15,8 @@ export const SpecialSelectForm1 = ({base, data, id, cat, submit, current, isEdit
    const options = getMultiCatGroupOptions(data, categories)
 
    const getInitialValue = () => {
-      if (selected[0] === special.val) return options[0].options[special.index]
-      return options[1].options.find(item => item.value === selected[0]);
+      if (selected.includes(special.val)) return [options[special.index].options[special.index]]
+      else return options[1 - special.index].options.filter(o => selected.includes(o.value))
    }
    
    const [select, setSelect] = useState(isEdit ? getInitialValue() : []);
@@ -52,18 +52,18 @@ export const SpecialSelectForm1 = ({base, data, id, cat, submit, current, isEdit
    )
 }
 
-export const SpecialSelectForm2 = ({base, data, id, cat, submit, current, isEdit, index}) => { // rename as filter cat
-   const {count, list, title, special, categories } = data;
+export const SpecialSelectForm2 = ({base, data, id, cat, submit, current, isEdit, index}) => {
+   const {count, list, title, special, categories, selected } = data;
 
    const [display, setDisplay] = useState(true)
    const options = list.map((el,i) => ({ value: el.toLowerCase(), label: el, category: categories[i] }));
 
    const getInitialValue = () => {
-      if (current[base][id].weapons.includes(special.val)) return options[special.index]
+      if (selected.includes(special.val)) return options[special.index]
       else return options[1 - special.index]
    }
    
-   const [select, setSelect] = useState(isEdit ? getInitialValue() : []);
+   const [select, setSelect] = useState(isEdit ? [getInitialValue()] : []);
 
    const handleChange = (val) => { 
       if (Array.isArray(val)) setSelect(val)
@@ -76,16 +76,18 @@ export const SpecialSelectForm2 = ({base, data, id, cat, submit, current, isEdit
       if (Array.isArray(val.category)) {
          submit(val.value.split(' and '), val.category, `sp-2-${index}`, index)
       } else submit(val.value, val.category, `sp-2-${index}`, index)
+      setDisplay(false)
    }
 
    const resetDisplay = () => {
       setSelect([])
       setDisplay(true)
    }
-
+   
    useEffect(() => {
       setDisplay(true)
    }, [current[id]])
+   
 
    return (
       <div className='flex flex-col gap-2 basis-full'>
@@ -102,18 +104,18 @@ export const SpecialSelectForm2 = ({base, data, id, cat, submit, current, isEdit
 }
 
 export const SpecialSelectForm3 = ({base, data, id, cat, submit, current, isEdit, index}) => {
-   const {count, list, title, special, categories } = data;
+   const {count, list, title, special, categories, selected } = data;
 
    const [display, setDisplay] = useState(true)
    const options = list[0].map((el,i) => ({ value: el.toLowerCase(), label: el, index: i }));
    options[0].value = special.val;
 
    const getInitialValue = () => {
-      if (current[base][id].weapons.includes(special.val)) return options[special.index]
+      if (selected.includes(special.val)) return options[special.index]
       else return options[1 - special.index]
    }
    
-   const [select, setSelect] = useState(isEdit ? getInitialValue() : []);
+   const [select, setSelect] = useState(isEdit ? [getInitialValue()] : []);
 
    const [stepOptions, setStepOptions] = useState(null)
 
@@ -161,7 +163,7 @@ export const SpecialSelectForm3 = ({base, data, id, cat, submit, current, isEdit
          {display ? 
          <form className='flex flex-row gap-4 grow items-start' action={handleSubmit}>
             <Select isSearchable={false} options={options} required name='special-3' value={select} id={id} onChange={handleChange} />
-            {stepOptions && <StepSelect stepOptions={stepOptions} isEdit={isEdit} currentStep={'x'} name='special-3' count={countVal} /> }
+            {stepOptions && <StepSelect stepOptions={stepOptions} isEdit={isEdit} currentStep={selected.slice(1)} name='special-3' count={countVal} /> }
             <SelectButton value='Select' />
          </form>
          : <HideDisplay select={select} resetDisplay={resetDisplay} />
@@ -184,8 +186,11 @@ export const SpecialSelectForm5 = ({base, data, id, cat, submit, current, isEdit
    options[0].value = special.val;
 
    const getInitialValue = () => {
-      if (current[base][id].weapons.includes(special.val)) return options[special.index]
-      else return options[1 - special.index]
+      // if (current[base][id].weapons.includes(special.val)) return options[special.index]
+      // else return options[1 - special.index]
+      console.log(current[base][id])
+      console.log(list)
+      return [];
    }
    
    const [select, setSelect] = useState(isEdit ? getInitialValue() : []);
@@ -247,16 +252,16 @@ export const SpecialSelectForm5 = ({base, data, id, cat, submit, current, isEdit
 }
 
 const StepSelect = ({stepOptions, isEdit, currentStep, name, count}) => {
-   
-   const getInitialValue = (list, init) => list.find((x) => x.value === init)
-   const [selectStep, setSelectStep] = useState(isEdit ? getInitialValue(stepOptions, currentStep) : '')
 
-   useEffect(() => {
-      if (selectStep) {
-         let x = stepOptions.find(el => el.value === selectStep.value)
-         if (x === undefined) setSelectStep('')
-      }
-   },[stepOptions])
+   const getInitialValue = () => stepOptions.filter((x) => currentStep.includes(x.value) ? x : null)
+   const [selectStep, setSelectStep] = useState(isEdit ? getInitialValue() : [])
+
+   // useEffect(() => {
+   //    if (selectStep) {
+   //       let x = stepOptions.find(el => el.value === selectStep.value)
+   //       if (x === undefined) setSelectStep([])
+   //    }
+   // },[stepOptions])
 
    if (count > 1) {
       return (<Select isSearchable={false} options={stepOptions} name={name} value={selectStep} isClearable isMulti isOptionDisabled={() => selectStep.length >= count } onChange={(v) => setSelectStep(v)} required />)

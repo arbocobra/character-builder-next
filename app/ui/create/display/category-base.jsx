@@ -6,7 +6,7 @@ const DisplayContainer = ({ name, show, children }) => {
    const toggleDisplay = () => setDisplay(!display)
 
    return (
-      <div className='flex flex-col gap-5 px-3 py-4 border-1 bg-gray-200'>
+      <div className='flex flex-col gap-5 px-3 py-4 bg-[#efefea] border-4 border-light-blue'>
          <div className='flex flex-row justify-between items-center'>
             <div className='font-serif text-xl font-bold'>Display {name}</div>
             <ToggleButton value={display ? 'Close' : 'Open'}  handleClick={toggleDisplay}/>

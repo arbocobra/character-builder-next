@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { backgrounds } from '@/lib/init-data'
-import ProficiencySelect from '@/ui/character/forms/select/proficiency-select'
+import ProficiencySelect from '@/ui/character/forms/select/proficiency-select';
+import ItemSelect from '@/ui/character/forms/select/item-select';
 import HideDisplay from '@/ui/elements/hide-display';
 import {SelectButton} from '@/ui/elements/button';
 import { customStyles175 } from '@/ui/elements/select-theme'
@@ -9,10 +10,11 @@ const Select = dynamic(() => import('react-select'), { ssr: false });
 
 const BackgroundContainer = (props) => {
    const hasBackground = props.current.background ? true : false;
-   const hasProficiencySelect = () => {
+
+   const hasSelect = (id) => {
       if (!hasBackground) return false;
       else {
-         if (Object.values(props.current.proficiencies.background.selectFromList).some(el => el !== null)) return true;
+         if (Object.values(props.current[id].background.selectFromList).some(el => el !== null)) return true;
          else return false;
       }
    }
@@ -20,7 +22,9 @@ const BackgroundContainer = (props) => {
    return (
       <div className='flex flex-col gap-5'>
          <BackgroundSelect {...props} />
-         { hasProficiencySelect() && <ProficiencySelect {...props} id={'background'} />}
+         { hasSelect('proficiencies') && <ProficiencySelect {...props} id={'background'} />}
+         { hasSelect('items') && <ItemSelect {...props} id={'background'} />}
+         {/* { hasClass && <ItemSelect {...props} id={'class'} /> } */}
       </div>
    )
 }
@@ -29,36 +33,15 @@ const BackgroundSelect = ({current, isEdit, getInitialValue, submit}) => {
    const backgroundOptions = backgrounds.map(el => ({ value: el.toLowerCase(), label: el }));
    
    const [selectBackground, setSelectBackground] = useState(isEdit ? getInitialValue(backgroundOptions, current.background) : '')
-   // const [subOptions, setSubOptions] = useState(null)
    const [display, setDisplay] = useState(true)
    
    const buttonText = isEdit ? 'Update' : 'Select';
 
-   // const displaySubspecies = () => {
-   //    if (selectBackground) {
-   //       if (!selectSpecies.info) return false;
-   //       else return true;
-   //    } else return false
-   // }
-
-   // const subOptionsLookup = () => {
-   //    let info = selectSpecies.info
-   //    let options = info.map(el => ({ value: el.toLowerCase(), label: el}))
-   //    setSubOptions(options)
-   // }
-   // const getSubspeciesOptions = () => {
-   //    let selected = displaySubspecies()
-   //    if (selected) {
-   //       subOptionsLookup()
-   //    } else setSubOptions(null)
-   // }
-   
    const handleBackgroundChange = (val) => {
       if (val) {
          setSelectBackground(val)
       } else {
          setSelectBackground(null)
-         // setSubOptions(null)
       }
    }
    const handleSubmit = (data) => {
@@ -71,10 +54,6 @@ const BackgroundSelect = ({current, isEdit, getInitialValue, submit}) => {
       setSelectBackground(null)
       setDisplay(true)
    }
-
-   // useEffect(() => {
-   //    getSubspeciesOptions()
-   // }, [current, selectBackground])
 
    return (
       <div className='flex flex-col gap-3'>

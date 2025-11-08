@@ -197,7 +197,7 @@ const DisplaySkills = ({current, cat, getRow}) => {
 
    return (
       <div className='flex flex-col gap-y-3'>
-         <div className='grid grid-cols-12 grid-rows-6 grid-flow-col gap-3'>
+         <div className='grid grid-cols-12 grid-rows-6 grid-flow-col gap-y-3 gap-x-5'>
             { SkillsObject.map((el,i) => getRow(el,i, cat))}
          </div>
       </div>

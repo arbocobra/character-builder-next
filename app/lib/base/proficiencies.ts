@@ -22,12 +22,12 @@ export type BaseProficiencies = {
    skills:string[],
    languages:string[],
    selectFromList?: {
-      armour?:string[],
-      weapons?:string[],
-      tools?:string[],
-      savingThrows?:string[],
-      skills?:string[],
-      languages?:string[],
+      armour?:string[] | null,
+      weapons?:string[] | null,
+      tools?:string[] | null,
+      savingThrows?:string[] | null,
+      skills?:string[] | null,
+      languages?:string[] | null,
    }
 }
 

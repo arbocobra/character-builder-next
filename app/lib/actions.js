@@ -126,6 +126,7 @@ export const getLevelObject = (payload, hasClass, state) => {
       }
    } else {
       features = state.features
+      hitPoints = state.hit_points;
    }
    return {
       name,

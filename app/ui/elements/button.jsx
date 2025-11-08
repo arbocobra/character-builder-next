@@ -1,35 +1,28 @@
-// export const SubmitButton = ({value, isDisabled}) => {
-//    const submit = 'text-white bg-sky-900 hover:bg-sky-950 focus:outline-none focus:ring-4 focus:ring-sky-800 font-medium rounded-md text-16/1 px-4 py-1.5 dark:bg-sky-900 dark:hover:bg-sky-950 dark:focus:ring-sky-800 dark:border-sky-800'
-//    return (
-//       <input className={submit} type='submit' value={value} disabled={isDisabled} />
-//    );
-// }
-
 export const SelectButton = ({value}) => {
-   const submit = 'text-white bg-dark-blue hover:bg-light-blue focus:outline-none focus:ring-4 focus:ring-dark-blue font-medium rounded-md text-16/1 px-4 py-1.5'
+   const submit = 'text-white bg-dark-blue font-medium rounded-sm text-16/1 px-4 py-1.5 hover:bg-light-blue'
    return (
       <input className={submit} type='submit' value={value} />
    );
 }
 
 export const InnerSelectButton = ({value, submit}) => {
-   const submitStyle = 'text-white bg-dark-blue hover:bg-light-blue focus:outline-none focus:ring-4 focus:ring-dark-blue font-medium rounded-md text-16/1 px-4 py-1.5'
+   const submitStyle = 'text-white bg-dark-blue font-medium rounded-sm text-16/1 px-4 py-1.5 hover:bg-light-blue'
    return (
       <input className={submitStyle} onClick={(e) => submit(e)} type='button' value={value} />
    );
 }
 
 export const SubmitButton = ({value, isDisabled}) => {
-   const submit = 'text-white bg-dark-blue hover:bg-light-blue focus:outline-none focus:ring-4 focus:ring-dark-blue font-medium rounded-md text-16/1 px-4 py-1.5'
+   const submit = 'text-white bg-dark-blue font-medium rounded-sm text-16/1 px-4 py-1.5 hover:bg-light-blue'
    return (
       <input className={submit} aria-disabled={isDisabled} type='submit' value={value} />
    );
 }
 
 export const ToggleButton = ({value, handleClick}) => {
-   const openClose = 'text-white bg-gray-800 hover:bg-gray-600 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-16/1 px-4 py-1.5 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700'
+   const openClose = 'text-white bg-dark-blue font-medium rounded-sm text-16/1 px-4 py-1.5 hover:bg-light-blue '
    
-   const reselect = 'text-gray-900 hover:text-white border-2 border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-md text-16/1 px-4 py-1 text-center dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800'
+   const reselect = 'text-dark-blue border-2 border-dark-blue font-semibold rounded-sm text-16/1 px-4 py-1 text-center hover:text-white hover:bg-dark-blue'
 
    return (
       <input className={ value === 'Reselect' ? reselect : openClose } type='button' value={value} onClick={handleClick} />

@@ -32,10 +32,10 @@ const NameInput = ({init}) => {
    const [name, setName] = useState(init)
    const handleChange = (e) => setName(e.target.value)
 
-   const inputStyle = 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+   const inputStyle = 'bg-white border text-gray-900 text-base rounded-xs focus:ring-blue-500 focus:border-blue-500 p-1.5 dark:bg-white dark:border-gray-300 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 font-normal'
 
    return (
-      <label htmlFor='characterName' className='flex gap-3 items-center text-base font-medium text-gray-900'>
+      <label htmlFor='characterName' className='flex gap-3 flex-nowrap items-center text-base font-medium text-dark'>
          Name:
          { init ? 
             <input name='name' type='text' id='characterName' className={inputStyle} value={name} onChange={handleChange} required />
@@ -50,10 +50,10 @@ const LevelSelect = ({init}) => {
    const [level, setLevel] = useState(() => options.find(x => x.value === init))
 
    return (
-      <>
-         <div className='text-base font-medium text-gray-900'>Level:</div>
+      <div className='flex gap-3 flex-nowrap items-center text-base text-dark'>
+         <div className='font-medium'>Level:</div>
          <Select options={options} name='level' value={level} onChange={(v) => setLevel(v)} required />
-      </>
+      </div>
    )
 }
 

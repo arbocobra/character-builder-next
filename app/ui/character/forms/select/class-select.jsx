@@ -12,11 +12,19 @@ const ClassContainer = (props) => {
 
    const hasClass = props.current.class ? true : false;
 
+   const hasSelect = (id) => {
+      if (!hasClass) return false;
+      else {
+         if (Object.values(props.current[id].class.selectFromList).some(el => el !== null)) return true;
+         else return false;
+      }
+   }
+
    return (
       <div className='flex flex-col gap-5'>
          <ClassSelect {...props} />
-         { hasClass && <ProficiencySelect {...props} id={'class'} />}
-         { hasClass && !props.isEdit && <ItemSelect {...props} id={'class'} />}
+         { hasSelect('proficiencies') && <ProficiencySelect {...props} id={'class'} /> }
+         { hasSelect('items') && <ItemSelect {...props} id={'class'} /> }
       </div>
    )
 }
@@ -79,7 +87,7 @@ const ClassSelect = ({current, isEdit, getInitialValue, submit}) => {
       <div className='flex flex-col gap-3'>
          <div className='text-base font-medium'>Select Character Class</div>
          { display ? 
-         <><form className='flex flex-row gap-3' action={handleSubmit}>
+         <><form className='flex flex-row flex-wrap gap-3' action={handleSubmit}>
             <Select styles={customStyles175} options={classOptions} name='class' value={selectClass} id='class' onChange={handleClassChange} required />
             {subOptions && <SubclassSelect subOptions={subOptions} isEdit={isEdit} getInitialValue={getInitialValue} currentSub={current.subclass} /> }
             <SelectButton value={buttonText} />

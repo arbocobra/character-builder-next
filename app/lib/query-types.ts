@@ -29,6 +29,15 @@ const SelectSchema = z.object({
 })
 z.toJSONSchema(SelectSchema)
 
+const SelectItemSchema = z.object({
+   armour: selectType,
+   equipment: selectType,
+   special: selectType,
+   tools: selectType,
+   weapons: selectType,
+})
+z.toJSONSchema(SelectItemSchema)
+
 const BaseProficienciesDefaultArraySchema = z.object({
    armour: arrayType,
    languages: arrayType,
@@ -36,6 +45,14 @@ const BaseProficienciesDefaultArraySchema = z.object({
    skills: arrayType,
    tools: arrayType,
    weapons: arrayType
+})
+
+const BaseItemsDefaultScheme = z.object({
+   armour: arrayType,
+   equipment: arrayType,
+   tools: arrayType,
+   weapons: arrayType,
+   currency: z.int()
 })
 
 export const BaseProficienciesSchema = z.object({
@@ -54,6 +71,36 @@ export const ProficiencyItemSchema = z.object({
    listId: z.string()
 });
 
+export const BaseItemSchema = z.object({
+   ...BaseItemsDefaultScheme.shape,
+   selectFromList: z.preprocess((arg) => {
+      if (arg === undefined) return {};
+      return arg;
+   }, SelectItemSchema)
+});
+
+export const ItemSchema = z.object({
+   prop: z.string(),
+   value: arrayType,
+   listId: z.string()
+});
+
+export const AbilitiesSchema = z.object({
+   base: z.array(z.int()),
+   classTotal: z.array(z.int()),
+   species: z.array(z.int()),
+   featsTotal: z.array(z.int()),
+   total: z.array(z.int()),
+   modifiers: z.array(z.int()),
+})
+
+export const AbilityItemSchema = z.object({
+   name: z.string(),
+   level: z.int(),
+   value: z.array(z.int()),
+   listId: z.string()
+})
+
 export const DefaultModifiedSchema = z.object({
    charId: z.string(),
    base: z.int(),
@@ -67,27 +114,3 @@ export const DefaultModifiedListItemSchema = z.object({
    value: z.int(),
    listId: z.string()
 })
-
-
-
-// export const BaseProficienciesTotalSchema = z.object({
-//    ...BaseProficienciesDefaultArraySchema.shape,
-// });
-//
-// const PartialBaseProficienciesSchema = z.object({
-//    armour: z.array(z.string().toLowerCase()),
-//    languages: z.array(z.string().toLowerCase()),
-//    savingThrows: z.array(z.string().toLowerCase()),
-//    skills: z.array(z.string().toLowerCase()),
-//    tools: z.array(z.string().toLowerCase()),
-//    weapons: z.array(z.string().toLowerCase())
-// })
-//
-// const BaseProficienciesNullableSelectSchema = z.object({
-//    armour: selectType,
-//    languages: selectType,
-//    savingThrows: selectType,
-//    skills: selectType,
-//    tools: selectType,
-//    weapons: selectType,
-// })

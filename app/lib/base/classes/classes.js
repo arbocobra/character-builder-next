@@ -113,7 +113,6 @@ export class Druid extends BaseClass {
       this.proficiencies.selectFromList.skills = [{ list: ['Arcana', 'Animal Handling', 'Insight', 'Medicine', 'Nature', 'Perception', 'Religion', 'Survival'], count: 2, title: 'Select 2 skills', type: 'simple_select' }];
       this.items.armour = ['leather armour']
       this.items.equipment = ['explorer\'s pack', 'druidic focus']
-      // this.items.selectFromList.weapons = [{list: ['Wooden Shield', Simple_Weapons], count: 1, title: 'Wooden Shield OR Any simple weapon', categories: ['armour', 'weapons'], type: 'iterating_group_multicat_select', selected: []}, {list: ['Scimitar', Simple_Melee_Weapons], count: 1, title: 'Scimitar OR Any simple melee weapon', type: 'iterating_group_select'}]
       this.items.selectFromList.weapons = [{list: ['Scimitar', Simple_Melee_Weapons], count: 1, title: 'Scimitar OR Any simple melee weapon', type: 'group_select'}]
       this.items.selectFromList.special = [{list: ['Wooden Shield', Simple_Weapons], count: 1, title: 'Wooden Shield OR Any simple weapon', categories: ['armour', 'weapons'], type: 'special_select_1', special: {val: 'wooden shield', index: 0}, selected: []}]
       this.special = this.getSpecial();
@@ -139,13 +138,11 @@ export class Fighter extends BaseClass {
       this.proficiencies.armour = ['All Armour', 'Shields'];
       this.proficiencies.weapons = ['Simple Weapons', 'Martial Weapons'];
       this.proficiencies.selectFromList.skills = [{ list: ['Acrobatics', 'Animal Handling', 'Athletics', 'History', 'Insight', 'Intimidation', 'Perception', 'Survival'], count: 2, title: 'Select 2 skills', type: 'simple_select' }];
-      // this.items.selectFromList.weapons = [{list: ['Light Crossbow + 20 bolts', '2 Handaxes'], count: 1, title: 'Light crossbow and 20 bolts OR Two handaxes', type: 'iterating_simple_select'}, {list: [['Martial weapon and a shield', '2 Martial weapons'], Martial_Weapons], count: [1,2], title: 'Martial weapon and a shield OR 2 Martial weapons', categories: ['weapons', ['weapons', 'armour']], type: 'step_group_select', selected: []}];
       this.items.selectFromList.weapons = [{list: ['Light Crossbow + 20 bolts', '2 Handaxes'], count: 1, title: 'Light crossbow and 20 bolts OR Two handaxes', type: 'simple_select'}];
       this.items.selectFromList.equipment = [{list: ['Dungeoneer\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Explorer\'s Pack', type: 'simple_select' }];
       this.items.selectFromList.special = [
          {list: ['Chain Mail', 'Leather armor AND Longbow + 20 arrows'], count: 1, title: 'Chain Mail OR Leather armor AND Longbow + 20 arrows', categories: ['armour', ['armour', 'weapons']], type: 'special_select_2', special: {val: 'longbow + 20 arrows', index: 1}, selected: []}, 
          {list: [['Martial weapon and a shield', '2 Martial weapons'], Martial_Weapons], count: [1,2], title: 'Martial weapon and a shield OR 2 Martial weapons', categories: [['armour', 'weapons'], 'weapons'], type: 'special_select_3', special: {val: 'shield', index: 0},selected: []}]
-      // this.items.selectFromList.weapons = [{list: [['Martial weapon and a shield', '2 Martial weapons'], Martial_Weapons], count: [1,2], title: 'Martial weapon and a shield OR 2 Martial weapons', categories: ['weapons', ['weapons', 'armour']], type: 'step_group_select', selected: []}]
       this.special = this.getSpecial();
       this.subName = 'Martial Archetype',
       this.subLevel = 3;

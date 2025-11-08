@@ -6,7 +6,7 @@ const Page = async () => {
    const session = await auth()
 
    return (
-      <main className='flex flex-row'>
+      <main className='flex flex-row grow'>
          <CreateCharacterForm user={session?.user?.id} />
          <CharacterDisplay />
       </main>

@@ -159,3 +159,16 @@ export const getMergedVals = (update, category, init, i) => {
    // }
    return current;
 }
+
+export const getRandomValue = () => {
+   let results = []
+   for (let i = 0; i < 6; i++) {
+      let values = []
+      for (let j = 0; j <4; j++) values.push(Math.ceil(Math.random() * 6))
+      values.sort()
+      let sum = values[3] + values[2] + values[1]
+      results.push(sum)
+   }
+   results.sort((a,b) => b - a)
+   return results;
+}

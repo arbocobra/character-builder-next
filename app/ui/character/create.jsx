@@ -6,6 +6,7 @@ import FormContainer from '@/ui/character/forms/form-container';
 import ClassContainer from '@/ui/character/forms/select/class-select';
 import SpeciesContainer from '@/ui/character/forms/select/species-select';
 import BackgroundContainer from '@/ui/character/forms/select/background-select';
+import AbilitiesContainer from '@/ui/character/forms/select/abilities-select'
 import InitSelect from '@/ui/character/forms/select/init-select'
 import { SaveButton } from '@/app/ui/character/save';
 // import SaveButton from '@/ui/elements/save';
@@ -16,7 +17,7 @@ const CreateCharacterForm = ({user}) => {
    createCharacter, setSavedCharacter, updateLevel, updateByName, updateByPath, setClass, changeClass, setSpecies, changeSpecies, setBackground, changeBackground, updateAbilities, addToList, resetState 
    */
 
-   const { character, createCharacter, updateLevel, updateByPath, setClass, changeClass, setSpecies, changeSpecies, setBackground, changeBackground, resetState } = useCharacter();
+   const { character, createCharacter, updateLevel, updateByPath, setClass, changeClass, setSpecies, changeSpecies, setBackground, changeBackground, updateAbilities, resetState } = useCharacter();
    const [isLoading, setIsLoading] = useState(true)
 
    const initSelect = character.name ? true : false;
@@ -47,7 +48,10 @@ const CreateCharacterForm = ({user}) => {
    const backgroundSubmit = (id, val) => {
       if (id === 'background') character.background ? changeBackground(val.background) : setBackground(val.background)
       else if (id === 'proficiencies') updateByPath(val.path, val.value);
+      else if (id === 'items') updateByPath(val.path, val.value);
    }
+
+   const abilititiesSubmit = (val) => updateAbilities(val)
 
    const resetOnLoad = () => {
       resetState();
@@ -64,14 +68,17 @@ const CreateCharacterForm = ({user}) => {
          <FormContainer name={'Default'} show={true}>
             <InitSelect current={character} isEdit={false} submit={initSubmit} />
          </FormContainer>
-         { initSelect && <FormContainer name={'Class'} show={true}>
+         { initSelect && <FormContainer name={'Class'} show={false}>
             <ClassContainer current={character} isEdit={false} getInitialValue={getInitialValue} submit={classSubmit} />
          </FormContainer> }
-         { initSelect && <FormContainer name={'Species'} show={true}>
+         { initSelect && <FormContainer name={'Species'} show={false}>
             <SpeciesContainer current={character} isEdit={false} getInitialValue={getInitialValue} submit={speciesSubmit} />
          </FormContainer> }
-         { initSelect && <FormContainer name={'Background'} show={true}>
+         { initSelect && <FormContainer name={'Background'} show={false}>
             <BackgroundContainer current={character} isEdit={false} getInitialValue={getInitialValue} submit={backgroundSubmit} />
+         </FormContainer> }
+         { initSelect && <FormContainer name={'Abilities'} show={true}>
+            <AbilitiesContainer current={character} isEdit={false} submit={abilititiesSubmit} />
          </FormContainer> }
          { canSave && <SaveButton current={character} id={user} />}
       </div>
