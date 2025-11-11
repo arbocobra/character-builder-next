@@ -8,6 +8,7 @@ import HitPoints, {HitPointsList, HitPointsItem} from '@/lib/base/hit-points.ts'
 import Speed, {SpeedList, SpeedItem} from '@/lib/base/speed.ts';
 import Abilities, {AbilitiesList, AbilitiesItem} from '@/lib/base/abilities.ts';
 import ArmourClass, {ArmourClassList, ArmourClassItem} from '@/lib/base/armour-class.ts';
+import {fetchProficiencies} from '@/lib/data/proficiencies-data';
 
 const sql = postgres<any>(process.env.POSTGRES_URL!, { ssl: 'require' });
 
@@ -103,30 +104,30 @@ const getCategories = async (char:Character) => {
 }
 
 // get categories profs, hp, sp, ac, items etc... = (get...)
-const fetchProficiencies = async (id:string) => {
-   const data = await sql<Row[]>`SELECT * FROM get_proficiencies(${id})`
-   let result:{[key:string]:any} = {}
-   let list:{[key:string]:any} = {}
-   for (let row of data) {
-      const { category, saving_throws, select_from_list, ...rest } = row;
-      if (category === 'total') {
-         const finalVal = {savingThrows: saving_throws, ...rest}
-         result.total = finalVal as BaseProficiencies;
-      } else {
-         const finalVal = {savingThrows: saving_throws, selectFromList: select_from_list, ...rest}
-         if (category === 'feats') { 
-            list.total = finalVal as BaseProficiencies; 
-         } else { 
-            result[category] = finalVal as BaseProficiencies; 
-         }
-      }
-   }
-   const listData = await sql`SELECT * FROM get_proficiency_list(${id})`
-   list.list = listData.map((row:any) => row as ProficienciesItem)
-   result.feats = list as ProficienciesList;
+// const fetchProficiencies = async (id:string) => {
+//    const data = await sql<Row[]>`SELECT * FROM get_proficiencies(${id})`
+//    let result:{[key:string]:any} = {}
+//    let list:{[key:string]:any} = {}
+//    for (let row of data) {
+//       const { category, saving_throws, select_from_list, ...rest } = row;
+//       if (category === 'total') {
+//          const finalVal = {savingThrows: saving_throws, ...rest}
+//          result.total = finalVal as BaseProficiencies;
+//       } else {
+//          const finalVal = {savingThrows: saving_throws, selectFromList: select_from_list, ...rest}
+//          if (category === 'feats') { 
+//             list.total = finalVal as BaseProficiencies; 
+//          } else { 
+//             result[category] = finalVal as BaseProficiencies; 
+//          }
+//       }
+//    }
+//    const listData = await sql`SELECT * FROM get_proficiency_list(${id})`
+//    list.list = listData.map((row:any) => row as ProficienciesItem)
+//    result.feats = list as ProficienciesList;
 
-   return result as Proficiencies;
-}
+//    return result as Proficiencies;
+// }
 
 const fetchItems = async (id:string) => {
    let result:{[key:string]:any} = {}

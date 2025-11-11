@@ -1,4 +1,5 @@
-import { fetchCharacter, getCharacter } from '@/lib/data.ts'
+// import { fetchCharacter, getCharacter } from '@/lib/data.ts'
+import {getCharacter} from '@/lib/data/data-fetch'
 import EditFormParent from '@/ui/character/edit'
 import CharacterDisplay from '@/ui/create/display/character-display'
 import { notFound } from 'next/navigation';

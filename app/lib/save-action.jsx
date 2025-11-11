@@ -1,7 +1,8 @@
 'use server'
 import {updateCharacter} from '@/lib/data-update.ts';
-import {createCharacter} from '@/lib/data-create.ts';
-import { revalidatePath } from 'next/cache';
+import {createCharacter} from '@/app/lib/data/data-create';
+import { deleteCharacter } from '@/lib/data/data-delete';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export const saveData = async (formData, id) => {
@@ -12,6 +13,12 @@ export const saveData = async (formData, id) => {
 
 export const updateData = async (formData, charId) => {
    await updateCharacter(formData, charId)
-   // revalidatePath('/dashboard');
-   // redirect('/dashboard');
+   revalidatePath('/dashboard');
+   redirect('/dashboard');
+}
+
+export const deleteData = async (charData) => {
+   await deleteCharacter(charData);
+   revalidatePath('/dashboard');
+   // revalidateTag('character-previews')
 }

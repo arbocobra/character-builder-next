@@ -81,7 +81,7 @@ export const BaseItemSchema = z.object({
 
 export const ItemSchema = z.object({
    prop: z.string(),
-   value: arrayType,
+   value: z.string(),
    listId: z.string()
 });
 

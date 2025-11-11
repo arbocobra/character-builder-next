@@ -1,5 +1,5 @@
 import CharacterList from '@/app/ui/dashboard/character-list'
-import { fetchCharactersPreview } from '@/app/lib/data.ts'
+import { fetchCharactersPreview } from '@/lib/data/data-fetch';
 import { auth } from '@/auth'
 
 const Page = async () => {

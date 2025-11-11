@@ -1,15 +1,11 @@
 import postgres from 'postgres';
 import {z} from 'zod';
 import { BaseProficienciesSchema, ProficiencyItemSchema, BaseItemSchema, ItemSchema, DefaultModifiedSchema, DefaultModifiedListItemSchema, AbilitiesSchema, AbilityItemSchema } from '@/lib/query-types';
+import {createProficiencies} from '@/lib/data/proficiencies-data';
+import {createItems} from '@/lib/data/items-data';
 
 const sql = postgres<any>(process.env.POSTGRES_URL!, { ssl: 'require' });
 
-const samplePData = {
-   b: {armour: ['background'], languages: [], savingThrows: [], selectFromList: undefined, skills: ["Animal Handling", "Survival"], tools: ["Land Vehicles", "woodcarver's tools"], weapons: []},
-   f: {armour: ['feats'], languages: [], savingThrows: [], selectFromList: {}, skills: ['stealth', 'athletics'], tools: ['thieve\'s tools'], weapons: []},
-   t: {armour: ["Total"], languages: ["Common", "Gnomish"], savingThrows: ["strength", "dexterity"], selectFromList: {}, skills: ["Animal Handling", "athletics", "Survival", "stealth", "acrobatics", "insight"], tools: ["brewer's supplies", "Land Vehicles", "woodcarver's tools", "thieve's tools"], weapons: [ "Simple Weapons", "shortsword"]}
-}
-const samplePList = [{name: 'skilled', prop: 'skills', level: 4, value: ['stealth', 'athletics']}, {name: 'skilled', prop: 'tools', level: 4, value: ['thieve\'s tools']}]
 // const sampleHPList = [{name: 'tough', level: 20, value: 40}]
 const sampleSpList = [{name: 'unarmoured movement', level: 10, value: 20}]
 // const sampleSpList = [{name: 'fast movement', level: 20, value: 10}]
@@ -35,71 +31,52 @@ const setCharacter = async (char:any, user_id:string):Promise<any> => {
 } // returns char_id
 
 const createCategories = async (char:any, char_id:string) => {
-   const proficiencies = await createProficiencies(char.proficiencies, char_id);
-   const hitPoints = await createHitPoints(char.hit_points, char_id);
-   const speed = await createSpeed(char.speed, char_id);
-   const armourClass = await createAC(char.armour_class, char_id);
-   const items = await createItems(char.items, char_id)
-   const abilities = await createAbilities(char.abilities, char_id)
+   const _proficiencies = await createProficiencies(char.proficiencies, char_id);
+   const _items = await createItems(char.items, char_id);
+   // const hitPoints = await createHitPoints(char.hit_points, char_id);
+   // const speed = await createSpeed(char.speed, char_id);
+   // const armourClass = await createAC(char.armour_class, char_id);
+   // const items = await createItems(char.items, char_id)
+   // const abilities = await createAbilities(char.abilities, char_id)
    // console.log(char.items)
 }
 
-const createProficiencies = async (profs:any, char_id:string) => {
-   Promise.all([
-      setBaseProficiencies(profs.class),
-      setBaseProficiencies(profs.species),
-      setBaseProficiencies(profs.background),
-      setBaseProficiencies(profs.feats.total),
-      setBaseProficiencies(profs.total)
-   ]).then((arr) => setProficiencies(arr, char_id)
-   ).then((val) => setProficienciesList(profs.feats.list, val))
-}
 
-const setProficiencies = async (profIds:string[], char_id:string) => {
-   const [classId, speciesId, backgroundId, featsId, totalId] = profIds;
-   try {
-         const result = await sql`SELECT * FROM set_proficiencies(${char_id}, ${classId}, ${speciesId}, ${backgroundId}, ${featsId}, ${totalId})`
-         return result[0].set_proficiencies;
-      } catch (e) {
-         console.error('Database Error:', e);
-         throw new Error(`Failed to create proficiencies.`); 
-      }
-}
 
-const createItems = async (items:any, char_id:string) => {
-   const modifiedItems = {
-      ...items, 
-      purchased: {
-         list:[{value: 'bracers of defense', prop: 'armour'}], 
-         total: {...items.purchased.total, armour: ['bracers of defence']}}, 
-      total: {...items.total, armour: [...items.total.armour, 'bracers of defence']}
-   }
-   Promise.all([
-      setBaseItems(modifiedItems.class),
-      setBaseItems(modifiedItems.background),
-      setBaseItems(modifiedItems.purchased.total),
-      setBaseItems(modifiedItems.total)
-   ]).then((arr) => setItems(arr, char_id)
-   ).then((val) => setItemsList(modifiedItems.purchased.list, val))
+// const createItems = async (items:any, char_id:string) => {
+//    const modifiedItems = {
+//       ...items, 
+//       purchased: {
+//          list:[{value: 'bracers of defense', prop: 'armour'}], 
+//          total: {...items.purchased.total, armour: ['bracers of defence']}}, 
+//       total: {...items.total, armour: [...items.total.armour, 'bracers of defence']}
+//    }
+//    Promise.all([
+//       setBaseItems(modifiedItems.class),
+//       setBaseItems(modifiedItems.background),
+//       setBaseItems(modifiedItems.purchased.total),
+//       setBaseItems(modifiedItems.total)
+//    ]).then((arr) => setItems(arr, char_id)
+//    ).then((val) => setItemsList(modifiedItems.purchased.list, val))
 
-}
+// }
 
-const setItems = async (itemIds:string[], char_id:string) => {
-   const [classId, backgroundId, purchasedId, totalId] = itemIds;
-   try {
-         const result = await sql`SELECT * FROM set_items(${char_id}, ${classId}, ${backgroundId}, ${purchasedId}, ${totalId})`
-         return result[0].set_items;
-      } catch (e) {
-         console.error('Database Error:', e);
-         throw new Error(`Failed to create items.`); 
-      }
-}
+// const setItems = async (itemIds:string[], char_id:string) => {
+//    const [classId, backgroundId, purchasedId, totalId] = itemIds;
+//    try {
+//          const result = await sql`SELECT * FROM set_items(${char_id}, ${classId}, ${backgroundId}, ${purchasedId}, ${totalId})`
+//          return result[0].set_items;
+//       } catch (e) {
+//          console.error('Database Error:', e);
+//          throw new Error(`Failed to create items.`); 
+//       }
+// }
 
 const createAbilities = async (abs:any, char_id:string) => {
    const adjustedAbs = {...abs, class: {list: sampleASIList, total: [0,2,0,0,2,0]}, total: [10,18,13,10,16,12], modifiers: [0,4,1,0,3,1]}
    const {class_id, feats_id} = await setAbilities(adjustedAbs, char_id);
-   const classInsert = await setAbilitiesList(adjustedAbs.class.list, class_id)
-   const featInsert = await setAbilitiesList(adjustedAbs.feats.list, feats_id)
+   const _classInsert = await setAbilitiesList(adjustedAbs.class.list, class_id)
+   const _featInsert = await setAbilitiesList(adjustedAbs.feats.list, feats_id)
 }
 
 const setAbilities = async (abs:any, char_id:string) => {
@@ -197,88 +174,48 @@ const setAC = async (ac:any, char_id:string) => {
    }
 }
 
-const setBaseProficiencies = async (prof:any) => {
-   let {armour, languages, savingThrows, selectFromList, skills, tools, weapons} = prof
-   const validatedProficiencies = BaseProficienciesSchema.safeParse({
-      armour, languages, savingThrows, selectFromList, skills, tools, weapons
-   })
 
-   if (!validatedProficiencies.success) {
-      return { message: 'Something is wrong. NCR', prof };
-   } 
 
-   const {armour: Armour, languages: Languages, savingThrows: SavingThrows, selectFromList: SelectFromList, skills: Skills, tools: Tools, weapons: Weapons} = validatedProficiencies.data;
-
-   try {
-      const result = await sql`SELECT * FROM set_base_prof(${Armour}, ${Languages}, ${SavingThrows}, ${SelectFromList as any}, ${Skills}, ${Tools}, ${Weapons})`
-      return result[0].set_base_prof;
-   } catch (e) {
-      console.error('Database Error:', e);
-      throw new Error(`Failed to insert base proficiency.`); 
-   }
-}
-
-const setProficienciesList = async (list:any[], list_id:string) => {
-   if (list.length < 1) return
-   for (let i = 0; i < list.length; i++) {
-      const {name, prop, level, value} = list[i]
-      const validatedItems = ProficiencyItemSchema.safeParse({name, prop, level, value, listId: list_id})
-      
-      if (!validatedItems.success) {
-         return { message: 'Something is wrong. NCR', value };
-      } 
-      const { name: Name, prop: Prop, level: Level, value: Value, listId: ListId } = validatedItems.data;
-      console.log(Name,Prop,Level,Value,ListId);
-      try {
-         const result = await sql`SELECT * FROM update_prof_list(${ListId}, ${Name}, ${Prop}, ${Level}, ${Value})`
-         // return result[0].update_prof_list;
-      } catch (e) {
-         console.error('Database Error:', e);
-         throw new Error(`Failed to insert proficiency list item.`); 
-      }
-   }
-}
-
-const setBaseItems = async (item:any) => {
-   let {armour, weapons, tools, equipment, currency, selectFromList} = item
-   const validatedItems = BaseItemSchema.safeParse({
-      armour, weapons, equipment, tools, currency, selectFromList
-   })
+// const setBaseItems = async (item:any) => {
+//    let {armour, weapons, tools, equipment, currency, selectFromList} = item
+//    const validatedItems = BaseItemSchema.safeParse({
+//       armour, weapons, equipment, tools, currency, selectFromList
+//    })
    
-   if (!validatedItems.success) {
-      return { message: 'Something is wrong. NCR', item };
-   } 
+//    if (!validatedItems.success) {
+//       return { message: 'Something is wrong. NCR', item };
+//    } 
 
-   const {armour: Armour, weapons: Weapons, equipment: Equipment, tools: Tools, currency: Currency, selectFromList: SelectFromList} = validatedItems.data;
+//    const {armour: Armour, weapons: Weapons, equipment: Equipment, tools: Tools, currency: Currency, selectFromList: SelectFromList} = validatedItems.data;
 
-   try {
-      const result = await sql`SELECT * FROM set_base_item(${Armour}, ${Weapons}, ${Equipment}, ${Tools}, ${Currency}, ${SelectFromList as any})`
-      return result[0].set_base_item;
-   } catch (e) {
-      console.error('Database Error:', e);
-      throw new Error(`Failed to insert base item.`); 
-   }
-}
+//    try {
+//       const result = await sql`SELECT * FROM set_base_item(${Armour}, ${Weapons}, ${Equipment}, ${Tools}, ${Currency}, ${SelectFromList as any})`
+//       return result[0].set_base_item;
+//    } catch (e) {
+//       console.error('Database Error:', e);
+//       throw new Error(`Failed to insert base item.`); 
+//    }
+// }
 
-const setItemsList = async (list:any[], list_id:string) => {
-   if (list.length < 1) return
-   for (let i = 0; i < list.length; i++) {
-      const {name, prop, level, value} = list[i]
-      const validatedItems = ItemSchema.safeParse({name, prop, level, value, listId: list_id})
+// const setItemsList = async (list:any[], list_id:string) => {
+//    if (list.length < 1) return
+//    for (let i = 0; i < list.length; i++) {
+//       const {name, prop, level, value} = list[i]
+//       const validatedItems = ItemSchema.safeParse({name, prop, level, value, listId: list_id})
       
-      if (!validatedItems.success) {
-         return { message: 'Something is wrong. NCR', value };
-      } 
-      const { prop: Prop, value: Value, listId: ListId } = validatedItems.data;
+//       if (!validatedItems.success) {
+//          return { message: 'Something is wrong. NCR', value };
+//       } 
+//       const { prop: Prop, value: Value, listId: ListId } = validatedItems.data;
 
-      try {
-         const result = await sql`INSERT INTO items_item (prop, value, list_id) VALUES (${Prop}, ${Value}, ${ListId})`
-      } catch (e) {
-         console.error('Database Error:', e);
-         throw new Error(`Failed to insert item list item.`); 
-      }
-   }
-}
+//       try {
+//          const result = await sql`INSERT INTO items_item (prop, value, list_id) VALUES (${Prop}, ${Value}, ${ListId})`
+//       } catch (e) {
+//          console.error('Database Error:', e);
+//          throw new Error(`Failed to insert item list item.`); 
+//       }
+//    }
+// }
 
 const setAbilitiesList = async (list:any[], id:string) => {
    if (list.length < 1) return

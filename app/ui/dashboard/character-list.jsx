@@ -1,4 +1,5 @@
 import { FaceSmileIcon } from '@heroicons/react/24/solid';
+import {DeleteButton} from '@/ui/dashboard/buttons';
 import Link from 'next/link';
 
 const CharacterList = ({characters}) => {
@@ -23,7 +24,7 @@ const CharacterList = ({characters}) => {
                      </div>
                      <div className='flex gap-2'>
                         <Link href={`/dashboard/character/${el.id}/edit`}>Edit</Link>
-                        <span>Delete</span>
+                        <DeleteButton id={el.id} />
                      </div>
                   </div>
                )
