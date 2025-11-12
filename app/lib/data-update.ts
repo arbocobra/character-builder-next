@@ -3,6 +3,7 @@ import postgres from 'postgres';
 import { BaseProficienciesSchema, ProficiencyItemSchema, BaseItemSchema, ItemSchema, DefaultModifiedSchema, DefaultModifiedListItemSchema, AbilitiesSchema, AbilityItemSchema } from '@/lib/query-types';
 import {updateProficiencies} from '@/lib/data/proficiencies-data';
 import {updateItems} from '@/lib/data/items-data';
+import { updateAbilities } from '@/lib/data/abilities-data';
 
 const sql = postgres<any>(process.env.POSTGRES_URL!, { ssl: 'require' });
 
@@ -23,7 +24,8 @@ const updateSimple = async (char:any, id:string) => {
 
 const updateCategories = async (char:any, char_id:string) => {
    const _proficiencies = await updateProficiencies(char_id, char.proficiencies);
-   const _items = await updateItems(char_id, char.items)
+   const _items = await updateItems(char_id, char.items);
+   const _abilities = await updateAbilities(char_id, char.abilities)
 }
 
 // const updateCategories = async (idObject:any, char:any, char_id:string) => {
@@ -61,7 +63,7 @@ const updateCategories = async (char:any, char_id:string) => {
 //    ]).then(() => updateItemsList(data[0].list, items.purchased.list))
 // }
 const updateHP = async (id:string, profs:any) => {}
-const updateAbilities = async (id:string, profs:any) => {}
+// const updateAbilities = async (id:string, profs:any) => {}
 const updateSpeed = async (id:string, profs:any) => {}
 const updateAC = async (id:string, profs:any) => {}
 const updateFeatures = async (id:string, profs:any) => {}
@@ -131,7 +133,7 @@ const updateFeatures = async (id:string, profs:any) => {}
 //    }
 // }
 const updateHPList = async (id:string, list:any[]) => {}
-const updateAbilitiesList = async (id:string, list:any[]) => {}
+// const updateAbilitiesList = async (id:string, list:any[]) => {}
 const updateSpeedList = async (id:string, list:any[]) => {}
 const updateACList = async (id:string, list:any[]) => {}
 const updateFeaturesList = async (id:string, list:any[]) => {}

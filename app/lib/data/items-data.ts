@@ -109,16 +109,15 @@ export const updateItems = async (id:string, items:any) => {
    const modifiedItems = {
       ...items, 
       purchased: { ...items.purchased, list: sampleIListUpd }, 
-      // total: {...items.total, armour: ['bracers of defense'], tools: ['thieve\'s tools']}
+      total: {...items.total, armour: ['bracers of defense'], tools: ['thieve\'s tools']}
    }
-   console.log(modifiedItems)
    const data = await sql<Row[]>`SELECT * FROM update_items(${id})`
    Promise.all([
-      updateBaseItems(data[0].class, modifiedItems.class),
-      updateBaseItems(data[0].background, modifiedItems.background),
-      updateBaseItems(data[0].purchased, modifiedItems.purchased.total),
-      updateBaseItems(data[0].total, modifiedItems.total)
-   ]).then(() => setItemsList(modifiedItems.purchased.list, data[0].list))
+      updateBaseItems(data[0].class, items.class),
+      updateBaseItems(data[0].background, items.background),
+      updateBaseItems(data[0].purchased, items.purchased.total),
+      updateBaseItems(data[0].total, items.total)
+   ]).then(() => setItemsList(items.purchased.list, data[0].list))
 }
 
 const updateBaseItems = async (id:string, item:any) => {

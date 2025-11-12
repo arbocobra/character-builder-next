@@ -92,6 +92,7 @@ export const AbilitiesSchema = z.object({
    featsTotal: z.array(z.int()),
    total: z.array(z.int()),
    modifiers: z.array(z.int()),
+   characterId: z.string()
 })
 
 export const AbilityItemSchema = z.object({

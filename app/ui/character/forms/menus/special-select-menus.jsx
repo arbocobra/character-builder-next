@@ -173,8 +173,14 @@ export const SpecialSelectForm3 = ({base, data, id, cat, submit, current, isEdit
 }
 
 export const SpecialSelectForm4 = (props) => {
+
+   const handleSubmit = (val,cat,_index,_i) => {
+      props.submit(val,cat, 'sp-4-0', 0);
+   } 
+   const replaceProps = { ...props, submit:handleSubmit}
+
    return (
-      <SpecialSelectForm3 {...props} />
+      <SpecialSelectForm3 {...replaceProps} />
    )
 }
 

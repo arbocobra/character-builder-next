@@ -116,17 +116,17 @@ export const fetchProficiencies = async (id:string) => {
 export const updateProficiencies = async (id:string, profs:any) => {
    const modifiedProfs = {
       ...profs, 
-      // feats: { list:samplePList, total:{...profs.feats.total, skills: ['stealth', 'insight'], tools: ['thieve\'s tools']} },
-      // total: {...profs.total, skills: [...profs.total.skills, 'stealth', 'insight'], tools: [...profs.total.tools, 'thieve\'s tools']}
+      feats: { list:samplePList, total:{...profs.feats.total, skills: ['stealth', 'insight'], tools: ['thieve\'s tools']} },
+      total: {...profs.total, skills: [...profs.total.skills, 'stealth', 'insight'], tools: [...profs.total.tools, 'thieve\'s tools']}
    }
    const data = await sql<Row[]>`SELECT * FROM update_proficiencies(${id})`
    Promise.all([
-      updateBaseProficiencies(data[0].class, modifiedProfs.class),
-      updateBaseProficiencies(data[0].species, modifiedProfs.species),
-      updateBaseProficiencies(data[0].background, modifiedProfs.background),
-      updateBaseProficiencies(data[0].feats, modifiedProfs.feats.total),
-      updateBaseProficiencies(data[0].total, modifiedProfs.total)
-   ]).then(() => setProficienciesList(modifiedProfs.feats.list, data[0].list))
+      updateBaseProficiencies(data[0].class, profs.class),
+      updateBaseProficiencies(data[0].species, profs.species),
+      updateBaseProficiencies(data[0].background, profs.background),
+      updateBaseProficiencies(data[0].feats, profs.feats.total),
+      updateBaseProficiencies(data[0].total, profs.total)
+   ]).then(() => setProficienciesList(profs.feats.list, data[0].list))
 }
 const updateBaseProficiencies = async (id:string, prof:any) => {
    const validatedProficiencies = BaseProficienciesSchema.safeParse({

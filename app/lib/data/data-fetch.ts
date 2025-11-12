@@ -10,6 +10,7 @@ import Abilities, {AbilitiesList, AbilitiesItem} from '@/lib/base/abilities.ts';
 import ArmourClass, {ArmourClassList, ArmourClassItem} from '@/lib/base/armour-class.ts';
 import {fetchProficiencies} from '@/lib/data/proficiencies-data';
 import {fetchItems} from '@/lib/data/items-data';
+import { fetchAbilities } from '@/lib/data/abilities-data';
 
 
 const sql = postgres<any>(process.env.POSTGRES_URL!, { ssl: 'require' });
@@ -50,7 +51,7 @@ const getCategories = async (char:Character, char_id:string) => {
    // const proficiencies = p_id ? await fetchProficiencies(p_id) : defaultProficiencies;
    const proficiencies = await fetchProficiencies(char_id)
    const items = await fetchItems(char_id)
-   const abilities = defaultAbilities;
+   const abilities = await fetchAbilities(char_id);
    const hit_points = defaultHP;
    const speed = defaultSpeed;
    const armour_class = defaultArmourClass;
