@@ -146,8 +146,9 @@ const characterReducer = (state:characterState, action:characterActions) => {
              ...state, 
              abilities: updateAbilities.abilities as Abilities, 
              armour_class: updateAbilities.armour_class as ArmourClass, 
-             hit_points: updateAbilities.hit_points as HitPoints 
-            }
+             hit_points: updateAbilities.hit_points as HitPoints, 
+             initiative_bonus: updateAbilities.initiative_bonus,
+         }
       case 'ADD_TO_LIST':
          const addToList = getAddToListObject(action.payload, state)
          return addToList

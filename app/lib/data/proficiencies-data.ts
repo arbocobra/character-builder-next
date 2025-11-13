@@ -10,20 +10,20 @@ type Row = { [key:string]: any }
 const samplePList = [{name: 'skilled', prop: 'skills', level: 4, value: ['stealth', 'insight']}, {name: 'skilled', prop: 'tools', level: 4, value: ['thieve\'s tools']}]
 
 export const createProficiencies = async (profs:any, char_id:string) => {
-   const modifiedProfs = {
-      ...profs, 
-      feats: { list:samplePList, total:{...profs.feats.total, skills: ['stealth', 'insight'], tools: ['thieve\'s tools']} },
-      total: {...profs.total, skills: [...profs.total.skills, 'stealth', 'insight'], tools: [...profs.total.tools, 'thieve\'s tools']}
-   }
-   console.log(modifiedProfs)
+   // const modifiedProfs = {
+   //    ...profs, 
+   //    feats: { list:samplePList, total:{...profs.feats.total, skills: ['stealth', 'insight'], tools: ['thieve\'s tools']} },
+   //    total: {...profs.total, skills: [...profs.total.skills, 'stealth', 'insight'], tools: [...profs.total.tools, 'thieve\'s tools']}
+   // }
+
    Promise.all([
-      setBaseProficiencies(modifiedProfs.class),
-      setBaseProficiencies(modifiedProfs.species),
-      setBaseProficiencies(modifiedProfs.background),
-      setBaseProficiencies(modifiedProfs.feats.total),
-      setBaseProficiencies(modifiedProfs.total)
+      setBaseProficiencies(profs.class),
+      setBaseProficiencies(profs.species),
+      setBaseProficiencies(profs.background),
+      setBaseProficiencies(profs.feats.total),
+      setBaseProficiencies(profs.total)
    ]).then((arr) => setProficiencies(arr, char_id)
-   ).then((val) => setProficienciesList(modifiedProfs.feats.list, val))
+   ).then((val) => setProficienciesList(profs.feats.list, val))
 }
 
 const setProficiencies = async (profIds:string[], char_id:string) => {
@@ -114,11 +114,11 @@ export const fetchProficiencies = async (id:string) => {
 }
 
 export const updateProficiencies = async (id:string, profs:any) => {
-   const modifiedProfs = {
-      ...profs, 
-      feats: { list:samplePList, total:{...profs.feats.total, skills: ['stealth', 'insight'], tools: ['thieve\'s tools']} },
-      total: {...profs.total, skills: [...profs.total.skills, 'stealth', 'insight'], tools: [...profs.total.tools, 'thieve\'s tools']}
-   }
+   // const modifiedProfs = {
+   //    ...profs, 
+   //    feats: { list:samplePList, total:{...profs.feats.total, skills: ['stealth', 'insight'], tools: ['thieve\'s tools']} },
+   //    total: {...profs.total, skills: [...profs.total.skills, 'stealth', 'insight'], tools: [...profs.total.tools, 'thieve\'s tools']}
+   // }
    const data = await sql<Row[]>`SELECT * FROM update_proficiencies(${id})`
    Promise.all([
       updateBaseProficiencies(data[0].class, profs.class),

@@ -2,7 +2,11 @@
 import {deleteData} from '@/app/lib/save-action';
 
 export const DeleteButton = ({id}) => {
-   const handleDelete = () => { deleteData(id) }
+   const handleDelete = () => { 
+      if (window.confirm("Do you want to delete?")) {
+         deleteData(id) 
+      }
+   }
 
    return (
       <form action={handleDelete}>

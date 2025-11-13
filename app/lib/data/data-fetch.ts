@@ -2,16 +2,18 @@
 import postgres from 'postgres';
 import {z} from 'zod';
 import { Character, CharacterPreview, defaultProficiencies, defaultItems, defaultAbilities, defaultArmourClass, defaultHP, defaultSpeed } from '@/lib/definitions'
-import Proficiencies, {BaseProficiencies, ProficienciesItem, ProficienciesList} from '@/lib/base/proficiencies.ts';
-import Items, {BaseItems, ItemsList, Item} from '@/lib/base/items.ts';
-import HitPoints, {HitPointsList, HitPointsItem} from '@/lib/base/hit-points.ts';
-import Speed, {SpeedList, SpeedItem} from '@/lib/base/speed.ts';
-import Abilities, {AbilitiesList, AbilitiesItem} from '@/lib/base/abilities.ts';
-import ArmourClass, {ArmourClassList, ArmourClassItem} from '@/lib/base/armour-class.ts';
+// import Proficiencies, {BaseProficiencies, ProficienciesItem, ProficienciesList} from '@/lib/base/proficiencies.ts';
+// import Items, {BaseItems, ItemsList, Item} from '@/lib/base/items.ts';
+// import HitPoints, {HitPointsList, HitPointsItem} from '@/lib/base/hit-points.ts';
+// import Speed, {SpeedList, SpeedItem} from '@/lib/base/speed.ts';
+// import Abilities, {AbilitiesList, AbilitiesItem} from '@/lib/base/abilities.ts';
+// import ArmourClass, {ArmourClassList, ArmourClassItem} from '@/lib/base/armour-class.ts';
 import {fetchProficiencies} from '@/lib/data/proficiencies-data';
 import {fetchItems} from '@/lib/data/items-data';
 import { fetchAbilities } from '@/lib/data/abilities-data';
-
+import { fetchHitPoints } from '@/lib/data/hp-data';
+import {fetchArmourClass} from '@/lib/data/ac-data';
+import {fetchSpeed} from '@/lib/data/speed-data';
 
 const sql = postgres<any>(process.env.POSTGRES_URL!, { ssl: 'require' });
 type Row = { [key:string]: any }
@@ -52,9 +54,9 @@ const getCategories = async (char:Character, char_id:string) => {
    const proficiencies = await fetchProficiencies(char_id)
    const items = await fetchItems(char_id)
    const abilities = await fetchAbilities(char_id);
-   const hit_points = defaultHP;
-   const speed = defaultSpeed;
-   const armour_class = defaultArmourClass;
+   const hit_points = await fetchHitPoints(char_id);
+   const armour_class =  await fetchArmourClass(char_id);
+   const speed = await fetchSpeed(char_id);
 
    // const items = i_id ? await fetchItems(i_id) : defaultItems;
    // const abilities = a_id ? await fetchAbilities(a_id) : defaultAbilities;

@@ -1,5 +1,5 @@
 'use server'
-import {updateCharacter} from '@/lib/data-update.ts';
+import {updateCharacter} from '@/app/lib/data/data-update';
 import {createCharacter} from '@/app/lib/data/data-create';
 import { deleteCharacter } from '@/lib/data/data-delete';
 import { revalidatePath, revalidateTag } from 'next/cache';

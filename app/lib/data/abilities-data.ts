@@ -6,14 +6,13 @@ import Abilities, {AbilitiesList, AbilitiesItem} from '@/lib/base/abilities.ts';
 const sql = postgres<any>(process.env.POSTGRES_URL!, { ssl: 'require' });
 type Row = { [key:string]: any }
 
-const sampleASIList:AbilitiesItem[] = [{name: 'class-asi-4', level: 4, value: [0,1,0,1,0,0]}, {name: 'class-asi-8', level: 8, value: [0,0,2,0,0,0]}]
-const sampleFList:AbilitiesItem[] = [{name: 'athlete', level: 12, value: [1,0,0,0,0,0]}]
-const sampleFListUpd:AbilitiesItem[] = [{name: 'athlete', level: 12, value: [0,1,0,0,0,0]}]
+const sampleCList:AbilitiesItem[] = [{name: 'class-asi-4', level: 4, value: [0,0,1,1,0,0]}, {name: 'class-asi-19', level: 19, value: [2,0,0,0,0,0]}, {name: 'class-asi-12', level: 12, value: [0,2,0,0,0,0]}, {name: 'class-asi-16', level: 16, value: [0,0,2,0,0,0]}]
+const sampleFList:AbilitiesItem[] = [{name: 'athlete', level: 8, value: [0,1,0,0,0,0]}]
 
 export const createAbilities = async (abs:Abilities, char_id:string) => {
-   const adjustedAbs:Abilities = {...abs, class: {list: sampleASIList, total: [0,1,2,1,0,0]}, feats: {list: sampleFList, total: [1,0,0,0,0,0]}, total: [16, 14, 14, 10, 10, 16], modifiers: [3,2,2,0,0,3]}
+   // const adjustedAbs:Abilities = {...abs, class: {list: sampleCList, total: [2,2,3,1,0,0]}, feats: {list: sampleFList, total: [1,0,0,0,0,0]}, total: [18,18,16,10,10,12], modifiers: [4,4,2,0,0,0]}
 
-   await setAbilities(adjustedAbs, char_id).then((valArr) => setListObj(valArr, adjustedAbs))
+   await setAbilities(abs, char_id).then((valArr) => setListObj(valArr, abs))
 }
 
 const setAbilities = async (abs:Abilities, char_id:string) => {
@@ -30,7 +29,7 @@ const setAbilities = async (abs:Abilities, char_id:string) => {
       return result;
    } catch (e) {
       console.error('Database Error:', e);
-      throw new Error(`Failed to insert hit points.`); 
+      throw new Error(`Failed to insert abilities.`); 
    }
 
 }
@@ -102,7 +101,7 @@ export const updateAbilities = async (id:string, abs:Abilities) => {
    //    ...abs, feats: {list: sampleFListUpd, total: [0,1,0,0,0,0]},
    //    total: [15, 16, 14, 10, 10, 15], modifiers: [2,3,2,0,0,2]
    // }
-   const adjustedAbs:Abilities = {...abs, class: {list: sampleASIList, total: [0,1,2,1,0,0]}, feats: {list: sampleFList, total: [1,0,0,0,0,0]}, total: [16, 14, 14, 10, 10, 16], modifiers: [3,2,2,0,0,3]}
+   // const adjustedAbs:Abilities = {...abs, class: {list: sampleASIList, total: [0,1,2,1,0,0]}, feats: {list: sampleFList, total: [1,0,0,0,0,0]}, total: [16, 14, 14, 10, 10, 16], modifiers: [3,2,2,0,0,3]}
 
    await resetAbilities(id, abs).then((valArr) => setListObj(valArr, abs))
 }

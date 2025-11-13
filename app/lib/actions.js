@@ -119,7 +119,10 @@ export const getLevelObject = (payload, hasClass, state) => {
    if (hasClass) {
       const classObject = applyClass(state.class, level);
       hitPoints = setBaseHP(state.hit_dice, level, state.abilities.modifiers[2], state.hit_points)
-      if (level > state.level) {features = updateValueF(state.features, 'class', classObject.features)}
+      if (level > state.level) {
+         subclass = state.subclass;
+         features = updateValueF(state.features, 'class', classObject.features)
+      }
       else {
          features = removeFromListF(level, state.features, 'class')
          subclass = level < classObject.subLevel ? undefined : state.subclass;
@@ -174,9 +177,10 @@ export const getPathObject = (payload, state) => {
 export const getAbilitiesUpdateObject = (payload, state) => {
    let abilities = updateValueA(payload, state.abilities, 'base')
    let modifiers = abilities.modifiers
-   let updatedHP = setBaseHP(state.hit_dice ?? 6, state.level, modifiers[2], state.hit_points)
+   let updatedHP = setBaseHP(state.hit_dice ?? 6, state.level, modifiers[1], state.hit_points)
    let updatedAC = setDexMod(modifiers[1], state.armour_class)
-   return { abilities: abilities, armour_class: updatedAC, hit_points: updatedHP }
+   let initBonus = abilities.modifiers[1]
+   return { abilities: abilities, armour_class: updatedAC, hit_points: updatedHP, initiative_bonus: initBonus }
 }
 
 export const getAddToListObject = (payload, state) => {

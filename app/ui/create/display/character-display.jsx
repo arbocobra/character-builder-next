@@ -3,7 +3,7 @@
 import useCharacter from '@/dash/character-context';
 import DisplayContainer from './category-base'
 import { SkillsAbilities } from '@/lib/init-data'
-import { TextRow, BlockRow, ListRow, FeatureRow, AbilitiesRow, SavesRow, SkillsRow } from '@/ui/elements/display-rows'
+import { TextRow, BlockRow, ToolBlockRow, ListRow, FeatureRow, AbilitiesRow, SavesRow, SkillsRow } from '@/ui/elements/display-rows'
 
 const CharacterDisplay = () => {
 
@@ -28,6 +28,8 @@ const CharacterDisplay = () => {
          return <SavesRow key={`${c}-${i}`} val={el} />
       } else if (el.type === 'skills-row') {
          return <SkillsRow key={`${c}-${i}`} val={el} />
+      } else if (el.type === 'tool-block-row') {
+         return <ToolBlockRow key={`${c}-${i}`} val={el} />
       }
    }
 
@@ -66,7 +68,7 @@ export default CharacterDisplay;
 
 const DisplayBasic = ({current, cat, getRow}) => {
 
-   let initValue = current.abilities.modifiers[1] > 0 ? `+${current.abilities.modifiers[1]}` : current.abilities.modifiers[1]
+   let initValue = current.initiative_bonus > 0 ? `+${current.initiative_bonus}` : current.initiative_bonus
    let diceValue = current.hit_dice ? `1d${current.hit_dice}` : ''
 
    const basicObject = [
@@ -77,11 +79,11 @@ const DisplayBasic = ({current, cat, getRow}) => {
       {label: 'Species', value: current.species || '', type: 'text-row'}, 
       {label: 'Background', value: current.background || '', type: 'text-row'}, 
       {label: 'Proficiency Bonus', value: `+${current.proficiency_bonus}`, type: 'block-row'}, 
-      {label: 'Armour Class', value: current.armour_class.total, type: 'block-row'}, 
-      {label: 'Hit Points', value: current.hit_points.total || 0, type: 'block-row'}, 
+      {label: 'Armour Class', value: current.armour_class, type: 'tool-block-row'}, 
+      {label: 'Hit Points', value: current.hit_points || 0, type: 'tool-block-row'}, 
       {label: 'Hit Dice', value: diceValue , type: 'block-row'}, 
       {label: 'Initiative', value: initValue, type: 'block-row'}, 
-      {label: 'Speed', value: current.speed.total, type: 'block-row'}, 
+      {label: 'Speed', value: current.speed, type: 'tool-block-row'}, 
    ]
 
    return (
@@ -159,7 +161,7 @@ const DisplayAbilities = ({abilities, cat, bonus, saves, getRow}) => {
    ]
 
    const applyProficiency = (id, i) => {
-      let isProfic = saves.includes(id) ? true : false
+      let isProfic = saves.includes(id.toLowerCase()) ? true : false
       let total = isProfic ? abilities.modifiers[i] + bonus : abilities.modifiers[i]
       
       return getRow({label: id, proficient: isProfic, total, type: 'saves-row'}, i, cat)

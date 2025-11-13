@@ -26,6 +26,34 @@ export const TextRow = ({val}) => {
    )
 }
 
+export const ToolBlockRow=({val}) => {
+   const rowDisplay = 'grid col-span-4 grid-cols-1 grid-rows-3 gap-2 pt-3'
+   const valueContainer = 'grid row-span-2 justify-center'
+   const valueDisplay = 'flex text-lg font-serif bg-medium w-15 rounded-md justify-center items-center'
+   const labelDisplay = 'font-bold text-xs grid row-span-1 items-center justify-center'
+
+   const id = val.label.toLowerCase().split(' ').join('-');
+
+   const description = Object.keys(val.value).includes('dexMod') ? 
+      [`Base: ${val.value.base}`, `Dex Mod: ${val.value.dexMod}`, `Modifiers: ${val.value.modifierList.total}`] 
+      : [`Base: ${val.value.base}`, `Modifiers: ${val.value.modifierList.total}`]
+
+   return (
+         <div className={rowDisplay}>
+            <div className={valueContainer}>
+               <div className={valueDisplay}>
+                  {/* {val.value.total} */}
+                  <a data-tooltip-id={`block-ttip-${id}`}>{val.value.total}</a>
+                  <Tooltip style={{maxWidth: '400px'}} id={`block-ttip-${id}`}>
+                     {description.map((d,i) => (<span key={`tool-tip-block-${i}`}>{d}<br/></span>))}
+                  </Tooltip>
+               </div>
+            </div>
+            <div className={labelDisplay}>{val.label}</div>
+         </div>
+      )
+}
+
 export const BlockRow = ({val}) => {
    const rowDisplay = 'grid col-span-4 grid-cols-1 grid-rows-3 gap-2 pt-3'
    const valueContainer = 'grid row-span-2 justify-center'

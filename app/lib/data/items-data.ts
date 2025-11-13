@@ -10,20 +10,20 @@ type Row = { [key:string]: any }
 const sampleIList = [{value: 'bracers of defense', prop: 'armour'}]
 const sampleIListUpd = [{value: 'bracers of defense', prop: 'armour'}, {value: 'thieve\'s tools', prop: 'tools'}]
 
-export const createItems = async (items:any, char_id:string) => {
-   const modifiedItems = {
-      ...items, 
-      purchased: { list: sampleIList, total: {...items.purchased.total, armour: ['bracers of defence']} }, 
-      total: {...items.total, armour: [...items.total.armour, 'bracers of defence']}
-   }
-   console.log(modifiedItems)
+export const createItems = async (items:Items, char_id:string) => {
+   // const modifiedItems = {
+   //    ...items, 
+   //    purchased: { list: sampleIList, total: {...items.purchased.total, armour: ['bracers of defence']} }, 
+   //    total: {...items.total, armour: [...items.total.armour, 'bracers of defence']}
+   // }
+
    Promise.all([
-      setBaseItems(modifiedItems.class),
-      setBaseItems(modifiedItems.background),
-      setBaseItems(modifiedItems.purchased.total),
-      setBaseItems(modifiedItems.total)
+      setBaseItems(items.class),
+      setBaseItems(items.background),
+      setBaseItems(items.purchased.total),
+      setBaseItems(items.total)
    ]).then((arr) => setItems(arr, char_id)
-   ).then((val) => setItemsList(modifiedItems.purchased.list, val))
+   ).then((val) => setItemsList(items.purchased.list, val))
 
 }
 
@@ -105,12 +105,12 @@ export const fetchItems = async (id:string) => {
    return result as Items;
 }
 
-export const updateItems = async (id:string, items:any) => {
-   const modifiedItems = {
-      ...items, 
-      purchased: { ...items.purchased, list: sampleIListUpd }, 
-      total: {...items.total, armour: ['bracers of defense'], tools: ['thieve\'s tools']}
-   }
+export const updateItems = async (id:string, items:Items) => {
+   // const modifiedItems = {
+   //    ...items, 
+   //    purchased: { ...items.purchased, list: sampleIListUpd }, 
+   //    total: {...items.total, armour: ['bracers of defense'], tools: ['thieve\'s tools']}
+   // }
    const data = await sql<Row[]>`SELECT * FROM update_items(${id})`
    Promise.all([
       updateBaseItems(data[0].class, items.class),
