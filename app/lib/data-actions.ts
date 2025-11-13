@@ -63,21 +63,7 @@ export const createUser = async (prevState:string | undefined, formData:FormData
       INSERT INTO users (name, email, password, date)
       VALUES (${name}, ${email}, ${hashedPassword}, ${date})
     `;
-   //  const signinCredentials = {email, password: '123456', callbackUrl: '/dashboard'}
-   // await signIn('credentials', signinCredentials);
 
-   // revalidatePath('/login')
-   // redirect('/login')
-   // console.log('pause')
-
-   // const loginData = new FormData();
-   // loginData.append('email', email);
-   // loginData.append('password', password);
-   // loginData.append('redirectTo', '/dashboard')
-
-   // authenticate(prevState, loginData)
-
-   // for (let key in formData) {}
    isOk = true
   } catch (e) {
    isOk = false
@@ -104,16 +90,3 @@ export const authenticate = async (prevState: string | undefined, formData: Form
       throw error;
    }
 };
-
-/*
-formData
-_FormData {Symbol(state): Array(3)}
-Symbol(state) =
-(3) [{…}, {…}, {…}]
-0 =
-{name: 'email', value: 'user@nextmail.com'}
-1 =
-{name: 'password', value: '123456'}
-2 =
-{name: 'redirectTo', value: '/dashboard'}
-*/

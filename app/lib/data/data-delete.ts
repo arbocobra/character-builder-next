@@ -11,12 +11,6 @@ export const deleteCharacter = async (char_id:any) => {
       .then(() => deleteSimple(char_id))
 }
 
-// export const deleteCharacter = async (char_id:any) => {
-//    const char = await sql<Row[]>`SELECT * FROM characters WHERE id = ${char_id}`;
-//    deleteCategories(char[0])
-//       .then(() => deleteChar(char_id))
-// }
-
 const deleteSimple = async (char_id:string) => {
    try {
       const name = await sql<Row[]>`SELECT * FROM delete_character(${char_id})`
@@ -32,12 +26,12 @@ const deleteCategories = async (char_id:string) => {
    const _items = await deleteItems(char_id);
 }
 
-// const deleteCategories = async (char:any) => {
-//    const {proficiencies, ...rest} = char;
-//    try {
-//       await sql<object[]>`SELECT * FROM delete_p(${proficiencies})`
-//    } catch (e) {
-//       console.error('Database Error:', e);
-//       throw new Error(`Failed to delete character.`); 
-//    }
-// }
+export const DELETE_USER = async (user:string) => {
+   try {
+      const data = await sql `SELECT id FROM characters WHERE user_id = ${user}`
+      for (let d in data) {
+         await deleteCharacter(data[d].id)
+      }
+      const _user = await sql `DELETE FROM USERS WHERE id = ${user}`
+   } catch (e) {}
+}

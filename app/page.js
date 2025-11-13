@@ -7,11 +7,12 @@ export default function Home() {
       <section className='bg-hero-img h-screen w-full bg-cover relative bg-center z-2 shadow-lg flex flex-col p-5'>
         <div className='w-full flex justify-end gap-3'>
           <Link href='/about'>
-            <div className='text-lg font-medium bg-dark-blue px-4 py-2 rounded-sm text-white hover:bg-light-blue'>Details</div>
+            <div className='text-lg font-medium bg-dark-blue px-4 py-1 text-white hover:bg-light-blue'>Details</div>
           </Link>
-          <Link href='/login'>
-            <div className='text-lg font-medium bg-dark-blue px-4 py-2 rounded-sm text-white hover:bg-light-blue'>Log In</div>
-          </Link>
+          {/* <Link href='/login'>
+            <div className='text-lg font-medium bg-dark-blue px-4 py-1 text-white hover:bg-light-blue'>Log In</div>
+          </Link> */}
+          <Dropdown/>
         </div>
         <div className='flex flex-1 justify-center items-center'>
           <div className='border-3 p-5'>
@@ -32,4 +33,16 @@ export default function Home() {
       </section>
     </main>
   );
+}
+
+const Dropdown = () => {
+  return (
+    <div className='group relative'>
+      <button className='text-lg w-22 font-medium bg-dark-blue px-4 py-1 text-white hover:bg-light-blue'>Log In</button>
+      <div className='absolute hidden flex-col z-1 group-hover:flex'>
+        <Link href='/login'><div className='text-lg w-22 font-medium bg-dark-blue px-4 py-1 text-center text-white hover:bg-light-blue'>User</div></Link>
+        <Link href='/login'><div className='text-lg w-22 font-medium bg-dark-blue px-4 py-1 text-center text-white hover:bg-light-blue'>Visitor</div></Link>
+      </div>
+    </div>
+  )
 }

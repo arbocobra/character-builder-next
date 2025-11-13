@@ -1,9 +1,10 @@
 'use client'
 import { useState } from 'react';
 import { ChevronRightIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
+import Link from 'next/link';
 const Page = () => {
    return (
-      <main id='about' className='w-full min-h-screen h-full p-0 m-0 flex justify-stretch items-center bg-white flex-col'>
+      <main id='about' className='w-full min-h-screen h-full p-0 m-0 flex justify-between items-center bg-white flex-col'>
          <div className='flex flex-col gap-5 w-4/5 py-8'>
             <h3 className='text-[40px]/8 text-center font-medium font-serif'>Table-Top Game Character Builder</h3>
             <Accordion title='Funtionality'>
@@ -18,6 +19,10 @@ const Page = () => {
             {/* <Accordion title='Project details:'>
                <AppDetails />
             </Accordion> */}
+         </div>
+         <div className='w-4/5 flex flex-row justify-between py-4'>
+            <div className='text-xl'>&copy; Natalie Rekai, 2025</div>
+            <Link href='https://github.com/arbocobra/character-builder-next'><div className='text-xl hover:text-dark-blue'>GitHub</div></Link>
          </div>
       </main>
    )
@@ -109,8 +114,7 @@ const AppFunctionality = () => {
                <li>Features associated with subclasses</li>
                <li>Statistic modifiers based on features/feats, for example a monk or barbarian's "Unarmoured Defence" increasing character armour class</li>
                <li>Details on character spellcasting abilities</li>
-               <li>Database does not currently save features</li>
-               <li>Delete character option</li>
+               <li>Database does not currently save FEATURES</li>
                <li>Spell selection *</li>
                <li>Additional item selection *</li>
                <li>Adding removing currency (beyond initial amount associated with selected background) *</li>
