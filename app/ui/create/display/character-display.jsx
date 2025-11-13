@@ -34,7 +34,7 @@ const CharacterDisplay = () => {
    }
 
    return (
-      <div className='flex flex-col w-1/2 p-4 m-1 gap-y-3'>
+      <div className='flex flex-col w-full lg:w-1/2 p-4 m-1 gap-y-3'>
          {character.name && 
             <DisplayContainer name='Basic' show={true}>
                <DisplayBasic current={character} cat={'Basic Stats'} getRow={getRow} />

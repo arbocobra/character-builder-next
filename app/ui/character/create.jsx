@@ -64,7 +64,7 @@ const CreateCharacterForm = ({user}) => {
 
    if (isLoading) return <Loading />
    else return (
-      <div className='items-stretch flex flex-col w-1/2 p-4 m-1 gap-4'>
+      <div className='items-stretch flex flex-col w-full lg:w-1/2 p-4 m-1 gap-4'>
          <FormContainer name={'Default'} show={true}>
             <InitSelect current={character} isEdit={false} submit={initSubmit} />
          </FormContainer>

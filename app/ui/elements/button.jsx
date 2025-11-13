@@ -35,7 +35,7 @@ export const OptionButtons = ({title, handleClick, id, options,}) => {
    return (
       <div className='flex flex-col gap-2'>
          {title && <div>{title}</div>}
-         <div className='flex flex-row gap-4'>
+         <div className='flex flex-row flex-wrap gap-4'>
             { options.map(el => <input key={`asi-button-${id}-${el.value}`} type='button' className={buttonStyle} value={el.label} onClick={(e) => handleClick(e, el.value)}/>) }
          </div>
       </div>

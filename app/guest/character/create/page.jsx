@@ -3,7 +3,7 @@ import CharacterDisplay from '@/ui/create/display/character-display'
 
 const Page = () => {
    return (
-      <main className='flex flex-row grow'>
+      <main className='flex flex-col lg:flex-row grow'>
          <GuestCreateCharacterForm />
          <CharacterDisplay />
       </main>

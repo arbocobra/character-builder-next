@@ -6,15 +6,9 @@ import { DeleteUser } from '@/ui/dashboard/buttons';
 
 const SideNav = async () => {
    const session = await auth()
-   // const handleDelete = async () => {
-   //    if (window.confirm("Do you want to delete?")) {
-   //       'use server'; 
-   //       await DELETE_USER(session?.user?.id);
-   //    }
-   // }
 
    return (
-      <div id='nav-container' className='flex sticky flex-none flex-col bg-light-blue p-2 w-55 items-center font-semibold'>
+      <div id='nav-container' className='hidden lg:flex sticky flex-none flex-col bg-light-blue p-2 w-55 items-center font-semibold'>
          <div className='flex flex-1 flex-col justify-center'><LogoSmall /></div>
          <div className='flex flex-2 flex-col justify-start gap-3'>
             {/* <Link href='/'><div className=''>Home</div></Link> */}
@@ -51,7 +45,7 @@ export default SideNav
 export const GuestSideNav = () => {
 
    return (
-      <div id='nav-container' className='flex sticky flex-none flex-col bg-light-blue p-2 w-55 items-center font-semibold'>
+      <div id='nav-container' className='hidden lg:flex sticky flex-none flex-col bg-light-blue p-2 w-55 items-center font-semibold'>
          <div className='flex flex-1 flex-col justify-center'><LogoSmall /></div>
          <div className='flex flex-2 flex-col justify-start gap-3'>
             <div className='flex flex-row w-40 gap-2'>

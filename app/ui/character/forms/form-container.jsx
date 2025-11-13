@@ -12,7 +12,7 @@ const FormContainer = ({ name, show, children }) => {
             <div className='font-serif text-xl font-bold'>Select {name}</div>
             <ToggleButton value={display ? 'Close' : 'Open'}  handleClick={toggleDisplay}/>
          </div>
-         <div className={display ? 'block' : 'hidden'}>{children}</div>
+         <div className={display ? 'flex' : 'hidden'}>{children}</div>
       </div>
    )
 }

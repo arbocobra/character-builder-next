@@ -10,7 +10,7 @@ const Page = async ({ params }) => {
    const savedCharacter = await getCharacter(id)
 
    return (
-      <main className='flex flex-row grow'>
+      <main className='flex flex-col lg:flex-row grow'>
          <EditFormParent current={savedCharacter} />
          <CharacterDisplay />
       </main>

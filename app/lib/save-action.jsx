@@ -5,7 +5,7 @@ import { DELETE_USER, deleteCharacter } from '@/lib/data/data-delete';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { NextResponse } from 'next/server';
-import { signOut } from '@/auth';
+import { signOut, auth } from '@/auth';
 
 export const saveData = async (formData, id) => {
    await createCharacter(formData, id)
@@ -25,9 +25,10 @@ export const deleteData = async (charData) => {
    // revalidateTag('character-previews')
 }
 
-export const deleteUserData = async (userId) => {
+export const deleteUserData = async () => {
+   const session = await auth()
    try {
-      await DELETE_USER(userId)
+      await DELETE_USER(session?.user?.id)
       // console.log('deleting...')
       // signOut({ redirectTo: '/' });
       // return NextResponse.json({ message: 'User deleted successfully' });
@@ -37,3 +38,9 @@ export const deleteUserData = async (userId) => {
   }
    await signOut({ redirectTo: '/' });
 }
+
+export const signOutUser = async () => {
+   await signOut({ redirectTo: '/' });
+}
+
+

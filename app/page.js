@@ -1,19 +1,16 @@
-import Link from 'next/link';
+import {Navigation, MobileNavigation} from '@/ui/home-nav'
 
 export default function Home() {
 
   return (
-    <main className='relative w-full h-screen p-0 m-0'>
-      <section className='bg-hero-img h-screen w-full bg-cover relative bg-center z-2 shadow-lg flex flex-col p-5'>
-        <div className='w-full flex justify-end gap-3'>
+    <main className='relative w-full h-screen p-0 m-0 group'>
+      <section className='bg-hero-img h-screen w-full bg-cover relative top-0 bg-center z-2 shadow-lg flex flex-col p-5'>
+        {/* <div className='w-full flex justify-end gap-3'>
           <Link href='/about'>
             <div className='text-lg font-medium bg-dark-blue px-4 py-1 text-white hover:bg-light-blue'>Details</div>
           </Link>
-          {/* <Link href='/login'>
-            <div className='text-lg font-medium bg-dark-blue px-4 py-1 text-white hover:bg-light-blue'>Log In</div>
-          </Link> */}
           <Dropdown/>
-        </div>
+        </div> */}
         <div className='flex flex-1 justify-center items-center'>
           <div className='border-3 p-5'>
             <h1 className='text-[60px]/12 text-center font-medium'>Table-Top Game<br/>Character Builder</h1>
@@ -31,18 +28,8 @@ export default function Home() {
         </div>
         <div className='text-center'>&copy; Natalie Rekai, 2025</div>
       </section>
+      <Navigation/>
+      <MobileNavigation/>
     </main>
   );
-}
-
-const Dropdown = () => {
-  return (
-    <div className='group relative'>
-      <button className='text-lg w-22 font-medium bg-dark-blue px-4 py-1 text-white hover:bg-light-blue'>Log In</button>
-      <div className='absolute hidden flex-col z-1 group-hover:flex'>
-        <Link href='/login'><div className='text-lg w-22 font-medium bg-dark-blue px-4 py-1 text-center text-white hover:bg-light-blue'>User</div></Link>
-        <Link href='/guest/character/create'><div className='text-lg w-22 font-medium bg-dark-blue px-4 py-1 text-center text-white hover:bg-light-blue'>Visitor</div></Link>
-      </div>
-    </div>
-  )
 }

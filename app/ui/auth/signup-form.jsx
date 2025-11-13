@@ -7,23 +7,10 @@ const SignupForm = () => {
    // const [errorMessage, formAction, isPending] = useActionState(createUser, undefined);
    const initialState = { message: null, errors: {} };
    const [state, formAction, isPending] = useActionState(createUser, initialState)
-   // const isPending = false
-   // const createUserLogIn = (data) => {
-
-   //    const val = {
-   //       name: data.get('name'),
-   //       email: data.get('email'),
-   //       password: data.get('password')
-   //    }
-
-      
-
-   //    console.log(val)
-   // }
 
    const callbackUrl = '/dashboard';
    return (
-      <div className='bg-white px-4 pb-2 pt-10 w-3/5'>
+      <div className='bg-white px-4 pb-2 pt-10 w-4/5 lg:w-3/5'>
          <form className='flex flex-col gap-5' action={formAction}>
             <div className='font-bold text-lg'>Create User</div>
             <div className='flex flex-col gap-4'>

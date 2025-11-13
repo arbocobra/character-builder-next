@@ -7,7 +7,7 @@ const LoginForm = () => {
    const [errorMessage, formAction, isPending] = useActionState(authenticate, undefined);
    const callbackUrl = '/dashboard';
    return (
-      <div className='bg-white px-4 pb-2 pt-10 w-3/5'>
+      <div className='bg-white px-4 pb-2 pt-10 w-4/5 lg:w-3/5'>
          <form className='flex flex-col gap-5' action={formAction}>
             <div className='font-bold text-lg'>Login</div>
             <div className='flex flex-col gap-4'>
