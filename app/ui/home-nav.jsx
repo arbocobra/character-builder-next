@@ -9,13 +9,13 @@ export const Navigation = () => {
         <Link href='/about'>
           <div className='text-lg font-medium bg-dark-blue px-4 py-1 text-white hover:bg-light-blue'>Project Details</div>
         </Link>
-      {/* <div className='group relative'> */}
-        {/* <button className='text-lg w-22 font-medium bg-dark-blue px-4 py-1 text-white hover:bg-light-blue'>Log In</button> */}
-        {/* <div className='absolute hidden flex-col z-1 group-hover:flex'> */}
-          <Link href='/login'><div className='text-lg font-medium bg-dark-blue px-4 py-1 text-center text-white hover:bg-light-blue'>Login as User</div></Link>
-          <Link href='/guest/character/create'><div className='text-lg font-medium bg-dark-blue px-4 py-1 text-center text-white hover:bg-light-blue'>Use as Visitor</div></Link>
-        {/* </div> */}
-      {/* </div> */}
+      <div className='group relative'>
+        <button className='text-lg w-30 font-medium bg-dark-blue px-4 py-1 text-white hover:bg-light-blue'>Create</button>
+        <div className='absolute hidden flex-col z-1 group-hover:flex'>
+          <Link href='/login'><div className='text-lg w-30 font-medium bg-dark-blue px-4 py-1 text-center text-white hover:bg-light-blue'>Log In</div></Link>
+          <Link href='/guest/character/create'><div className='text-lg w-30 font-medium bg-dark-blue px-4 py-1 text-center text-white hover:bg-light-blue'>Visitor</div></Link>
+        </div>
+      </div>
     </div>
   )
 }

@@ -3,23 +3,17 @@ import {Navigation, MobileNavigation} from '@/ui/home-nav'
 export default function Home() {
 
   return (
-    <main className='relative w-full h-screen p-0 m-0 group'>
+    <main className='relative w-full h-screen p-0 m-0'>
       <section className='bg-hero-img h-screen w-full bg-cover relative top-0 bg-center z-2 shadow-lg flex flex-col p-5'>
-        {/* <div className='w-full flex justify-end gap-3'>
-          <Link href='/about'>
-            <div className='text-lg font-medium bg-dark-blue px-4 py-1 text-white hover:bg-light-blue'>Details</div>
-          </Link>
-          <Dropdown/>
-        </div> */}
         <div className='flex flex-1 justify-center items-center'>
           <div className='border-3 p-5'>
             <h1 className='text-[60px]/12 text-center font-medium'>Table-Top Game<br/>Character Builder</h1>
           </div>
         </div>
       </section>
-      <section className='w-full h-150 z-1 sticky bottom-0 bg-light-blue flex flex-col gap-3 p-5 items-center'>
-        <div className='flex flex-col gap-3 justify-center lg:w-2/3 flex-1'>
-          <p>This full-stack application is the centrepiece of my coding portfolio and represents 100s of hours of work. </p>
+      <section className='w-full h-160 lg:h-150 z-1 sticky bottom-0 bg-light-blue flex flex-col gap-3 p-5 items-center'>
+        <div className='flex flex-col gap-3 justify-center text-base/5 lg:text-base lg:w-2/3 flex-1'>
+          <p className='hidden lg:block'>This full-stack application is the centrepiece of my coding portfolio and represents 100s of hours of work. </p>
           <p>It is built using the NextJS framework, using PostgreSQL database and deployed with Vercel. A full list of dependencies are available <a href='/about'><span className='underline'>here</span></a>.</p>
           <p>The Table-Top Game Character Builder allows visitors to create a custom RPG character using the 5th edition Dungeons and Dragons, including classes, species, backgrounds and all associated features, proficiencies and other elements. Visitors can create an account to save and edit multiple characters, or use the guest access to build a character without saving it.</p>
           <p>Please be aware, this project is a work-in-progress and does not have access to every element. It will continue to expand over the next few months.</p>

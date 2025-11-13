@@ -7,7 +7,7 @@ const Page = () => {
       <main id='about' className='w-full min-h-screen h-full p-0 m-0 flex justify-between items-center bg-white flex-col'>
          <div className='flex flex-col gap-5 w-4/5 py-8'>
             <h3 className='text-[40px]/8 text-center font-medium font-serif'>Table-Top Game Character Builder</h3>
-            <Accordion title='Funtionality'>
+            <Accordion title='Functionality'>
                <AppDesign />
             </Accordion>
             <Accordion title='Application Dependencies'>

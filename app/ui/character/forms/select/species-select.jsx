@@ -84,7 +84,7 @@ const SpeciesSelect = ({current, isEdit, getInitialValue, submit}) => {
       <div className='flex flex-col gap-3'>
          <div className='text-base font-medium'>Select Character Species</div>
          { display ? 
-            <><form className='flex flex-row gap-3' action={handleSubmit}>
+            <><form className='flex flex-row flex-wrap gap-3' action={handleSubmit}>
                <Select styles={customStyles175} options={speciesOptions} name='species' value={selectSpecies} id='species' onChange={handleSpeciesChange} required />
                {subOptions && <SubspeciesSelect subOptions={subOptions} isEdit={isEdit} getInitialValue={getInitialValue} currentSub={current.species} /> }
                <SelectButton value={buttonText} />
