@@ -28,7 +28,6 @@ A complete list of the application's features, more details about how it was bui
 - Statistic modifiers based on features/feats, for example a monk or barbarian's "Unarmoured Defence" increasing character armour class
 - Details on character spellcasting abilities
 - Database does not currently save features
-- Delete character option
 - Spell selection *
 - Additional item selection *
 - Adding removing currency (beyond initial amount associated with selected background) *
