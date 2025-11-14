@@ -307,28 +307,40 @@ export const features = {
       { name: 'Foe Slayer', level: 20, description: 'At 20th level, you become an unparalleled hunter of your enemies. Once on each of your turns, you can add your Wisdom modifier to the attack roll or the damage roll of an attack you make against one of your favored enemies. You can choose to use this feature before or after the roll, but before any effects of the roll are applied.' }
    ],
    rogue: [
-      {name: 'Expertise 1', level: 1},
-      {name: 'Sneak Attack', level: 1},
-      {name: 'Thieves\' Cant', level: 1},
-      {name: 'Cunning Action', level: 2},
+      { name: 'Expertise', level: 1,
+         description: 'At 1st level, choose two of your skill proficiencies, or one of your skill proficiencies and your proficiency with thieves\' tools. Your proficiency bonus is doubled for any ability check you make that uses either of the chosen proficiencies.\n\nAt 6th level, you can choose two more of your proficiencies (in skills or with thieves\' tools) to gain this benefit.' },
+      { name: 'Sneak Attack', level: 1,
+         description: 'Beginning at 1st level, you know how to strike subtly and exploit a foe\'s distraction. Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.\n\nYou don\'t need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn\'t incapacitated, and you don\'t have disadvantage on the attack roll.\n\nThe amount of the extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Rogue table.' },
+      { name: 'Thieves\' Cant', level: 1,
+         description: 'During your rogue training you learned thieves\' cant, a secret mix of dialect, jargon, and code that allows you to hide messages in seemingly normal conversation. Only another creature that knows thieves\' cant understands such messages. It takes four times longer to convey such a message than it does to speak the same idea plainly.\n\nIn addition, you understand a set of secret signs and symbols used to convey short, simple messages, such as whether an area is dangerous or the territory of a thieves\' guild, whether loot is nearby, or whether the people in an area are easy marks or will provide a safe house for thieves on the run.' },
+      { name: 'Cunning Action', level: 2,
+         description: 'Starting at 2nd level, your quick thinking and agility allow you to move and act quickly. You can take a bonus action on each of your turns in combat. This action can be used only to take the Dash, Disengage, or Hide action.' },
       {name: 'Roguish Archetype', level: 3},
-      {name: 'Ability Score Improvement 1', level: 4},
-      {name: 'Uncanny Dodge', level: 5},
-      {name: 'Expertise 2', level: 6},
-      {name: 'Evasion', level: 7},
-      {name: 'Ability Score Improvement 2', level: 8},
+      { name: 'Ability Score Improvement', level: 4, 
+         description: 'When you reach 4th level, and again at 8th, 10th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can\'t increase an ability score above 20 using this feature.' },
+      { name: 'Uncanny Dodge', level: 5,
+         description: 'Starting at 5th level, when an attacker that you can see hits you with an attack, you can use your reaction to halve the attack\'s damage against you.' },
+      //{name: 'Expertise 2', level: 6},
+      {name: 'Evasion', level: 7, 
+         description: 'Beginning at 7th level, you can nimbly dodge out of the way of certain area effects, such as a red dragon\'s fiery breath or an Ice Storm spell. When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail.' },
+      //{name: 'Ability Score Improvement 2', level: 8},
       {name: 'Roguish Archetype Feature 1', level: 9},
-      {name: 'Ability Score Improvement 3', level: 10},
-      {name: 'Reliable Talent', level: 11},
-      {name: 'Ability Score Improvement 4', level: 12},
+      //{name: 'Ability Score Improvement 3', level: 10},
+      {name: 'Reliable Talent', level: 11,
+         description: 'By 11th level, you have refined your chosen skills until they approach perfection. Whenever you make an ability check that lets you add your proficiency bonus, you can treat a d20 roll of 9 or lower as a 10.'},
+      //{name: 'Ability Score Improvement 4', level: 12},
       {name: 'Roguish Archetype Feature 2', level: 13},
-      {name: 'Blindsense', level: 14},
-      {name: 'Slippery Mind', level: 15},
-      {name: 'Ability Score Improvement 5', level: 16},
+      {name: 'Blindsense', level: 14, 
+         description: 'Starting at 14th level, if you are able to hear, you are aware of the location of any hidden or invisible creature within 10 feet of you.' },
+      { name: 'Slippery Mind', level: 15, 
+         description: 'By 15th level, you have acquired greater mental strength. You gain proficiency in Wisdom saving throws.'},
+      //{name: 'Ability Score Improvement 5', level: 16},
       {name: 'Roguish Archetype Feature 3', level: 17},
-      {name: 'Elusive', level: 18},
-      {name: 'Ability Score Improvement 6', level: 19},
-      {name: 'Stroke of Luck', level: 20}
+      {name: 'Elusive', level: 18, 
+         description: 'Beginning at 18th level, you are so evasive that attackers rarely gain the upper hand against you. No attack roll has advantage against you while you aren\'t incapacitated.'},
+      //{name: 'Ability Score Improvement 6', level: 19},
+      {name: 'Stroke Of Luck', level: 20, 
+         description: 'At 20th level, you have an uncanny knack for succeeding when you need to. If your attack misses a target within range, you can turn the miss into a hit. Alternatively, if you fail an ability check, you can treat the d20 roll as a 20.\n\nOnce you use this feature, you can\'t use it again until you finish a short or long rest.'}
    ],
    sorcerer: [
       {name: 'Spellcasting', level: 1},
@@ -383,60 +395,18 @@ export const features = {
    ]
 }
 
-export const featureList = {
-   barbarian: [
-      ['Rage', 'Unarmoured Defence'], ['Reckless Attack', 'Danger Sense'], ['Primal Path'], ['Ability Score Improvement 1'], ['Extra Attack', 'Fast Movement'], ['Path Feature 1'], ['Feral Instinct'], ['Ability Score Improvement 2'], ['Brutal Critical 1'], ['Path Feature 2'], ['Relentless Rage'], ['Ability Score Improvement 3'], ['Brutal Critical 2'], ['Path Feature 3'], ['Persistent Rage'], ['Ability Score Improvement 4'], ['Brutal Critical 3'], ['Indomitable Might'], ['Ability Score Improvement 5'], ['Primal Champion']
-   ],
-   bard: [
-      ['Spellcasting', 'Bardic Inspiration 1'], ['Jack of All Trades', 'Song of Rest 1'], ['Bard College', 'Expertise 1'], ['Ability Score Improvement 1'], ['Bardic Inspiration 2', 'Font of Inspiration'], ['Coutercharm', 'Bard College Feature 1'], [], ['Ability Score Improvement 2'], ['Song of Rest 2'], ['Bardic Inspiration 3', 'Expertise 2', 'Magical Secrets 1'], [], ['Ability Score Improvement 3'], ['Song of Rest 3'], ['Magical Secrets 2', 'Bard College Feature 2'], ['Bardic Inspiration 4'], ['Ability Score Improvement 4'], ['Song of Rest 4'], ['Magical Secrets 3'], ['Ability Score Improvement 5'], ['Superior Inspiration']
-   ],
-   cleric: [
-      ['Spellcasting', 'Divine Domain'], ['Channel Divinity 1', 'Divine Domain Feature 1'], [], ['Ability Score Improvement 1'], ['Destroy Undead 1'], ['Channel Divinity 2', 'Divine Domain Feature 2'], [], ['Ability Score Improvement 2', 'Destroy Undead 2', 'Divine Domain Feature 3'], [], ['Divine Intervention'], ['Destroy Undead 3'], ['Ability Score Improvement 3'], [], ['Destroy Undead 4'], [], ['Ability Score Improvement 4'], ['Destroy Undead 5', 'Divine Domain Feature 4'], ['Channel Divinity 3'], ['Ability Score Improvement 5'], ['Divine Intervention Improvement']
-   ],
-   druid: [
-      ['Spellcasting', 'Druidic'], ['Wild Shape 1', 'Druid Circle'], [], ['Ability Score Improvement 1', 'Wild Shape 2'], [], ['Druid Circle Feature 1'], [], ['Ability Score Improvement 2', 'Wild Shape 3'], [], ['Druid Circle Feature 2'], [], ['Ability Score Improvement 3'], [], ['Druid Circle Feature 3'], [], ['Ability Score Improvement 4'], [], ['Timeless Body', 'Beast Spells'], ['Ability Score Improvement 5'], ['Archdruid']
-   ],
-   fighter: [
-      ['Fighting Style', 'Second Wind'], ['Action Surge 1'], ['Martial Archetype'], ['Ability Score Improvement 1'], ['Extra Attack 1'], ['Ability Score Improvement 2'], ['Martial Archetype Feature 1'], ['Ability Score Improvement 3'], ['Indomitable 1'], ['Martial Archetype Feature 2'], ['Extra Attack 2'], ['Ability Score Improvement 4'], ['Indomitable 2'], ['Ability Score Improvement 5'], ['Martial Archetype Feature 3'], ['Ability Score Improvement 6'], ['Action Surge 2', 'Indomitable 3'], ['Martial Archetype Feature 4'], ['Ability Score Improvement 7'], ['Extra Attack 3']
-   ],
-   monk: [
-      ['Unarmoured Defence', 'Martial Arts'], ['Ki', 'Unarmoured Movement 1'], ['Monastic Tradition', 'Deflect Missiles'], ['Ability Score Improvement 1', 'Slow Fall'], ['Extra Attack', 'Stunning Strike'], ['Ki-Empowered Strikes', 'Monastic Tradition Feature 1'], ['Evasion', 'Stillness of Mind'], ['Ability Score Improvement 2'], ['Unarmoured Movement 2'], ['Purity of Body'], ['Monastic Tradition Feature 2'], ['Ability Score Improvement 3'], ['Tongue of the Sun and Moon'], ['Diamond Soul'], ['Timeless Body'], ['Ability Score Improvement 4'], ['Monastic Tradition Feature 3'], ['Empty Body'], ['Ability Score Improvement 5'], ['Perfect Self']
-   ],
-   paladin: [
-      ['Divine Sense', 'Lay on Hands'], ['Fighting Style', 'Spellcasting', 'Divine Smite 1'], ['Divine Health', 'Sacred Oath'], ['Ability Score Improvement 1'], ['Extra Attack'], ['Aura of Protection 1'], ['Sacred Oath Feature 1'], ['Ability Score Improvement 2'], [], ['Aura of Courage 1'], ['Divine Smite 2'], ['Ability Score Improvement 3'], [], ['Cleansing Touch'], ['Sacred Oath Feature 2'], ['Ability Score Improvement 4'], [], ['Aura of Protection 2', 'Aura of Courage 2'], ['Ability Score Improvement 5'], ['Sacred Oath Feature 3']
-   ],
-   ranger: [
-      ['Favoured Enemy 1', 'Natural Explorer 1'], ['Fighting Style', 'Spellcasting'], ['Ranger Archetype', 'Primeval Awareness'], ['Ability Score Improvement 1'], ['Extra Attack'], ['Favoured Enemy 2', 'Natural Explorer 2'], ['Ranger Archetype Feature 1'], ['Ability Score Improvement 2', 'Land\'s Stride'], [], ['Natural Explorer 3', 'Hide in Plain Sight'], ['Ranger Archetype Feature 2'], ['Ability Score Improvement 3'], [], ['Favoured Enemy 3', 'Vanish'], ['Ranger Archetype Feature 3'], ['Ability Score Improvement 4'], [], ['Feral Senses'], ['Ability Score Improvement 5'], ['Foe Slayer']
-   ],
-   rogue: [
-      ['Expertise 1', 'Sneak Attack', 'Thieves\' Cant'], ['Cunning Action'], ['Roguish Archetype'], ['Ability Score Improvement 1'], ['Uncanny Dodge'], ['Expertise 2'], ['Evasion'], ['Ability Score Improvement 2'], ['Roguish Archetype Feature 1'], ['Ability Score Improvement 3'], ['Reliable Talent'], ['Ability Score Improvement 4'], ['Roguish Archetype Feature 2'], ['Blindsense'], ['Slippery Mind'], ['Ability Score Improvement 5'], ['Roguish Archetype Feature 3'], ['Elusive'], ['Ability Score Improvement 6'], ['Stroke of Luck']
-   ],
-   sorcerer: [
-      ['Spellcasting', 'Sorcerous Origins'], ['Font of Magic'], ['Metamagic 1'] ['Ability Score Improvement 1'], [], ['Sorcerous Origins Feature 1'], [], ['Ability Score Improvement 2'], [], ['Metamagic 2'], [], ['Ability Score Improvement 3'], [], ['Sorcerous Origins Feature 2'], [], ['Ability Score Improvement 4'], ['Metamagic 3'], ['Sorcerous Origins Feature 3'], ['Ability Score Improvement 5'], ['Sorcerous Restoration']
-   ],
-   warlock: [
-      ['Otherworldly Patron', 'Pact Magic'], ['Eldritch Invocations 1'], ['Pact Boon'], ['Ability Score Improvement 1'], [], ['Otherworldly Patron Feature 1'], [], ['Ability Score Improvement 2'], [], ['Otherworldly Patron Feature 2'], ['Mystic Arcanum 1'], ['Ability Score Improvement 3'], ['Mystic Arcanum 2'], ['Otherworldly Patron Feature 3'], ['Mystic Arcanum 3'], ['Ability Score Improvement 4'], ['Mystic Arcanum 4'], [], ['Ability Score Improvement 5'], ['Eldritch Master']
-   ],
-   wizard: [
-      ['Spellcasting', 'Arcane Recovery'], ['Arcane Tradition'], [], ['Ability Score Improvement 1'], [], ['Arcane Tradition Feature 1'], [], ['Ability Score Improvement 2'], [], ['Arcane Tradition Feature 2'], [], ['Ability Score Improvement 3'], [], ['Arcane Tradition Feature 3'], [], ['Ability Score Improvement 4'], [], ['Spell Mastery'], ['Ability Score Improvement 5'], ['Signature Spell']
-   ]
-};
+
 
 const descTest = {
 
    rogue: [
-      { name: 'Expertise', level: 1, description: 'At 1st level, choose two of your skill proficiencies, or one of your skill proficiencies and your proficiency with thieves\' tools. Your proficiency bonus is doubled for any ability check you make that uses either of the chosen proficiencies.\n\nAt 6th level, you can choose two more of your proficiencies (in skills or with thieves\' tools) to gain this benefit.' },
-{ name: 'Sneak Attack', level: 1, description: 'Beginning at 1st level, you know how to strike subtly and exploit a foe\'s distraction. Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.\n\nYou don\'t need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn\'t incapacitated, and you don\'t have disadvantage on the attack roll.\n\nThe amount of the extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Rogue table.' },
-{ name: 'Thieves\' Cant', level: 1, description: 'During your rogue training you learned thieves\' cant, a secret mix of dialect, jargon, and code that allows you to hide messages in seemingly normal conversation. Only another creature that knows thieves\' cant understands such messages. It takes four times longer to convey such a message than it does to speak the same idea plainly.\n\nIn addition, you understand a set of secret signs and symbols used to convey short, simple messages, such as whether an area is dangerous or the territory of a thieves\' guild, whether loot is nearby, or whether the people in an area are easy marks or will provide a safe house for thieves on the run.' },
-{ name: 'Cunning Action', level: 2, description: 'Starting at 2nd level, your quick thinking and agility allow you to move and act quickly. You can take a bonus action on each of your turns in combat. This action can be used only to take the Dash, Disengage, or Hide action.' },
-{ name: 'Ability Score Improvement', level: 4, description: 'When you reach 4th level, and again at 8th, 10th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can\'t increase an ability score above 20 using this feature.' },
-{ name: 'Uncanny Dodge', level: 5, description: 'Starting at 5th level, when an attacker that you can see hits you with an attack, you can use your reaction to halve the attack\'s damage against you.' },
-{ name: 'Evasion', level: 7, description: 'Beginning at 7th level, you can nimbly dodge out of the way of certain area effects, such as a red dragon\'s fiery breath or an Ice Storm spell. When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail.' },
-{ name: 'Reliable Talent', level: 11, description: 'By 11th level, you have refined your chosen skills until they approach perfection. Whenever you make an ability check that lets you add your proficiency bonus, you can treat a d20 roll of 9 or lower as a 10.' },
-{ name: 'Blindsense', level: 14, description: 'Starting at 14th level, if you are able to hear, you are aware of the location of any hidden or invisible creature within 10 feet of you.' },
-{ name: 'Slippery Mind', level: 15, description: 'By 15th level, you have acquired greater mental strength. You gain proficiency in Wisdom saving throws.' },
-{ name: 'Elusive', level: 18, description: 'Beginning at 18th level, you are so evasive that attackers rarely gain the upper hand against you. No attack roll has advantage against you while you aren\'t incapacitated.' },
-{ name: 'Stroke Of Luck', level: 20, description: 'At 20th level, you have an uncanny knack for succeeding when you need to. If your attack misses a target within range, you can turn the miss into a hit. Alternatively, if you fail an ability check, you can treat the d20 roll as a 20.\n\nOnce you use this feature, you can\'t use it again until you finish a short or long rest.' },
+   
+
+{ },
+{  },
+{  },
+{  },
+{  },
    ],
    sorcerer: [
       { name: 'Spellcasting', level: 1, description: 'An event in your past, or in the life of a parent or ancestor, left an indelible mark on you, infusing you with arcane magic. This font of magic, whatever its origin, fuels your spells.\nCantrips\n\nAt 1st level, you know four cantrips of your choice from the sorcerer spell list. You learn additional sorcerer cantrips of your choice at higher levels, as shown in the Cantrips Known column of the Sorcerer table.\nSpell Slots\n\nThe Sorcerer table shows how many spell slots you have to cast your sorcerer spells of 1st level and higher. To cast one of these sorcerer spells, you must expend a slot of the spell\'s level or higher. You regain all expended spell slots when you finish a long rest.\n\nFor example, if you know the 1st-level spell burning hands and have a 1st-level and a 2nd-level spell slot available, you can cast burning hands using either slot.\nSpells Known of 1st Level and Higher\n\nYou know two 1st-level spells of your choice from the sorcerer spell list.\n\nThe Spells Known column of the Sorcerer table shows when you learn more sorcerer spells of your choice. Each of these spells must be of a level for which you have spell slots. For instance, when you reach 3rd level in this class, you can learn one new spell of 1st or 2nd level.\n\nAdditionally, when you gain a level in this class, you can choose one of the sorcerer spells you know and replace it with another spell from the sorcerer spell list, which also must be of a level for which you have spell slots.\nSpellcasting Ability\n\nCharisma is your spellcasting ability for your sorcerer spells, since the power of your magic relies on your ability to project your will into the world. You use your Charisma whenever a spell refers to your spellcasting ability. In addition, you use your Charisma modifier when setting the saving throw DC for a sorcerer spell you cast and when making an attack roll with one.\n\nSpell save DC = 8 + your proficiency bonus + your Charisma modifier\n\nSpell attack modifier = your proficiency bonus + your Charisma modifier\nSpellcasting Focus\n\nYou can use an arcane focus as a spellcasting focus for your sorcerer spells.' },
@@ -1754,4 +1724,42 @@ const subFeatures = {
          },
       ],
    },
+};
+export const featureList = {
+   barbarian: [
+      ['Rage', 'Unarmoured Defence'], ['Reckless Attack', 'Danger Sense'], ['Primal Path'], ['Ability Score Improvement 1'], ['Extra Attack', 'Fast Movement'], ['Path Feature 1'], ['Feral Instinct'], ['Ability Score Improvement 2'], ['Brutal Critical 1'], ['Path Feature 2'], ['Relentless Rage'], ['Ability Score Improvement 3'], ['Brutal Critical 2'], ['Path Feature 3'], ['Persistent Rage'], ['Ability Score Improvement 4'], ['Brutal Critical 3'], ['Indomitable Might'], ['Ability Score Improvement 5'], ['Primal Champion']
+   ],
+   bard: [
+      ['Spellcasting', 'Bardic Inspiration 1'], ['Jack of All Trades', 'Song of Rest 1'], ['Bard College', 'Expertise 1'], ['Ability Score Improvement 1'], ['Bardic Inspiration 2', 'Font of Inspiration'], ['Coutercharm', 'Bard College Feature 1'], [], ['Ability Score Improvement 2'], ['Song of Rest 2'], ['Bardic Inspiration 3', 'Expertise 2', 'Magical Secrets 1'], [], ['Ability Score Improvement 3'], ['Song of Rest 3'], ['Magical Secrets 2', 'Bard College Feature 2'], ['Bardic Inspiration 4'], ['Ability Score Improvement 4'], ['Song of Rest 4'], ['Magical Secrets 3'], ['Ability Score Improvement 5'], ['Superior Inspiration']
+   ],
+   cleric: [
+      ['Spellcasting', 'Divine Domain'], ['Channel Divinity 1', 'Divine Domain Feature 1'], [], ['Ability Score Improvement 1'], ['Destroy Undead 1'], ['Channel Divinity 2', 'Divine Domain Feature 2'], [], ['Ability Score Improvement 2', 'Destroy Undead 2', 'Divine Domain Feature 3'], [], ['Divine Intervention'], ['Destroy Undead 3'], ['Ability Score Improvement 3'], [], ['Destroy Undead 4'], [], ['Ability Score Improvement 4'], ['Destroy Undead 5', 'Divine Domain Feature 4'], ['Channel Divinity 3'], ['Ability Score Improvement 5'], ['Divine Intervention Improvement']
+   ],
+   druid: [
+      ['Spellcasting', 'Druidic'], ['Wild Shape 1', 'Druid Circle'], [], ['Ability Score Improvement 1', 'Wild Shape 2'], [], ['Druid Circle Feature 1'], [], ['Ability Score Improvement 2', 'Wild Shape 3'], [], ['Druid Circle Feature 2'], [], ['Ability Score Improvement 3'], [], ['Druid Circle Feature 3'], [], ['Ability Score Improvement 4'], [], ['Timeless Body', 'Beast Spells'], ['Ability Score Improvement 5'], ['Archdruid']
+   ],
+   fighter: [
+      ['Fighting Style', 'Second Wind'], ['Action Surge 1'], ['Martial Archetype'], ['Ability Score Improvement 1'], ['Extra Attack 1'], ['Ability Score Improvement 2'], ['Martial Archetype Feature 1'], ['Ability Score Improvement 3'], ['Indomitable 1'], ['Martial Archetype Feature 2'], ['Extra Attack 2'], ['Ability Score Improvement 4'], ['Indomitable 2'], ['Ability Score Improvement 5'], ['Martial Archetype Feature 3'], ['Ability Score Improvement 6'], ['Action Surge 2', 'Indomitable 3'], ['Martial Archetype Feature 4'], ['Ability Score Improvement 7'], ['Extra Attack 3']
+   ],
+   monk: [
+      ['Unarmoured Defence', 'Martial Arts'], ['Ki', 'Unarmoured Movement 1'], ['Monastic Tradition', 'Deflect Missiles'], ['Ability Score Improvement 1', 'Slow Fall'], ['Extra Attack', 'Stunning Strike'], ['Ki-Empowered Strikes', 'Monastic Tradition Feature 1'], ['Evasion', 'Stillness of Mind'], ['Ability Score Improvement 2'], ['Unarmoured Movement 2'], ['Purity of Body'], ['Monastic Tradition Feature 2'], ['Ability Score Improvement 3'], ['Tongue of the Sun and Moon'], ['Diamond Soul'], ['Timeless Body'], ['Ability Score Improvement 4'], ['Monastic Tradition Feature 3'], ['Empty Body'], ['Ability Score Improvement 5'], ['Perfect Self']
+   ],
+   paladin: [
+      ['Divine Sense', 'Lay on Hands'], ['Fighting Style', 'Spellcasting', 'Divine Smite 1'], ['Divine Health', 'Sacred Oath'], ['Ability Score Improvement 1'], ['Extra Attack'], ['Aura of Protection 1'], ['Sacred Oath Feature 1'], ['Ability Score Improvement 2'], [], ['Aura of Courage 1'], ['Divine Smite 2'], ['Ability Score Improvement 3'], [], ['Cleansing Touch'], ['Sacred Oath Feature 2'], ['Ability Score Improvement 4'], [], ['Aura of Protection 2', 'Aura of Courage 2'], ['Ability Score Improvement 5'], ['Sacred Oath Feature 3']
+   ],
+   ranger: [
+      ['Favoured Enemy 1', 'Natural Explorer 1'], ['Fighting Style', 'Spellcasting'], ['Ranger Archetype', 'Primeval Awareness'], ['Ability Score Improvement 1'], ['Extra Attack'], ['Favoured Enemy 2', 'Natural Explorer 2'], ['Ranger Archetype Feature 1'], ['Ability Score Improvement 2', 'Land\'s Stride'], [], ['Natural Explorer 3', 'Hide in Plain Sight'], ['Ranger Archetype Feature 2'], ['Ability Score Improvement 3'], [], ['Favoured Enemy 3', 'Vanish'], ['Ranger Archetype Feature 3'], ['Ability Score Improvement 4'], [], ['Feral Senses'], ['Ability Score Improvement 5'], ['Foe Slayer']
+   ],
+   rogue: [
+      ['Expertise 1', 'Sneak Attack', 'Thieves\' Cant'], ['Cunning Action'], ['Roguish Archetype'], ['Ability Score Improvement 1'], ['Uncanny Dodge'], ['Expertise 2'], ['Evasion'], ['Ability Score Improvement 2'], ['Roguish Archetype Feature 1'], ['Ability Score Improvement 3'], ['Reliable Talent'], ['Ability Score Improvement 4'], ['Roguish Archetype Feature 2'], ['Blindsense'], ['Slippery Mind'], ['Ability Score Improvement 5'], ['Roguish Archetype Feature 3'], ['Elusive'], ['Ability Score Improvement 6'], ['Stroke of Luck']
+   ],
+   sorcerer: [
+      ['Spellcasting', 'Sorcerous Origins'], ['Font of Magic'], ['Metamagic 1'] ['Ability Score Improvement 1'], [], ['Sorcerous Origins Feature 1'], [], ['Ability Score Improvement 2'], [], ['Metamagic 2'], [], ['Ability Score Improvement 3'], [], ['Sorcerous Origins Feature 2'], [], ['Ability Score Improvement 4'], ['Metamagic 3'], ['Sorcerous Origins Feature 3'], ['Ability Score Improvement 5'], ['Sorcerous Restoration']
+   ],
+   warlock: [
+      ['Otherworldly Patron', 'Pact Magic'], ['Eldritch Invocations 1'], ['Pact Boon'], ['Ability Score Improvement 1'], [], ['Otherworldly Patron Feature 1'], [], ['Ability Score Improvement 2'], [], ['Otherworldly Patron Feature 2'], ['Mystic Arcanum 1'], ['Ability Score Improvement 3'], ['Mystic Arcanum 2'], ['Otherworldly Patron Feature 3'], ['Mystic Arcanum 3'], ['Ability Score Improvement 4'], ['Mystic Arcanum 4'], [], ['Ability Score Improvement 5'], ['Eldritch Master']
+   ],
+   wizard: [
+      ['Spellcasting', 'Arcane Recovery'], ['Arcane Tradition'], [], ['Ability Score Improvement 1'], [], ['Arcane Tradition Feature 1'], [], ['Ability Score Improvement 2'], [], ['Arcane Tradition Feature 2'], [], ['Ability Score Improvement 3'], [], ['Arcane Tradition Feature 3'], [], ['Ability Score Improvement 4'], [], ['Spell Mastery'], ['Ability Score Improvement 5'], ['Signature Spell']
+   ]
 };
