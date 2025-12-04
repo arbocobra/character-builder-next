@@ -44,12 +44,12 @@ export const removeFromList = (id: string | number, current:Speed): Speed => {
    return calculateTotal(current, newSpeedList)
 }
 
-export const clearHitPoint = (cat:string, current:Speed): Speed => {
-   if (cat === 'modifiers') {
-      let newList:SpeedList = {list: [], total: 0}
-      return calculateTotal(current, newList)
-   } else return calculateTotal(current, 0)
-}
+// export const clearHitPoint = (cat:string, current:Speed): Speed => {
+//    if (cat === 'modifiers') {
+//       let newList:SpeedList = {list: [], total: 0}
+//       return calculateTotal(current, newList)
+//    } else return calculateTotal(current, 0)
+// }
 
 const calculateTotal = (current: Speed, updatedValue: number | SpeedList): Speed => {
    let newSpeed: Speed = {...current};

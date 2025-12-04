@@ -70,29 +70,19 @@ const characterReducer = (state:characterState, action:characterActions) => {
          const updateByPath = getPathObject(action.payload, state)
          return { ...state, [updateByPath.name as keyof characterState]: updateByPath.update };
       case 'SET_CLASS':
-         className = action.payload.className;
-         subName = action.payload.subName;
-         const setClass = getClassObject(className, state)
+         // className = action.payload.className;
+         // subName = action.payload.subName;
+         const setClass = getClassObject(action.payload, state)
          return {
-            ...state, 
-            class: className,
-            subclass: subName,
-            hit_dice: setClass.hitDice,
-            class_ASI_levels: setClass.class_ASI_levels,
-            hit_points: setClass.hitPoints,
-            proficiencies: setClass.proficiencies,
-            items: setClass.items,
-            features: setClass.features
+            ...state, ...setClass
          };
       case 'CHANGE_CLASS':
          // probably need new function when class applying/removing features
-         className = action.payload.className;
-         subName = action.payload.subName;
-         const changeClass = getClassObject(className, state)
+         const changeClass = getClassObject(action.payload, state)
          return {
             ...state, 
-            class: className,
-            subclass: subName,
+            class: changeClass.className,
+            subclass: changeClass.subName,
             hit_dice: changeClass.hitDice,
             class_ASI_levels: changeClass.class_ASI_levels,
             hit_points: changeClass.hitPoints,
@@ -199,7 +189,7 @@ export const initialState: characterState = {
    speed: { base: 30, modifierList: { list: [], total: 0 }, total: 30 },
    initiative_bonus: 0,
    armour_class: { base: 10, dexMod: 0, modifierList: { list: [], total: 0 }, total: 10 },
-   features: { class: [], species:[], background: [], feats:[] },
+   features: { class: [], subclass: [], species:[], background: [], feats:[] },
    items: {
       class: {
          armour: [], weapons: [], equipment: [], tools: [],  currency: 0, selectFromList: undefined

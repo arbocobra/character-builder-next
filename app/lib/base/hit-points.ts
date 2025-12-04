@@ -46,12 +46,12 @@ export const removeFromList = (id: string | number, current:HitPoints): HitPoint
    return calculateTotal(current, newHPList)
 }
 
-export const clearHitPoint = (cat:string, current:HitPoints): HitPoints => {
-   if (cat === 'modifiers') {
-      let newList:HitPointsList = {list: [], total: 0}
-      return calculateTotal(current, newList)
-   } else return calculateTotal(current, 0)
-}
+// export const clearHitPoint = (cat:string, current:HitPoints): HitPoints => {
+//    if (cat === 'modifiers') {
+//       let newList:HitPointsList = {list: [], total: 0}
+//       return calculateTotal(current, newList)
+//    } else return calculateTotal(current, 0)
+// }
 
 const calculateTotal = (currentHP: HitPoints, updatedValue: number | HitPointsList): HitPoints => {
    let newHP: HitPoints = {...currentHP};

@@ -1,9 +1,10 @@
-import { features as featuresC } from '@/lib/base/classes/class-features.js';
-import { features as featuresS } from '@/lib/base/species/species-features.js';
+// import { features as featuresC } from '@/lib/base/classes/class-features.js';
+// import { features as featuresS } from '@/lib/base/species/species-features.js';
 
 export default Features;
 type Features = {
    class:FeatureItem[],
+   subclass:FeatureItem[],
    species:FeatureItem[],
    background:FeatureItem[],
    feats:FeatureItem[],
@@ -23,10 +24,17 @@ type FeatureItem = {
 //    return copy as Features;
 // }
 
-export const updateValue = (current:Features, type:string, featObj:object[]):Features => {
+export const updateValue = (current:Features, type:string, featObj:any):Features => {
    let copy:{[key:string]:any} = {...current}
-   let feats = featObj.map((el:any) => el as FeatureItem)
-   copy[type] = feats;
+   if (type === 'class') {
+      let classFeats =  featObj[0].map((el:any) => el as FeatureItem)
+      let subclassFeats =  featObj[1].map((el:any) => el as FeatureItem)
+      copy.class = classFeats;
+      copy.subclass = subclassFeats;
+   } else {
+      let feats = featObj.map((el:any) => el as FeatureItem)
+      copy[type] = feats;
+   }
    return copy as Features;
 }
 
@@ -62,15 +70,20 @@ export const addToList = (current:Features, type:string, mod:object):Features =>
 export const removeFromList = (id: string | number, current:Features, type:string):Features => {
    let copy:{[key:string]:any} = {...current}
    let features = copy[type]
-   let tempList:FeatureItem[]
-
    if (typeof id === 'string') {
-      tempList = features.filter((mod:any) => mod.name !== id);
+      let tempList = features.filter((mod:any) => mod.name !== id);
       copy[type] = tempList
    } else if (typeof id === 'number') {
-      tempList = features.filter((mod:any) => mod.level <= id);
-      copy[type] = tempList
-   }
+      if (type === 'class') {
+         let tempClass = copy.class.filter((mod:any) => mod.level <= id).map((el:any) => el as FeatureItem)
+         // let tempClass =  copy.class.map((el:any) => el as FeatureItem)
+         let tempSubclass =  copy.subclass.filter((mod:any) => mod.level <= id).map((el:any) => el as FeatureItem)
+         copy.class = tempClass;
+         copy.subclass = tempSubclass;
+      } else {
+         let tempList = features.filter((mod:any) => mod.level <= id);
+         copy[type] = tempList
+   }}
    return copy as Features;
 }
 
@@ -80,27 +93,27 @@ export const clearCategory = (current:Features, type:string, ):Features => {
    return copy as Features;
 }
 
-const filterFeatures = (level:number, type:string, features:any[], sub?:string):FeatureItem[] => {
-   let result:FeatureItem[];
-   if (type === 'class') {
-      result = features.filter((el:any) => {
-          if (el.level <= level) return el as FeatureItem
-      })
-   } else if (type === 'species') {
-      if (sub) {
-         result = features.filter((el:any) => {
-            if (el.species === 'base' || el.species === sub) return el as FeatureItem
-         })
-      } else result = features
-   } else result = []
+// const filterFeatures = (level:number, type:string, features:any[], sub?:string):FeatureItem[] => {
+//    let result:FeatureItem[];
+//    if (type === 'class') {
+//       result = features.filter((el:any) => {
+//           if (el.level <= level) return el as FeatureItem
+//       })
+//    } else if (type === 'species') {
+//       if (sub) {
+//          result = features.filter((el:any) => {
+//             if (el.species === 'base' || el.species === sub) return el as FeatureItem
+//          })
+//       } else result = features
+//    } else result = []
 
-   return result;
-}
+//    return result;
+// }
 
-const getFeaturesByType = (type:string, id:string):FeatureItem[] => {
-   let copy:{[key:string]:any}
-   if (type === 'class') copy = {...featuresC}
-   else if (type === 'species') copy = {...featuresS}
-   else copy = {}
-   return copy[id].map((el:any) => el as FeatureItem)
-}
+// const getFeaturesByType = (type:string, id:string):FeatureItem[] => {
+//    let copy:{[key:string]:any}
+//    if (type === 'class') copy = {...featuresC}
+//    else if (type === 'species') copy = {...featuresS}
+//    else copy = {}
+//    return copy[id].map((el:any) => el as FeatureItem)
+// }

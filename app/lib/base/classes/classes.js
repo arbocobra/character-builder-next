@@ -2,8 +2,8 @@ import BaseClass from '@/lib/base/classes/base-class';
 import { Simple_Weapons, Martial_Melee_Weapons, Skills, Musical_Instruments, Simple_Melee_Weapons, ArtisansTools, Martial_Weapons } from '@/lib/init-data'
 
 export class Barbarian extends BaseClass {
-   constructor(level) {
-      super('barbarian', level);
+   constructor(level, subclass) {
+      super('barbarian', level, subclass);
       this.hitDice = 12;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Strength', 'Constitution'];
@@ -22,11 +22,11 @@ export class Barbarian extends BaseClass {
    }
 
    getSpecial(level) {
-      let rages = level < 3 ? 2 : level < 6 ? 3 : level < 12 ? 4 : level < 17 ? 5 : level < 20 ? 6 : 'unlimited'
+      let rage = level < 3 ? 2 : level < 6 ? 3 : level < 12 ? 4 : level < 17 ? 5 : level < 20 ? 6 : 'unlimited'
       let rageDamage = level < 9 ? '+2' : level < 16 ? '+3' : '+4'
       let brutalCritical = level < 9 ? null : level < 13 ? '+1 damage die' : level < 17 ? '+2 damage die' : '+3 damage die'
       return {
-         rages,
+         rage,
          'rage damage': rageDamage, 
          'brutal critical': brutalCritical
       }
@@ -34,8 +34,8 @@ export class Barbarian extends BaseClass {
 }
 
 export class Bard extends BaseClass {
-   constructor(level) {
-      super('bard', level);
+   constructor(level, subclass) {
+      super('bard', level, subclass);
       this.hitDice = 8;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Dexterity', 'Charisma'];
@@ -70,8 +70,8 @@ export class Bard extends BaseClass {
 }
 
 export class Cleric extends BaseClass {
-   constructor(level) {
-      super('cleric', level);
+   constructor(level, subclass) {
+      super('cleric', level, subclass);
       this.hitDice = 8;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Wisdom', 'Charisma'];
@@ -102,8 +102,8 @@ export class Cleric extends BaseClass {
 }
 
 export class Druid extends BaseClass {
-   constructor(level) {
-      super('druid', level);
+   constructor(level, subclass) {
+      super('druid', level, subclass);
       this.hitDice = 8;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Intelligence', 'Wisdom'];
@@ -130,8 +130,8 @@ export class Druid extends BaseClass {
 }
 
 export class Fighter extends BaseClass {
-   constructor(level) {
-      super('fighter', level);
+   constructor(level, subclass) {
+      super('fighter', level, subclass);
       this.hitDice = 10;
       this.asiLevels = [4,6,8,12,14,16,19]
       this.proficiencies.savingThrows = ['Strength', 'Constitution'];
@@ -165,8 +165,8 @@ export class Fighter extends BaseClass {
 }
 
 export class Monk extends BaseClass {
-   constructor(level) {
-      super('monk', level);
+   constructor(level, subclass) {
+      super('monk', level, subclass);
       this.hitDice = 8;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Strength', 'Dexterity'];
@@ -186,20 +186,22 @@ export class Monk extends BaseClass {
       let ki = level < 2 ? 0 : level
       let martialArts = level < 5 ? '1d4' : level < 11 ? '1d6' : level < 17 ? '1d8' : '1d10'
       let unarmouredMovement = level < 2 ? 0 : level < 6 ? 10 : level < 10 ? 15 : level < 14 ? 20 : level < 18 ? 25 : 30;
-      let deflectMissiles = level < 3 ? null : `1d10 + DEX mod + ${level}`
+      let deflectMissiles = level < 3 ? null : `1d10 + DEX mod + ${level}`;
+      let slowFall = level < 4 ? null : level * 5;
 
       return {
          ki,
          'martial arts': martialArts,
          'unarmoured movement': unarmouredMovement,
-         'deflect missiles': deflectMissiles
+         'deflect missiles': deflectMissiles,
+         'slow fall': slowFall
       }
    }
 }
 
 export class Paladin extends BaseClass {
-   constructor(level) {
-      super('paladin', level);
+   constructor(level, subclass) {
+      super('paladin', level, subclass);
       this.hitDice = 10;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Wisdom', 'Charisma'];
@@ -232,8 +234,8 @@ export class Paladin extends BaseClass {
 }
 
 export class Ranger extends BaseClass {
-   constructor(level) {
-      super('ranger', level);
+   constructor(level, subclass) {
+      super('ranger', level, subclass);
       this.hitDice = 10;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Strength', 'Dexterity'];
@@ -246,9 +248,8 @@ export class Ranger extends BaseClass {
       this.items.selectFromList.equipment = [{list: ['Dungeoneer\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Explorer\'s Pack', type: 'simple_select' }];
       this.spellcasting = false;
       this.special = this.getSpecial();
-      this.subName = 'Sacred Oath',
+      this.subName = 'Ranger Conclave',
       this.subLevel = 3;
-      // need to figure out 2 shortwords OR 2 simple melee weapon option
    }
 
    getSpecial(level) {
@@ -263,8 +264,8 @@ export class Ranger extends BaseClass {
 }
 
 export class Rogue extends BaseClass {
-   constructor(level) {
-      super('rogue', level);
+   constructor(level, subclass) {
+      super('rogue', level, subclass);
       this.hitDice = 8;
       this.asiLevels = [4,8,10,12,16,19]
       this.proficiencies.savingThrows = ['Dexterity', 'Intelligence'];
@@ -280,13 +281,25 @@ export class Rogue extends BaseClass {
          { list: ['Shortbow + 20 Arrows', 'Shortsword'], count: 1, title: 'Shortbow with 20 Arrows OR Shortsword', type: 'iterating_simple_select'}];
       this.items.selectFromList.equipment = [{list: ['Burglar\'s Pack', 'Dungeoneer\'s Pack', 'Explorer\'s Pack'], count: 1, title: 'Burglar\'s Pack OR Dungeoneer\'s Pack OR Explorer\'s Pack', type: 'simple_select' }];
       this.spellcasting = false;
+      this.special = this.getSpecial();
+      this.subName = 'Roguish Archetype',
       this.subLevel = 3;
+   }
+
+   getSpecial(level) {
+      let expertise = level < 6 ? 2 : 4;
+      let sneakAttack = Math.ceil(level / 2);
+
+      return {
+         expertise,
+         'sneak attack': sneakAttack
+      }
    }
 }
 
 export class Sorcerer extends BaseClass {
-   constructor(level) {
-      super('sorcerer', level);
+   constructor(level, subclass) {
+      super('sorcerer', level, subclass);
       this.hitDice = 6;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Constitution', 'Charisma'];
@@ -298,13 +311,25 @@ export class Sorcerer extends BaseClass {
          {list: ['Component Pouch', 'Arcane Focus'], count: 1, title: 'Component Pouch OR Arcane focus', type: 'iterating_simple_select' }, 
          {list: ['Dungeoneer\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Explorer\'s Pack', type: 'iterating_simple_select' }];
       this.spellcasting = true;
+      this.special = this.getSpecial();
+      this.subName = 'Sorcerous Origins',
       this.subLevel = 1;
+   }
+
+   getSpecial(level) {
+      let sorceryPoints = level < 2 ? 0 : level;
+      let metamagic = level < 3 ? 0 : level < 10 ? 2 : level < 17 ? 3 : 4;
+
+      return {
+         'sorcery points': sorceryPoints,
+         metamagic
+      }
    }
 }
 
 export class Warlock extends BaseClass {
-   constructor(level) {
-      super('warlock', level);
+   constructor(level, subclass) {
+      super('warlock', level, subclass);
       this.hitDice = 8;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Wisdom', 'Charisma'];
@@ -320,13 +345,27 @@ export class Warlock extends BaseClass {
          {list: ['Component Pouch', 'Arcane Focus'], count: 1, title: 'Component Pouch OR Arcane focus', type: 'iterating_simple_select' }, 
          {list: ['Dungeoneer\'s pack', 'Scholar\'s Pack'], count: 1, title: 'Dungeoneer\'s Pack OR Scholar\'s Pack', type: 'iterating_simple_select' }];
       this.spellcasting = true;
+      this.special = this.getSpecial();
+      this.subName = 'Otherworldly Patron',
       this.subLevel = 1;
+   }
+
+   getSpecial(level) {
+      let eldritchInvocations = level < 2 ? 0 : level < 5 ? 2 : level < 7 ? 3 : level < 9 ? 4 : level < 12 ? 5 : level < 15 ? 6 : level < 18 ? 7 : 8;
+      let mysticArcanum = level < 11 ? [] : level < 13 ? [6] : level < 15 ? [6,7] : level < 17 ? [6,7,8] : [6,7,8,9]
+      let spellLevel = level < 9 ? Math.ceil(level / 2) : 5
+
+      return {
+         'eldritch invocations': eldritchInvocations,
+         'mystic arcanum': mysticArcanum,
+         'spell level': spellLevel
+      }
    }
 }
 
 export class Wizard extends BaseClass {
-   constructor(level) {
-      super('wizard', level);
+   constructor(level, subclass) {
+      super('wizard', level, subclass);
       this.hitDice = 6;
       this.asiLevels = [4,8,12,16,19]
       this.proficiencies.savingThrows = ['Intelligence', 'Wisdom'];
@@ -338,6 +377,16 @@ export class Wizard extends BaseClass {
          {list: ['Component Pouch', 'Arcane Focus'], count: 1, title: 'Component Pouch OR Arcane focus', type: 'iterating_simple_select' }, 
          {list: ['Scholar\'s pack', 'Explorer\'s Pack'], count: 1, title: 'Scholar\'s Pack OR Explorer\'s Pack', type: 'iterating_simple_select' }];
       this.spellcasting = true;
+      this.special = this.getSpecial();
+      this.subName = 'Arcane Tradition',
       this.subLevel = 2;
+   }
+
+   getSpecial(level) {
+      let arcaneRecovery = Math.ceil(level /2);
+      
+      return {
+         'arcane recovery': arcaneRecovery
+      }
    }
 }

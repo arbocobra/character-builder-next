@@ -21,7 +21,7 @@ const CharacterDisplay = () => {
       } else if (el.type === 'list-row') {
          return <ListRow key={`${c}-${i}`} val={el} cat={c.toLowerCase()} />
       } else if (el.type === 'feature-row') {
-         return <FeatureRow key={`${c}-${i}`} val={el} />
+         return <FeatureRow key={`${c}-${i}`} val={el} cat={el.label.toLowerCase()} />
       } else if (el.type === 'abilities-row') {
          return <AbilitiesRow key={`${c}-${i}`} val={el} />
       } else if (el.type === 'saves-row') {
@@ -117,6 +117,7 @@ const DisplayProficiencies = ({current, cat, getRow}) => {
 const DisplayFeatures = ({current, cat, getRow}) => {
    const featureObject = [
       {label: 'Class', value: current.class, type: 'feature-row'}, 
+      {label: 'Subclass', value: current.subclass, type: 'feature-row'}, 
       {label: 'Species', value: current.species, type: 'feature-row'}, 
       {label: 'Background', value: current.background, type: 'feature-row'}, 
       {label: 'Feats', value: current.feats, type: 'feature-row'}, 
@@ -186,6 +187,7 @@ const DisplaySkills = ({current, cat, getRow}) => {
    const expertise = []
    const modifiers = current.abilities.modifiers
    const profBonus = current.proficiency_bonus
+   const applyJoaT = current.class === 'bard' && current.level > 1 ? true : false;
    
    const SkillsObject = SkillsAbilities.map(el => {
       let label = el.value;
@@ -193,7 +195,8 @@ const DisplaySkills = ({current, cat, getRow}) => {
       let value = label.toLowerCase()
       let isProfic = skillProficiencies.includes(value)
       let isExpert = expertise.includes(value)
-      let score = isProfic ? modifiers[abilityIndex] + profBonus : isExpert ? modifiers[abilityIndex] +  (profBonus * 2) : modifiers[abilityIndex]
+
+      let score = isProfic ? modifiers[abilityIndex] + profBonus : isExpert ? modifiers[abilityIndex] + (profBonus * 2) : applyJoaT ? modifiers[abilityIndex] + Math.floor(profBonus / 2) : modifiers[abilityIndex]
       return { label, value, isProfic, isExpert, score, type: 'skills-row' }
    })
 

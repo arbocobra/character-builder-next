@@ -5,36 +5,36 @@ import { updateValue as updateValueP, addToList as addToListP } from '@/lib/base
 import { setBaseHP } from '@/lib/base/hit-points.ts'
 import { updateValue as updateValueA, addToList as addToListA } from '@/lib/base/abilities.ts';
 import { updateValue as updateValueI } from '@/lib/base/items.ts';
-import { setDexMod } from '@/lib/base/armour-class.ts'
+import { setDexMod, addToList as addToListAC, removeFromList as removeFromListAC } from '@/lib/base/armour-class.ts'
 import { setBase } from '@/lib/base/speed.ts'
 import { updateValue as updateValueF, addToList as addToListF, removeFromList as removeFromListF } from '@/lib/base/features.ts'
 
-const applyClass = (val, level) => {
+const applyClass = (val, level, sub = null) => {
    switch (val) {
       case 'barbarian':
-         return new Barbarian(level);
+         return new Barbarian(level, sub);
       case 'bard':
-         return new Bard(level);
+         return new Bard(level, sub);
       case 'cleric':
-         return new Cleric(level);
+         return new Cleric(level, sub);
       case 'druid':
-         return new Druid(level);
+         return new Druid(level, sub);
       case 'fighter':
-         return new Fighter(level);
+         return new Fighter(level, sub);
       case 'monk':
-         return new Monk(level);
+         return new Monk(level, sub);
       case 'paladin':
-         return new Paladin(level);
+         return new Paladin(level, sub);
       case 'ranger':
-        return new Ranger(level);
+        return new Ranger(level, sub);
       case 'rogue':
-         return new Rogue(level);
+         return new Rogue(level, sub);
       case 'sorcerer':
-         return new Sorcerer(level);
+         return new Sorcerer(level, sub);
       case 'warlock':
-         return new Warlock(level);
+         return new Warlock(level, sub);
       case 'wizard':
-         return new Wizard(level);
+         return new Wizard(level, sub);
       default:
          throw new Error(`Class ${val} not implemented`);
    }
@@ -117,7 +117,7 @@ export const getLevelObject = (payload, hasClass, state) => {
    let proficiencyBonus = Math.ceil(level / 4) + 1;
    let hitPoints, features, subclass;
    if (hasClass) {
-      const classObject = applyClass(state.class, level);
+      const classObject = applyClass(state.class, level, state.subclass ? state.subclass : null);
       hitPoints = setBaseHP(state.hit_dice, level, state.abilities.modifiers[2], state.hit_points)
       if (level > state.level) {
          subclass = state.subclass;
@@ -141,21 +141,29 @@ export const getLevelObject = (payload, hasClass, state) => {
    }
 }
 
-export const getClassObject = (className, state) => {
-   const classObject = applyClass(className, state.level);
+export const getClassObject = (payload, state) => {
+   const className = payload.className;
+   const subName = payload.subName;
+   const classObject = applyClass(className, state.level, state.subclass ? state.subclass : null);
    const features = updateValueF(state.features, 'class', classObject.features)
    // const features = updateValueF(state.features, level, 'class', className)
    const hitPoints = setBaseHP(classObject.hitDice, state.level, state.abilities.modifiers[2], state.hit_points)
    const proficiencies = updateValueP(classObject.proficiencies, state.proficiencies, 'class')
    const items = updateValueI(classObject.items, state.items, 'class')
-   return {
+   const updatedValues = {
+      className,
+      subName,
       hitDice: classObject.hitDice,
       hitPoints,
       class_ASI_levels: classObject.asiLevels,
       proficiencies,
       items,
-      features
+      features,
    }
+   const featureUpdates = applyFeatureUpdates(classObject.featureUpdates, {...state, ...updatedValues}, 'class')
+   // console.log({...updatedValues, ...featureUpdates})
+
+   return updatedValues;
 }
 
 export const getPathObject = (payload, state) => {

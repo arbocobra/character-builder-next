@@ -86,7 +86,7 @@ export const ListRow = ({val, cat}) => {
       )
 }
 
-export const FeatureRow = ({val}) => {
+export const FeatureRow = ({val, cat}) => {
    const rowDisplay = 'grid col-span-12 grid-cols-6 gap-2 min-h-8 items-start'
    const labelDisplay = 'font-bold text-xs grid col-span-1 items-center justify-start min-h-8'
    const valueContainer = 'col-span-5 justify-start gap-2 flex flex-row flex-wrap'
@@ -94,11 +94,11 @@ export const FeatureRow = ({val}) => {
 
    const displayFeature = (l,i) => {
       return (
-         <div key={`prof-display-${i}`} className={valueDisplay}>
-            <a data-tooltip-id={`feat-ttip-${i}`}>
+         <div key={`prof-display-${cat}-${i}`} className={valueDisplay}>
+            <a data-tooltip-id={`feat-ttip-${cat}-${i}`}>
                {l.name}
             </a>
-            <Tooltip style={{maxWidth: '400px'}} id={`feat-ttip-${i}`}>
+            <Tooltip style={{maxWidth: '400px'}} id={`feat-ttip-${cat}-${i}`}>
                {l.description ? l.description : 'No description'}
             </Tooltip>
          </div>
