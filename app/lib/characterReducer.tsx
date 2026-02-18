@@ -74,7 +74,15 @@ const characterReducer = (state:characterState, action:characterActions) => {
          // subName = action.payload.subName;
          const setClass = getClassObject(action.payload, state)
          return {
-            ...state, ...setClass
+            ...state,
+            class: setClass.className,
+            subclass: setClass.subName,
+            hit_dice: setClass.hitDice,
+            class_ASI_levels: setClass.class_ASI_levels,
+            hit_points: setClass.hitPoints,
+            proficiencies: setClass.proficiencies,
+            items: setClass.items,
+            features: setClass.features
          };
       case 'CHANGE_CLASS':
          // probably need new function when class applying/removing features
