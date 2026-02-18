@@ -160,7 +160,7 @@ export const getClassObject = (payload, state) => {
       items,
       features,
    }
-   const featureUpdates = applyFeatureUpdates(classObject.featureUpdates, {...state, ...updatedValues}, 'class')
+   // const featureUpdates = applyFeatureUpdates(classObject.featureUpdates, {...state, ...updatedValues}, 'class')
    // console.log({...updatedValues, ...featureUpdates})
 
    return updatedValues;
